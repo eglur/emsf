@@ -17,12 +17,21 @@ MatrixXd generate_stochastic_matrix(int nrows, int ncols)
 }
 
 
+MatrixXd * generate_stochastic_matrices(int nrows, int ncols, int na)
+{
+  MatrixXd *matrices = malloc(na * sizeof(MatrixXd));
+  return matrices;
+}
+
+
 int main()
 {
   int nrows = 3;
   int ncols = 3;
 
   MatrixXd m = generate_stochastic_matrix(nrows, ncols);
+
+  MatrixXd *matrices = generate_stochastic_matrices(3,3,3);
 
   cout << "m =" << endl << m << endl;
   return 0;
