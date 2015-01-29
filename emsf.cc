@@ -1,6 +1,5 @@
 #include <iostream>
-#include <random>
-#include "Eigen/Dense"
+#include "eigen3/Eigen/Dense"
 
 using namespace std;
 
@@ -13,8 +12,8 @@ using namespace std;
 
 int main()
 {
-  // MatrixXd m = MatrixXd::Random(3,3);
-  // cout << "m=" << endl << m << endl;
+  MatrixXd m = MatrixXd::Random(3,3);
+  cout << "m=" << endl << m << endl;
   return 0;
 }
 
