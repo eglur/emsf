@@ -1,0 +1,22 @@
+# the compiler: gcc for C program, define as g++ for C++
+CC = g++
+
+# compiler flags:
+#  -g    adds debugging information to the executable file
+#  -Wall turns on most, but not all, compiler warnings
+#  -std=gnu++11 adds compiler and library support for the ISO C++ 2011
+CFLAGS  = -g -Wall
+
+# the build target executable:
+TARGET = dp
+
+all: $(TARGET)
+
+$(TARGET): mdp.o
+	$(CC) $(CFLAGS) -o $(TARGET) main.cpp mdp.o
+
+mdp.o:
+	$(CC) $(CFLAGS) -o mdp.o mdp.cpp
+
+clean:
+	$(RM) $(TARGET)
