@@ -24,6 +24,19 @@ MatrixXd * generate_stochastic_matrices(int nrows, int ncols, int na)
 }
 
 
+int sample_from_dist(MatrixXd dist)
+{
+  double v = 0.0;                                              // TODO
+  double vv = 0.0;
+  int ind = 0;
+  while (vv < v) {
+    ind++;
+    vv = vv + dist[ind];
+  }
+  return ind;
+}
+
+
 int main()
 {
   int nrows = 3;
