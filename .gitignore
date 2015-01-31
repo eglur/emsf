@@ -12,6 +12,8 @@
 *.la
 *.a
 
+dp_example/TAGS
+
 \#*
 *~
 
