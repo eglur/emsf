@@ -118,7 +118,7 @@ em.sf <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
         T <- length(y)
         
         A <- matrix(0, T-1, m)
-        B <- matrix(1, T-1, m)
+        B <- matrix(0, T-1, m)
         NF <- array(0, T-1)
         
         
@@ -136,17 +136,18 @@ em.sf <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
         }
         
                 
-#         B[T-1, ] <- 1 / NF[T-1]
+        B[T-1, ] <- K[, y[T-1], a[T-1]]
+        B[T-1, ] <- B[T-1, ]  / NF[T-1]
         for (t in (T-2):1)
         {
             bb <- sum(B[t+1,] * D[y[t+1], , a[t+1]])
             B[t,] <- bb * pi[y[t+1], a[t+1]] * K[, y[t+1], a[t]]
-            B[t,] <- B[t,] / NF[t+1] 
+            B[t,] <- B[t,] / NF[t] 
         }
         
          
         C <- A * B 
-#         C <- C / apply(C, 1, sum)
+        C <- C / apply(C, 1, sum)
         
         for (t in 1:(T-1))
         {
@@ -180,6 +181,5 @@ em.sf <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
     list(D = D, K = K)
 }
     
-
-print("em.sf.R loaded") 
+    
     
