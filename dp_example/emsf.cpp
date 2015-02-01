@@ -48,26 +48,34 @@ Natural sample_from_dist(vec dist)
 }
 
 
+model generate_model(const Natural n, const Natural m, const Natural na)
+{
+  stoch_mats D = generate_stochastic_matrices(n, m, na);
+  stoch_mats K = generate_stochastic_matrices(m, n, na);
+
+  model md;
+  md.P.resize(na);
+  for (Natural a = 0; a < na; ++a)
+    md.P[a] = D[a] * K[a];
+
+  md.mu = generate_stochastic_matrix(1, na);
+  md.pi = generate_stochastic_matrix(n, na);
+
+  return md;
+}
+
+
 int main()
 {
+  const Natural n = 3;
+  const Natural m = 3;
   const Natural na = 3;
-  const Natural nrows = 3;
-  const Natural ncols = 3;
 
-  stoch_mat m = generate_stochastic_matrix(nrows, ncols);
-  stoch_mats ms = generate_stochastic_matrices(na, nrows, ncols);
-
+  model md = generate_model(n, m, na);
   for (Natural i = 0; i < na; ++i)
-    cout << "m[" << i << "] =" << endl << ms[i] << endl;
-
-  vec test = m.col(1);
-  cout << "test =" << endl << test << endl;
-
-  model my_model;
-  my_model.P = ms;
-
-  for (Natural i = 0; i < na; ++i)
-    cout << "my_model.P[" << i << "] =" << endl << my_model.P[i] << endl;
+    cout << "md.P[" << i << "] =" << endl << md.P[i] << endl;
+  cout << "md.mu =" << endl << md.mu << endl;
+  cout << "md.pi =" << endl << md.pi << endl;
 
   return 0;
 }
