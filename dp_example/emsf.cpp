@@ -84,17 +84,39 @@ data generate_data(model md, const Natural T)
 }
 
 
+v_data generate_batch_data(model md, const Natural T, const Natural num_batches)
+{
+  v_data v_dt;
+  v_dt.resize(num_batches);
+
+  for (Natural i = 0; i < num_batches; ++i)
+    v_dt[i] = generate_data(md, T);
+
+  return v_dt;
+}
+
+
 int main()
 {
   const Natural n = 3;
   const Natural m = 3;
   const Natural na = 3;
+  const Natural T = 10;
+  const Natural num_batches = 7;
 
   model md = generate_model(n, m, na);
   for (Natural i = 0; i < na; ++i)
     cout << "md.P[" << i << "] =" << endl << md.P[i] << endl;
   cout << "md.mu =" << endl << md.mu << endl;
   cout << "md.pi =" << endl << md.pi << endl;
+
+  data dt = generate_data(md, T);
+  cout << "dt.y =" << endl << dt.y << endl;
+  cout << "dt.a =" << endl << dt.a << endl;
+
+  v_data v_dt = generate_batch_data(md, T, num_batches);
+  cout << "v_dt[0].y =" << endl << v_dt[0].y << endl;
+  cout << "v_dt[0].a =" << endl << v_dt[0].a << endl;
 
   return 0;
 }
