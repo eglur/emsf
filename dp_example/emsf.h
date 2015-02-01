@@ -15,7 +15,7 @@ namespace emsf
   {
     public:
       v_stoch_mat P;
-      stoch_mat mu;
+      vec mu;
       stoch_mat pi;
   };
 
