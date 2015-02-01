@@ -12,11 +12,8 @@ TARGET = emsf
 
 all: $(TARGET)
 
-$(TARGET): mdp.o
-	$(CC) $(CFLAGS) -o $(TARGET) main.cpp mdp.o
-
-mdp.o:
-	$(CC) $(CFLAGS) -o mdp.o mdp.cpp
+$(TARGET): emsf.cpp
+	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
 
 clean:
 	$(RM) $(TARGET)

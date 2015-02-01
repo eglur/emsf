@@ -34,15 +34,17 @@ stoch_mats generate_stochastic_matrices(const Natural na, const Natural nrows,
 }
 
 
-int sample_from_dist(MatrixXd dist)
+Natural sample_from_dist(vec dist)
 {
-  double v = 0.0;                                              // TODO
-  double vv = 0.0;
-  int ind = 0;
+  Real v = random_Real();
+  Real vv = 0.0;
+  Natural ind = 0;
+
   while (vv < v) {
-    ind++;
-    vv = vv + dist[ind];
+    ++ind;
+    vv += dist[ind];
   }
+
   return ind;
 }
 
