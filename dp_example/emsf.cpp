@@ -1,28 +1,36 @@
 #include <iostream>
 #include "eigen3/Eigen/Dense"
+#include "util.h"
 
 using namespace std;
 using namespace Eigen;
+using namespace util;
 
-MatrixXd generate_stochastic_matrix(int nrows, int ncols)
+typedef mat stoch_mat;
+typedef std::vector<stoch_mat> stoch_mats;
+
+
+stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols)
 {
-  int i;
-  
-  MatrixXd A = MatrixXd::Random(nrows,ncols).cwiseAbs();
-  MatrixXd result = A.rowwise().sum();
-  for(i = 0; i < ncols; i++) {
-    A.col(i) = A.col(i).array() / result.array();
+  stoch_mat M = mat::Random(nrows,ncols).cwiseAbs();
+  vec result = M.rowwise().sum();
+  for(Natural i = 0; i < ncols; ++i) {
+    M.col(i) = M.col(i).array() / result.array();
   }
-  return A;
+
+  return M;
 }
 
 
-MatrixXd * generate_stochastic_matrices(int nrows, int ncols, int na)
+stoch_mats generate_stochastic_matrices(const Natural na, const Natural nrows,
+                                        const Natural ncols)
 {
-  Vector<MatrixXd>D(na
-  // MatrixXd *matrices = malloc(na * sizeof(MatrixXd));
-  // return matrices;
-  return NULL;
+  stoch_mats MS;
+  MS.resize(na);
+  for(Natural a = 0; a < na; ++a)
+    MS[a] = generate_stochastic_matrix(nrows,ncols);
+
+  return MS;
 }
 
 
@@ -41,13 +49,15 @@ int sample_from_dist(MatrixXd dist)
 
 int main()
 {
-  int nrows = 3;
-  int ncols = 3;
+  const Natural na = 3;
+  const Natural nrows = 3;
+  const Natural ncols = 3;
 
-  MatrixXd m = generate_stochastic_matrix(nrows, ncols);
+  stoch_mat m = generate_stochastic_matrix(nrows, ncols);
+  stoch_mats ms = generate_stochastic_matrices(na, nrows, ncols);
 
-  // MatrixXd *matrices = generate_stochastic_matrices(3,3,3);
+  for (Natural i = 0; i < na; ++i)
+    cout << "m[" << i << "] =" << endl << ms[i] << endl;
 
-  cout << "m =" << endl << m << endl;
   return 0;
 }
