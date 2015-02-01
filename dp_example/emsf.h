@@ -25,6 +25,8 @@ namespace emsf
       vecn y;
       vecn a;
   };
+
+  typedef std::vector<data> v_data;
 }
 
 
