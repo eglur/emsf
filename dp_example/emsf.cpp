@@ -68,6 +68,22 @@ model generate_model(const Natural n, const Natural m, const Natural na)
 }
 
 
+data generate_data(model md, const Natural T)
+{
+  data dt;
+  dt.y.resize(T);
+  dt.a.resize(T-1);
+
+  dt.y[0] = sample_from_dist(md.mu);
+  for (Natural i = 0; i < T-1; ++i) {
+    dt.a[i] = sample_from_dist(md.pi.row(dt.y[i]).transpose());
+    dt.y[i+1] = sample_from_dist(md.P[dt.a[i]].row(dt.y[i]).transpose());
+  }
+
+  return dt;
+}
+
+
 int main()
 {
   const Natural n = 3;
