@@ -63,5 +63,11 @@ int main()
   vec test = m.col(1);
   cout << "test =" << endl << test << endl;
 
+  model my_model;
+  my_model.P = ms;
+
+  for (Natural i = 0; i < na; ++i)
+    cout << "my_model.P[" << i << "] =" << endl << my_model.P[i] << endl;
+
   return 0;
 }
