@@ -10,7 +10,7 @@ namespace emsf
 {
   typedef mat stoch_mat;
   typedef std::vector<stoch_mat> v_stoch_mat;
-  typedef std::vector<vecn> vecns;
+  typedef std::vector<vecn> v_vecn;
 
   class model
   {
