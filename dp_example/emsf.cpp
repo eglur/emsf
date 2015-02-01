@@ -39,9 +39,12 @@ Natural sample_from_dist(vec dist)
   Real vv = 0.0;
   Natural ind = 0;
 
-  while (vv < v) {
-    ++ind;
+  while (1) {
     vv += dist[ind];
+    if (vv > v)
+      break;
+    else
+      ++ind;
   }
 
   return ind;
