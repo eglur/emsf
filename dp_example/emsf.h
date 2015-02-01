@@ -9,12 +9,13 @@ using namespace util;
 namespace emsf
 {
   typedef mat stoch_mat;
-  typedef std::vector<stoch_mat> stoch_mats;
+  typedef std::vector<stoch_mat> v_stoch_mat;
+  typedef std::vector<vecn> vecns;
 
   class model
   {
     public:
-      stoch_mats P;
+      v_stoch_mat P;
       stoch_mat mu;
       stoch_mat pi;
   };

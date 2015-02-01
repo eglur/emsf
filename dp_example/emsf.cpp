@@ -22,9 +22,9 @@ stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols)
 }
 
 
-stoch_mats generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na)
+v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na)
 {
-  stoch_mats MS;
+  v_stoch_mat MS;
   MS.resize(na);
   for(Natural a = 0; a < na; ++a)
     MS[a] = generate_stochastic_matrix(nrows,ncols);
@@ -50,8 +50,8 @@ Natural sample_from_dist(vec dist)
 
 model generate_model(const Natural n, const Natural m, const Natural na)
 {
-  stoch_mats D = generate_stochastic_matrices(n, m, na);
-  stoch_mats K = generate_stochastic_matrices(m, n, na);
+  v_stoch_mat D = generate_stochastic_matrices(n, m, na);
+  v_stoch_mat K = generate_stochastic_matrices(m, n, na);
 
   model md;
   md.P.resize(na);
