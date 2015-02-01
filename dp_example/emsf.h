@@ -10,7 +10,6 @@ namespace emsf
 {
   typedef mat stoch_mat;
   typedef std::vector<stoch_mat> v_stoch_mat;
-  typedef std::vector<vecn> v_vecn;
 
   class model
   {
@@ -18,6 +17,13 @@ namespace emsf
       v_stoch_mat P;
       stoch_mat mu;
       stoch_mat pi;
+  };
+
+  class data
+  {
+    public:
+      vecn y;
+      vecn a;
   };
 }
 
