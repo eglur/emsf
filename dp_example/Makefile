@@ -8,7 +8,7 @@ CC = g++
 CFLAGS  = -g -Wall
 
 # the build target executable:
-TARGET = dp
+TARGET = emsf
 
 all: $(TARGET)
 
