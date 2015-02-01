@@ -22,8 +22,7 @@ stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols)
 }
 
 
-stoch_mats generate_stochastic_matrices(const Natural na, const Natural nrows,
-                                        const Natural ncols)
+stoch_mats generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na)
 {
   stoch_mats MS;
   MS.resize(na);
