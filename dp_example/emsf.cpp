@@ -1,13 +1,13 @@
 #include <iostream>
 #include "eigen3/Eigen/Dense"
 #include "util.h"
+#include "emsf.h"
+
 
 using namespace std;
 using namespace Eigen;
 using namespace util;
-
-typedef mat stoch_mat;
-typedef std::vector<stoch_mat> stoch_mats;
+using namespace emsf;
 
 
 stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols)
@@ -59,6 +59,9 @@ int main()
 
   for (Natural i = 0; i < na; ++i)
     cout << "m[" << i << "] =" << endl << ms[i] << endl;
+
+  vec test = m.col(1);
+  cout << "test =" << endl << test << endl;
 
   return 0;
 }

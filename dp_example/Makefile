@@ -5,14 +5,14 @@ CC = g++
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
 #  -std=gnu++11 adds compiler and library support for the ISO C++ 2011
-CFLAGS  = -g -Wall
+CFLAGS  = -g
 
 # the build target executable:
 TARGET = emsf
 
 all: $(TARGET)
 
-$(TARGET): emsf.cpp
+$(TARGET): $(TARGET).cpp $(TARGET).h
 	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
 
 clean:
