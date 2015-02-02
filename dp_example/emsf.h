@@ -27,6 +27,7 @@ namespace emsf
   };
 
   typedef std::vector<data> v_data;
+  typedef std::vector<mat> v_mat;
 }
 
 
