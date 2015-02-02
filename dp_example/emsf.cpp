@@ -260,10 +260,12 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
 
 int main(int argc, char* argv[])
 {
+  srand(time(NULL));
+
   date_time_str();
 
-  Natural nargs = 6;
-  if (argc < 6) {
+  Natural nargs = 7;
+  if (argc != 7) {
     cout << "Usage: emsf n sr m na T num_batches" << endl;
     exit(EXIT_FAILURE);
   }
