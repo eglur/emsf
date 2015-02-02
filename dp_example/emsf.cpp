@@ -262,18 +262,20 @@ int main(int argc, char* argv[])
 {
   date_time_str();
 
-  if (argc == 1) {
-    cout << "Usage: emsf n m na T num_batches" << endl;
+  Natural nargs = 6;
+  if (argc < 6) {
+    cout << "Usage: emsf n sr m na T num_batches" << endl;
     exit(EXIT_FAILURE);
   }
 
   const Natural n = atoi(argv[1]);
-  const Natural m = atoi(argv[2]);
-  const Natural na = atoi(argv[3]);
-  const Natural T = atoi(argv[4]);
-  const Natural num_batches = atoi(argv[5]);
+  const Natural sr = atoi(argv[2]);
+  const Natural m = atoi(argv[3]);
+  const Natural na = atoi(argv[4]);
+  const Natural T = atoi(argv[5]);
+  const Natural num_batches = atoi(argv[6]);
 
-  model md = generate_model(n, m, na);
+  model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
   em_sf(md, dt, n, m, na);
   
