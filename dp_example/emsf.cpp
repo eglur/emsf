@@ -258,6 +258,13 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
 }
 
 
+mat get_P_by_counting()
+{
+  mat P;
+
+  return P;
+}
+
 int main(int argc, char* argv[])
 {
   srand(time(NULL));
