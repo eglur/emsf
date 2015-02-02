@@ -205,7 +205,7 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
         A.row(t) = A.row(t) / NF(t);
       }
 
-      Natural B_T = T-2;                                        // Different index strategie on the R language
+      Natural B_T = T-2;                                        // Different index strategy on the R language
       B.row(B_T) = K[a(B_T)].col(y(B_T)).transpose();
       B.row(B_T) = B.row(B_T) / NF(B_T);
       for (Natural t = B_T-1; t >= 0; --t) {
