@@ -1,4 +1,9 @@
 #include <iostream>
+#include <fstream>
+#include <iterator>
+#include <string>
+#include <vector>
+#include <ctime>
 #include <cmath>
 #include "eigen3/Eigen/Dense"
 #include "util.h"
@@ -9,6 +14,22 @@ using namespace std;
 using namespace Eigen;
 using namespace util;
 using namespace emsf;
+
+
+inline std::string date_time_str()
+{
+  time_t rawtime;
+  struct tm *timeinfo;
+  char buffer[80];
+
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+
+  strftime(buffer, 80, "%F_%T", timeinfo);
+  std::string str(buffer);
+
+  return str;
+}
 
 
 inline mat cwiseInverse(mat A)
@@ -138,6 +159,7 @@ v_data generate_batch_data(model md, const Natural T, const Natural num_batches)
 
 void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural na, const Real eps = 1e-20, const Natural max_it = 10)
 {
+  const std::string filename = date_time_str() + ".log";
   v_stoch_mat P = md.P;
   vec mu = md.mu;
   stoch_mat pi = md.pi;
@@ -151,6 +173,8 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
 
   std::vector<Real> error;
 
+  cout << "Saving results to " << filename << endl;
+  
   while (abs(score - old_score) > eps || it < max_it) {
     old_score = score;
     score = 0.0;
@@ -222,19 +246,32 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
 
     error.push_back(e);
 
+    // Save results to file --- melhorar!
+    std::ofstream f(filename.c_str());
+    for (std::vector<Real>::const_iterator i = error.begin(); i != error.end(); ++i)
+      f << *i << '\n';
+    f.close();
+    
     cout << "e: " << e << endl;
     cout << "score: " << score << endl;
   }
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
-  const Natural n = 50;
-  const Natural m = 5;
-  const Natural na = 1;
-  const Natural T = 5000;
-  const Natural num_batches = 10;
+  date_time_str();
+
+  if (argc == 1) {
+    cout << "Usage: emsf n m na T num_batches" << endl;
+    exit(EXIT_FAILURE);
+  }
+
+  const Natural n = atoi(argv[1]);
+  const Natural m = atoi(argv[2]);
+  const Natural na = atoi(argv[3]);
+  const Natural T = atoi(argv[4]);
+  const Natural num_batches = atoi(argv[5]);
 
   model md = generate_model(n, m, na);
   v_data dt = generate_batch_data(md, T, num_batches);
