@@ -261,7 +261,6 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
 int main(int argc, char* argv[])
 {
   srand(time(NULL));
-
   date_time_str();
 
   Natural nargs = 7;
