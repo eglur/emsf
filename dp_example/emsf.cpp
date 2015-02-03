@@ -300,9 +300,6 @@ int main(int argc, char* argv[])
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
 
-  v_mat P_test = get_P_by_counting(dt, num_batches, T, n, na);
-  cout << "P_test = " << endl << P_test[0] << endl;
-
   Natural m = sr;
   em_sf(md, dt, n, m, na);
   
