@@ -292,7 +292,7 @@ int main(int argc, char* argv[])
   const Natural na = atoi(argv[3]);
   const Natural T = atoi(argv[4]);
   const Natural num_batches = atoi(argv[5]);
-  const Real eps = atoi(argv[6]);
+  const Real eps = atof(argv[6]);
   const Natural max_it = atoi(argv[7]);
 
   model md = generate_model(n, sr, na);
