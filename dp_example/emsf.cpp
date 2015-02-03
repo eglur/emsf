@@ -43,7 +43,7 @@ inline mat cwiseInverse(mat A)
   mat B(A.rows(), A.cols());
   for (Natural i = 0; i < A.rows(); ++i)
     for (Natural j = 0; j < A.cols(); ++j)
-      B(i, j) = 1.0 / A(i, j);
+      if (A(i, j)) B(i, j) = 1.0 / A(i, j);
 
   return B;
 }
