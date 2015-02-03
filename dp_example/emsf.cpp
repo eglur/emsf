@@ -173,7 +173,7 @@ v_data generate_batch_data(model md, const Natural T, const Natural num_batches)
 }
 
 
-void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural na, const Real eps = 1e-20, const Natural max_it = 10)
+void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
 {
   const std::string filename = date_time_str() + ".log";
   v_stoch_mat P = md.P;
@@ -202,8 +202,6 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
       vecn y = dt[batch].y;
       vecn a = dt[batch].a;
       
-      Natural T = y.cols();
-
       mat A = mat::Zero(T-1, m);
       mat B = mat::Zero(T-1, m);
       vec NF = vec::Zero(T-1);
