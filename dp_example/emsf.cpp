@@ -173,7 +173,7 @@ v_data generate_batch_data(model md, const Natural T, const Natural num_batches)
 }
 
 
-Real em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
+Real em_sf(model md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
 {
   v_stoch_mat P = md.P;
   vec mu = md.mu;
@@ -307,11 +307,11 @@ int main(int argc, char* argv[])
     "eps = " << eps << endl <<
     "max_it = " << max_it << endl << endl;
   
+  model md = generate_model(n, sr, na);
+  v_data dt = generate_batch_data(md, T, num_batches);
+
   Natural inc = ((10 * n * n) - n) / 9;
   for (T = n; T <= 10 * n * n; T += n * n) {
-    model md = generate_model(n, sr, na);
-    v_data dt = generate_batch_data(md, T, num_batches);
-
     Real e_cnt = counting(dt, num_batches, T, n, na, md.P);
     cout << "e_cnt: " << e_cnt << endl;
 
