@@ -173,9 +173,8 @@ v_data generate_batch_data(model md, const Natural T, const Natural num_batches)
 }
 
 
-void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
+Real em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
 {
-  const std::string filename = date_time_str() + ".log";
   v_stoch_mat P = md.P;
   vec mu = md.mu;
   stoch_mat pi = md.pi;
@@ -183,14 +182,12 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
   v_stoch_mat D = generate_stochastic_matrices(n, m, na);
   v_stoch_mat K = generate_stochastic_matrices(m, n, na);
 
+  v_stoch_mat P_bar(na);
+
   Real old_score = minf;
   Real score = 0.0;
   Natural it = 0;
 
-  std::vector<Real> error;
-
-  cout << "Saving results to " << filename << endl;
-  
   while (abs(score - old_score) > eps || it < max_it) {
     old_score = score;
     score = 0.0;
@@ -242,7 +239,6 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
       score = score - cwiseLog(cwiseInverse(NF)).sum();
     }
 
-    v_mat P_bar(na);
     for (Natural i = 0; i < na; ++i) {
       normalize(D2[i]);
       normalize(K2[i]);
@@ -252,18 +248,10 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
     D = D2;
     K = K2;
 
-    Real e = frobenius_norm_v(P_bar, P, na);
-    error.push_back(e);
-
-    // Save results to file --- melhorar!
-    std::ofstream f(filename.c_str());
-    for (std::vector<Real>::const_iterator i = error.begin(); i != error.end(); ++i)
-      f << *i << '\n';
-    f.close();
-    
-    cout << "e: " << e << endl;
-    cout << "score: " << score << endl;
+    ++it;
   }
+
+  return frobenius_norm_v(P_bar, P, na);
 }
 
 
@@ -325,7 +313,14 @@ int main(int argc, char* argv[])
     v_data dt = generate_batch_data(md, T, num_batches);
 
     Real e_cnt = counting(dt, num_batches, T, n, na, md.P);
+
+    Natural m = sr;
+    Real e_emsf = em_sf(md, dt, n, m, na, T, eps, max_it);
+
+    cout << endl;
     cout << "e_cnt: " << e_cnt << endl;
+    cout << "e_emsf: " << e_emsf << endl;
+
   }
 
   Natural m = sr;
