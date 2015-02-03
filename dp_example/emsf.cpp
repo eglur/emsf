@@ -298,7 +298,7 @@ int main(int argc, char* argv[])
   v_data dt = generate_batch_data(md, T, num_batches);
 
   Natural m = sr;
-  em_sf(md, dt, n, m, na);
+  em_sf(md, dt, n, m, na, max_it=max_it);
   
   return 0;
 }
