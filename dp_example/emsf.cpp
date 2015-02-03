@@ -305,12 +305,10 @@ int main(int argc, char* argv[])
     "eps = " << eps << endl <<
     "max_it = " << max_it << endl;
 
-  model md = generate_model(n, sr, na);
-  v_data dt = generate_batch_data(md, T, num_batches);
-
   Natural inc = ((10 * n * n) - n) / 9;
   for (T = n; T <= 10 * n * n; T += n * n) {
-    continue;
+    model md = generate_model(n, sr, na);
+    v_data dt = generate_batch_data(md, T, num_batches);
   }
 
   Natural m = sr;
