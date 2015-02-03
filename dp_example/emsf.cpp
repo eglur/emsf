@@ -295,6 +295,16 @@ int main(int argc, char* argv[])
   const Real eps = atof(argv[6]);
   const Natural max_it = atoi(argv[7]);
 
+  cout <<
+    "Using parameter values:" << endl <<
+    "n = " << n << endl <<
+    "sr = " << sr << endl <<
+    "na = " << na << endl <<
+    "T = " << T << endl <<
+    "num_batches = " << num_batches << endl <<
+    "eps = " << eps << endl <<
+    "max_it = " << max_it << endl;
+
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
 
