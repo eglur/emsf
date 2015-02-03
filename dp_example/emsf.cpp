@@ -16,6 +16,12 @@ using namespace util;
 using namespace emsf;
 
 
+inline Real frobenius_norm(mat A, mat B)
+{
+  return sqrt((A.array() - B.array()).array().square().sum());
+}
+
+
 inline std::string date_time_str()
 {
   time_t rawtime;
