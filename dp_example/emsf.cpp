@@ -22,6 +22,16 @@ inline Real frobenius_norm(mat A, mat B)
 }
 
 
+inline Real frobenius_norm_v(v_mat A, v_mat B, const Natural size)
+{
+  Real e = 0.0;
+  for (Natural i = 0; i < size; ++i)
+    e += frobenius_norm(A[i], B[i]);
+
+  return e;
+}
+
+
 inline std::string date_time_str()
 {
   time_t rawtime;
@@ -234,18 +244,17 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
       score = score - cwiseLog(cwiseInverse(NF)).sum();
     }
 
+    v_mat P_bar(na);
     for (Natural i = 0; i < na; ++i) {
       normalize(D2[i]);
       normalize(K2[i]);
+      P_bar[i] = D[i] * K[i];
     }
 
     D = D2;
     K = K2;
 
-    Real e = 0.0;
-    for (Natural i = 0; i < na; ++i)
-      e += frobenius_norm(D[i] * K[i], P[i]);
-
+    Real e = frobenius_norm_v(P_bar, P, na);
     error.push_back(e);
 
     // Save results to file --- melhorar!
@@ -274,6 +283,13 @@ v_mat get_P_by_counting(v_data dt, const Natural num_batches, const Natural T, c
     normalize(P[i]);
 
   return P;
+}
+
+
+Real counting(v_data dt, const Natural num_batches, const Natural T, const Natural n, const Natural na, v_mat P)
+{
+  v_mat P_cnt = get_P_by_counting(dt, num_batches, T, n, na);
+  return frobenius_norm_v(P_cnt, P, na);
 }
 
 
@@ -310,16 +326,8 @@ int main(int argc, char* argv[])
     model md = generate_model(n, sr, na);
     v_data dt = generate_batch_data(md, T, num_batches);
 
-    t = time();
-    P_counting = counting(md, dt);
-    t_counting = time() - t;
-    
-    t = time();
-    P_emsf = em_sf(md, dt, n, m, na, eps, max_it);
-    t_counting = time() - t;
-
-    error_counting = frobenius_norm(P, P_counting)
-    error_emsf = frobenius_norm(P, P_emsf)
+    Real e_cnt = counting(dt, num_batches, T, n, na, md.P);
+    cout << "e_cnt: " << e_cnt << endl;
   }
 
   Natural m = sr;
