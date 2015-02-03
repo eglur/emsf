@@ -309,10 +309,20 @@ int main(int argc, char* argv[])
   for (T = n; T <= 10 * n * n; T += n * n) {
     model md = generate_model(n, sr, na);
     v_data dt = generate_batch_data(md, T, num_batches);
+
+    t = time();
+    P_counting = counting(md, dt);
+    t_counting = time() - t;
+    
+    t = time();
+    P_emsf = em_sf(md, dt, n, m, na, eps, max_it);
+    t_counting = time() - t;
+
+    error_counting = frobenius_norm(P, P_counting)
+    error_emsf = frobenius_norm(P, P_emsf)
   }
 
   Natural m = sr;
-  em_sf(md, dt, n, m, na, eps, max_it);
   
   return 0;
 }
