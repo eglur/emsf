@@ -18,7 +18,7 @@ using namespace emsf;
 
 inline Real frobenius_norm(mat A, mat B)
 {
-  return sqrt((A.array() - B.array()).array().square().sum());
+  return (A.array() - B.array()).array().square().sum();
 }
 
 
@@ -243,12 +243,8 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
     K = K2;
 
     Real e = 0.0;
-    for (Natural i = 0; i < na; ++i) {
-      mat P_bar = D[i] * K[i];
-      mat diff = P_bar.array() - P[i].array();
-      mat sqr_diff = diff.array() * diff.array();
-      e += sqr_diff.sum();
-    }
+    for (Natural i = 0; i < na; ++i)
+      e += frobenius_norm(D[i] * K[i], P[i]);
 
     error.push_back(e);
 
