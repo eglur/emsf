@@ -305,25 +305,32 @@ int main(int argc, char* argv[])
     "T = " << T << endl <<
     "num_batches = " << num_batches << endl <<
     "eps = " << eps << endl <<
-    "max_it = " << max_it << endl;
-
+    "max_it = " << max_it << endl << endl;
+  
   Natural inc = ((10 * n * n) - n) / 9;
   for (T = n; T <= 10 * n * n; T += n * n) {
     model md = generate_model(n, sr, na);
     v_data dt = generate_batch_data(md, T, num_batches);
 
     Real e_cnt = counting(dt, num_batches, T, n, na, md.P);
-
-    Natural m = sr;
-    Real e_emsf = em_sf(md, dt, n, m, na, T, eps, max_it);
-
-    cout << endl;
     cout << "e_cnt: " << e_cnt << endl;
-    cout << "e_emsf: " << e_emsf << endl;
 
+    Natural m;
+    Real e_emsf;
+    
+    m = (Natural) 0.5 * sr;
+    e_emsf = em_sf(md, dt, n, m, na, T, eps, max_it);
+    cout << "e_emsf (m = 0.5 * sr): " << e_emsf << endl;
+
+    m = sr;
+    e_emsf = em_sf(md, dt, n, m, na, T, eps, max_it);
+    cout << "e_emsf (m = sr): " << e_emsf << endl;
+
+    m = 2 * sr;
+    e_emsf = em_sf(md, dt, n, m, na, T, eps, max_it);
+    cout << "e_emsf (m = 2 * sr): " << e_emsf << endl;
+    cout << "========================================" << endl;
   }
 
-  Natural m = sr;
-  
   return 0;
 }
