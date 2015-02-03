@@ -290,7 +290,7 @@ int main(int argc, char* argv[])
   const Natural n = atoi(argv[1]);
   const Natural sr = atoi(argv[2]);
   const Natural na = atoi(argv[3]);
-  const Natural T = atoi(argv[4]);
+  Natural T = atoi(argv[4]);
   const Natural num_batches = atoi(argv[5]);
   const Real eps = atof(argv[6]);
   const Natural max_it = atoi(argv[7]);
@@ -307,6 +307,11 @@ int main(int argc, char* argv[])
 
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
+
+  Natural inc = ((10 * n * n) - n) / 9;
+  for (T = n; T <= 10 * n * n; T += n * n) {
+    continue;
+  }
 
   Natural m = sr;
   em_sf(md, dt, n, m, na, eps, max_it);
