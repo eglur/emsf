@@ -258,12 +258,22 @@ void em_sf(model md, v_data dt, const Natural n, const Natural m, const Natural 
 }
 
 
-mat get_P_by_counting()
+v_mat get_P_by_counting(v_data dt, const Natural num_batches, const Natural T, const Natural n, const Natural na)
 {
-  mat P;
+  v_mat P = generate_zero_matrices(n, n, na);
+
+  for (Natural batch = 0; batch < num_batches; ++batch) {
+    vecn y = dt[batch].y, a = dt[batch].a;
+    for (Natural t = 0; t < T-1; ++t)
+      ++P[a(t)](y(t), y(t+1));
+  }
+
+  for (Natural i = 0; i < na; ++i)
+    normalize(P[i]);
 
   return P;
 }
+
 
 int main(int argc, char* argv[])
 {
@@ -283,6 +293,9 @@ int main(int argc, char* argv[])
 
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
+
+  v_mat P_test = get_P_by_counting(dt, num_batches, T, n, na);
+  cout << "P_test = " << endl << P_test[0] << endl;
 
   Natural m = sr;
   em_sf(md, dt, n, m, na);
