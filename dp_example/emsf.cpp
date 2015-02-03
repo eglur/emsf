@@ -281,7 +281,7 @@ int main(int argc, char* argv[])
 {
   srand(time(NULL));
 
-  Natural nargs = 6;
+  Natural nargs = 7;
   if (argc != nargs) {
     cout << "Usage: emsf n sr na T num_batches" << endl;
     exit(EXIT_FAILURE);
@@ -292,6 +292,7 @@ int main(int argc, char* argv[])
   const Natural na = atoi(argv[3]);
   const Natural T = atoi(argv[4]);
   const Natural num_batches = atoi(argv[5]);
+  const Natural max_it = atoi(argv[6]);
 
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
