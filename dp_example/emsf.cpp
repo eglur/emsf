@@ -283,7 +283,7 @@ int main(int argc, char* argv[])
 
   Natural nargs = 8;
   if (argc != nargs) {
-    cout << "Usage: emsf n sr na T num_batches" << endl;
+    cout << "Usage: emsf n sr na T num_batches eps max_it" << endl;
     exit(EXIT_FAILURE);
   }
 
