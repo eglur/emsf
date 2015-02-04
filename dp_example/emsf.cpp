@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <iterator>
 #include <string>
@@ -291,24 +292,19 @@ int main(int argc, char* argv[])
 
   Natural inc = ((10 * n * n) - n) / 9;
   for (Natural q = n; q <= 10 * n * n; q += n * n) {
-    Real e_cnt = counting(dt, num_batches, q, n, na, md.P);
-    cout << "e_cnt: " << e_cnt << endl;
+    Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
 
-    Natural m;
-    Real e_emsf;
-    
-    m = (Natural) 0.5 * sr;
-    e_emsf = em_sf(md, dt, n, m, na, q, eps, max_it);
-    cout << "e_emsf (m = 0.5 * sr): " << e_emsf << endl;
+    e_cnt = counting(dt, num_batches, q, n, na, md.P);
+    e_emsf_a = em_sf(md, dt, n, (Natural) 0.5 * sr, na, q, eps, max_it);
+    e_emsf_b = em_sf(md, dt, n, sr, na, q, eps, max_it);
+    e_emsf_c = em_sf(md, dt, n, 2 * sr, na, q, eps, max_it);
 
-    m = sr;
-    e_emsf = em_sf(md, dt, n, m, na, q, eps, max_it);
-    cout << "e_emsf (m = sr): " << e_emsf << endl;
-
-    m = 2 * sr;
-    e_emsf = em_sf(md, dt, n, m, na, q, eps, max_it);
-    cout << "e_emsf (m = 2 * sr): " << e_emsf << endl;
-    cout << "========================================" << endl;
+    cout.precision(6);
+    cout << std::fixed
+         << e_cnt << " "
+         << e_emsf_a << " "
+         << e_emsf_b << " "
+         << e_emsf_c << endl;
   }
 
   return 0;
