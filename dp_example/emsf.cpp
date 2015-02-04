@@ -99,7 +99,6 @@ v_mat generate_zero_matrices(const Natural nrows, const Natural ncols, const Nat
 Natural sample_from_dist(vec dist)
 {
   pt_vecn pt = sample(0, dist.size() - 1, 1);
-  cout << dist.size() << endl;
   return(*pt)[0];
 }
 
@@ -128,12 +127,12 @@ data generate_data(model &md, const Natural T)
     dt.y.resize(T);
     dt.a.resize(T-1);
 
-    cout << "a" << endl; 
+    // cout << "a" << endl; 
     dt.y[0] = sample_from_dist(md.mu);
     for (Natural i = 0; i < T-1; ++i) {
-      cout << "b" << endl; 
+      // cout << "b" << endl; 
       dt.a[i] = sample_from_dist(md.pi.row(dt.y[i]));
-      cout << "c" << endl; 
+      // cout << "c" << endl; 
       dt.y[i+1] = sample_from_dist(md.P[dt.a[i]].row(dt.y[i]));
     }
 
