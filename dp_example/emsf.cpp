@@ -271,8 +271,6 @@ int main(int argc, char* argv[])
   ofstream file;
   stringstream filename;
 
-  srand(time(NULL));
-
   Natural nargs = 9;
   if (argc != nargs) {
     cout << "Usage: emsf n sr na T num_batches eps max_it" << endl;
@@ -287,6 +285,8 @@ int main(int argc, char* argv[])
   const Real eps = atof(argv[6]);
   const Natural max_it = atoi(argv[7]);
   const Natural run = atoi(argv[8]);
+
+  srand(run);
 
   // TODO: receber fatores (sr) da linha de comando
 
