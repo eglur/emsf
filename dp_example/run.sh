@@ -9,8 +9,9 @@ die () {
 
 for i in $(eval echo {$1..$2})
 do
-    COMMAND="./emsf 100 10 1 100000 10 1e20 30 $i"
+    COMMAND="./emsf $i 100"
     echo $COMMAND
     $COMMAND &
+    sleep 1
 done
 
