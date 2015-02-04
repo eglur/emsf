@@ -98,16 +98,9 @@ v_mat generate_zero_matrices(const Natural nrows, const Natural ncols, const Nat
 
 Natural sample_from_dist(vec dist)
 {
-  Real v = random_Real();
-  Real vv = 0.0;
-  Natural ind = -1;
-
-  while (vv <= v) {
-    ++ind;
-    vv += dist[ind];
-  }
-
-  return ind;
+  pt_vecn pt = sample(0, dist.size() - 1, 1);
+  cout << dist.size() << endl;
+  return(*pt)[0];
 }
 
 
@@ -130,17 +123,25 @@ model generate_model(const Natural n, const Natural sr, const Natural na)
 
 data generate_data(model &md, const Natural T)
 {
-  data dt;
-  dt.y.resize(T);
-  dt.a.resize(T-1);
+  try {
+    data dt;
+    dt.y.resize(T);
+    dt.a.resize(T-1);
 
-  dt.y[0] = sample_from_dist(md.mu);
-  for (Natural i = 0; i < T-1; ++i) {
-    dt.a[i] = sample_from_dist(md.pi.row(dt.y[i]).transpose());
-    dt.y[i+1] = sample_from_dist(md.P[dt.a[i]].row(dt.y[i]).transpose());
+    cout << "a" << endl; 
+    dt.y[0] = sample_from_dist(md.mu);
+    for (Natural i = 0; i < T-1; ++i) {
+      cout << "b" << endl; 
+      dt.a[i] = sample_from_dist(md.pi.row(dt.y[i]));
+      cout << "c" << endl; 
+      dt.y[i+1] = sample_from_dist(md.P[dt.a[i]].row(dt.y[i]));
+    }
+
+    return dt;
   }
-
-  return dt;
+  catch (int e) {
+    cout << "yahoo" << endl;
+  }
 }
 
 
