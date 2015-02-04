@@ -160,8 +160,6 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
   v_stoch_mat D = generate_stochastic_matrices(n, m, na);
   v_stoch_mat K = generate_stochastic_matrices(m, n, na);
 
-  v_stoch_mat P_bar(na);
-
   Real old_score = minf;
   Real score = 0.0;
   Natural it = 0;
@@ -220,7 +218,6 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
     for (Natural i = 0; i < na; ++i) {
       normalize(D2[i]);
       normalize(K2[i]);
-      P_bar[i] = D[i] * K[i];
     }
 
     D = D2;
@@ -228,6 +225,10 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
 
     ++it;
   }
+
+  v_stoch_mat P_bar(na);
+  for (Natural i = 0; i < na; ++i)
+    P_bar[i] = D[i] * K[i];
 
   return frobenius_norm_v(P_bar, P, na);
 }
