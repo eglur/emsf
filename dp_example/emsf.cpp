@@ -292,36 +292,53 @@ int main(int argc, char* argv[])
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
 
-  Natural inc = ((10 * n * n) - n) / 9;
-  for (Natural q = n; q <= 10 * n * n; q += inc) {
-    Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
+  for (Natural i = 0; i < 50; ++i) {
+    Natural inc = ((10 * n * n) - n) / 9;
+    for (Natural q = n; q <= 10 * n * n; q += inc) {
+      Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
 
-    e_cnt = counting(dt, num_batches, q, n, na, md.P);
-    e_emsf_a = em_sf(md, dt, n, (Natural) 0.5 * sr, na, q, eps, max_it);
-    e_emsf_b = em_sf(md, dt, n, sr, na, q, eps, max_it);
-    e_emsf_c = em_sf(md, dt, n, 2 * sr, na, q, eps, max_it);
+      e_cnt = counting(dt, num_batches, q, n, na, md.P);
+      e_emsf_a = em_sf(md, dt, n, (Natural) 0.5 * sr, na, q, eps, max_it);
+      e_emsf_b = em_sf(md, dt, n, sr, na, q, eps, max_it);
+      e_emsf_c = em_sf(md, dt, n, 2 * sr, na, q, eps, max_it);
 
-    cout.precision(6);
-    cout << std::fixed
-         << e_cnt << " "
-         << e_emsf_a << " "
-         << e_emsf_b << " "
-         << e_emsf_c << endl;
+      cout.precision(6);
+      cout << std::fixed
+           << e_cnt << " "
+           << e_emsf_a << " "
+           << e_emsf_b << " "
+           << e_emsf_c << endl;
 
+      file.open("e_cnt.log", ios::app);
+      file << e_cnt << " ";
+      file.close();
+
+      file.open("e_emsf_a.log", ios::app);
+      file << e_emsf_a << " ";
+      file.close();
+
+      file.open("e_emsf_b.log", ios::app);
+      file << e_emsf_b << " ";
+      file.close();
+
+      file.open("e_emsf_c.log", ios::app);
+      file << e_emsf_c << " ";
+      file.close();
+    }
     file.open("e_cnt.log", ios::app);
-    file << e_cnt << " ";
+    file << endl;
     file.close();
 
     file.open("e_emsf_a.log", ios::app);
-    file << e_emsf_a << " ";
+    file << endl;
     file.close();
 
     file.open("e_emsf_b.log", ios::app);
-    file << e_emsf_b << " ";
+    file << endl;
     file.close();
 
     file.open("e_emsf_c.log", ios::app);
-    file << e_emsf_c << " ";
+    file << endl;
     file.close();
   }
 
