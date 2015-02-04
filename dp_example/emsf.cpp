@@ -272,7 +272,7 @@ int main(int argc, char* argv[])
 
   srand(time(NULL));
 
-  Natural nargs = 8;
+  Natural nargs = 9;
   if (argc != nargs) {
     cout << "Usage: emsf n sr na T num_batches eps max_it" << endl;
     exit(EXIT_FAILURE);
@@ -285,6 +285,7 @@ int main(int argc, char* argv[])
   const Natural num_batches = atoi(argv[5]);
   const Real eps = atof(argv[6]);
   const Natural max_it = atoi(argv[7]);
+  const Natural run = atoi(argv[8]);
 
   cout <<
     "Using parameter values:" << endl <<
