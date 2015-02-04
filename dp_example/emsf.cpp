@@ -288,6 +288,14 @@ int main(int argc, char* argv[])
   const Natural max_it = atoi(argv[7]);
   const Natural run = atoi(argv[8]);
 
+  // TODO: receber fatores (sr) da linha de comando
+
+  // TODO: persistir parâmetros utilizados (params.log)
+
+  // TODO: colocar parâmetros nos nomes de arquivo
+
+  // TODO: calcular tudo que der em função do que foi recebido (ver email)
+
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
 
