@@ -288,14 +288,6 @@ int main(int argc, char* argv[])
 
   srand(run);
 
-  // TODO: receber fatores (sr) da linha de comando
-
-  // TODO: persistir parâmetros utilizados (params.log)
-
-  // TODO: colocar parâmetros nos nomes de arquivo
-
-  // TODO: calcular tudo que der em função do que foi recebido (ver email)
-
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
 
