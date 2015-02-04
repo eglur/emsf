@@ -233,7 +233,7 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
 }
 
 
-v_mat get_P_by_counting(v_data dt, const Natural num_batches, const Natural T, const Natural n, const Natural na)
+v_mat get_P_by_counting(v_data &dt, const Natural num_batches, const Natural T, const Natural n, const Natural na)
 {
   v_mat P = generate_zero_matrices(n, n, na);
 
