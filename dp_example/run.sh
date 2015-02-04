@@ -12,6 +12,5 @@ do
     COMMAND="./emsf $i 100"
     echo $COMMAND
     $COMMAND &
-    sleep 1
 done
 
