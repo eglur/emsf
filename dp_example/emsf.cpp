@@ -271,20 +271,20 @@ int main(int argc, char* argv[])
   ofstream file;
   stringstream filename;
 
-  Natural nargs = 9;
+  Natural nargs = 3;
   if (argc != nargs) {
-    cout << "Usage: emsf n sr na T num_batches eps max_it" << endl;
+    cout << "Usage: emsf run n" << endl;
     exit(EXIT_FAILURE);
   }
 
-  const Natural n = atoi(argv[1]);
-  const Natural sr = atoi(argv[2]);
-  const Natural na = atoi(argv[3]);
-  const Natural T = atoi(argv[4]);
-  const Natural num_batches = atoi(argv[5]);
-  const Real eps = atof(argv[6]);
-  const Natural max_it = atoi(argv[7]);
-  const Natural run = atoi(argv[8]);
+  const Natural run = atoi(argv[1]);
+  const Natural n = atoi(argv[2]);
+  const Natural sr = (Natural) (0.1 * n);
+  const Natural na = 1;
+  const Natural T = 10 * n * n;
+  const Natural num_batches = 10;
+  const Real eps = 1e20;
+  const Natural max_it = 30;
 
   srand(run);
 
@@ -292,7 +292,7 @@ int main(int argc, char* argv[])
   v_data dt = generate_batch_data(md, T, num_batches);
 
   Natural inc = ((10 * n * n) - n) / 9;
-  for (Natural q = n; q <= 10 * n * n; q += inc) {
+  for (Natural q = n; q <= T; q += inc) {
     Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
     clock_t begin, end;
     double t_cnt, t_emsf_a, t_emsf_b, t_emsf_c;
