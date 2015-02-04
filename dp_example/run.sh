@@ -1,7 +1,14 @@
 #!/bin/bash
 
-for i in {1..50}
+die () {
+    echo >&2 "$@"
+    exit 1
+}
+
+[ "$#" -eq 2 ] || die "Usage: run.sh START END"
+
+for i in $(eval echo {$1..$2})
 do
-    echo $i
+    ./emsf 100 10 1 100000 10 1e20 30 $i &
 done
 
