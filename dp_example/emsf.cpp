@@ -58,23 +58,30 @@ inline void normalize(mat &A)
 }
 
 
-stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols)
+stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols, const bool constant = false)
 {
-  stoch_mat M = mat::Random(nrows,ncols).cwiseAbs();
+  stoch_mat M;
+  if (constant)
+    M = mat::Constant(nrows,ncols,1);
+  else
+    M = mat::Random(nrows,ncols).cwiseAbs();
   normalize(M);
 
   return M;
 }
 
 
-v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na)
+v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na, const bool constant = false)
 {
-  v_stoch_mat MS;
-  MS.resize(na);
+  v_stoch_mat M;
+  M.resize(na);
   for(Natural a = 0; a < na; ++a)
-    MS[a] = generate_stochastic_matrix(nrows,ncols);
+    if (constant)
+      M[a] = generate_stochastic_matrix(nrows,ncols,true);
+    else
+      M[a] = generate_stochastic_matrix(nrows,ncols);
 
-  return MS;
+  return M;
 }
 
 
@@ -158,8 +165,8 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
   vec mu = md.mu;
   stoch_mat pi = md.pi;
 
-  v_stoch_mat D = generate_stochastic_matrices(n, m, na);
-  v_stoch_mat K = generate_stochastic_matrices(m, n, na);
+  v_stoch_mat D = generate_stochastic_matrices(n, m, na, true);
+  v_stoch_mat K = generate_stochastic_matrices(m, n, na, true);
 
   Real old_score = minf;
   Real score = 0.0;
