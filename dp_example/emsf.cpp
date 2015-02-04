@@ -311,7 +311,7 @@ int main(int argc, char* argv[])
     t_cnt = double(end - begin) / CLOCKS_PER_SEC;
     
     begin = clock();
-    e_emsf_a = em_sf(md, dt, n, (Natural) 0.5 * sr, na, q, eps, max_it);
+    e_emsf_a = em_sf(md, dt, n, (Natural) 0.8 * sr, na, q, eps, max_it);
     end = clock();
     t_emsf_a = double(end - begin) / CLOCKS_PER_SEC;
     
@@ -321,7 +321,7 @@ int main(int argc, char* argv[])
     t_emsf_b = double(end - begin) / CLOCKS_PER_SEC;
     
     begin = clock();
-    e_emsf_c = em_sf(md, dt, n, 2 * sr, na, q, eps, max_it);
+    e_emsf_c = em_sf(md, dt, n, 1.25 * sr, na, q, eps, max_it);
     end = clock();
     t_emsf_c = double(end - begin) / CLOCKS_PER_SEC;
     
