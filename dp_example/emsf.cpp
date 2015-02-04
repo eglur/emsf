@@ -308,19 +308,19 @@ int main(int argc, char* argv[])
          << e_emsf_b << " "
          << e_emsf_c << endl;
 
-    file.open("e_cnt.log");
+    file.open("e_cnt.log", ios::app);
     file << e_cnt << " ";
     file.close();
 
-    file.open("e_emsf_a.log");
+    file.open("e_emsf_a.log", ios::app);
     file << e_emsf_a << " ";
     file.close();
 
-    file.open("e_emsf_b.log");
+    file.open("e_emsf_b.log", ios::app);
     file << e_emsf_b << " ";
     file.close();
 
-    file.open("e_emsf_c.log");
+    file.open("e_emsf_c.log", ios::app);
     file << e_emsf_c << " ";
     file.close();
   }
