@@ -48,28 +48,6 @@ inline std::string date_time_str()
 }
 
 
-inline mat cwiseInverse(mat A)
-{
-  mat B(A.rows(), A.cols());
-  for (Natural i = 0; i < A.rows(); ++i)
-    for (Natural j = 0; j < A.cols(); ++j)
-      if (A(i, j)) B(i, j) = 1.0 / A(i, j);
-
-  return B;
-}
-
-
-inline mat cwiseLog(mat A)
-{
-  mat B(A.rows(), A.cols());
-  for (Natural i = 0; i < A.rows(); ++i)
-    for (Natural j = 0; j < A.cols(); ++j)
-      B(i, j) = log(A(i, j));
-
-  return B;
-}
-
-
 inline void normalize(mat &A)
 {
   for (Natural i = 0; i < A.rows(); ++i) {
@@ -236,7 +214,7 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
         K2[a(t)].col(y(t+1)) = K2[a(t)].col(y(t+1)).array() + C.row(t).transpose().array();
       }
 
-      score = score - cwiseLog(cwiseInverse(NF)).sum();
+      score = score - NF.array().inverse().log().sum();
     }
 
     for (Natural i = 0; i < na; ++i) {
