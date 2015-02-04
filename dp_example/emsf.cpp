@@ -261,6 +261,8 @@ Real counting(v_data &dt, const Natural num_batches, const Natural T, const Natu
 
 int main(int argc, char* argv[])
 {
+  ofstream file;
+
   srand(time(NULL));
 
   Natural nargs = 8;
@@ -305,6 +307,22 @@ int main(int argc, char* argv[])
          << e_emsf_a << " "
          << e_emsf_b << " "
          << e_emsf_c << endl;
+
+    file.open("e_cnt.log");
+    file << e_cnt << " ";
+    file.close();
+
+    file.open("e_emsf_a.log");
+    file << e_emsf_a << " ";
+    file.close();
+
+    file.open("e_emsf_b.log");
+    file << e_emsf_b << " ";
+    file.close();
+
+    file.open("e_emsf_c.log");
+    file << e_emsf_c << " ";
+    file.close();
   }
 
   return 0;
