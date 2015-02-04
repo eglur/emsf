@@ -100,14 +100,11 @@ Natural sample_from_dist(vec dist)
 {
   Real v = random_Real();
   Real vv = 0.0;
-  Natural ind = 0;
+  Natural ind = -1;
 
-  while (1) {
+  while (vv <= v) {
+    ++ind;
     vv += dist[ind];
-    if (vv >= v)
-      break;
-    else
-      ++ind;
   }
 
   return ind;
