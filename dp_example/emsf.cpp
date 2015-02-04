@@ -98,8 +98,19 @@ v_mat generate_zero_matrices(const Natural nrows, const Natural ncols, const Nat
 
 Natural sample_from_dist(vec dist)
 {
-  pt_vecn pt = sample(0, dist.size() - 1, 1);
-  return(*pt)[0];
+  Real v = random_Real();
+  Real vv = 0.0;
+  Natural ind = 0;
+
+  while (1) {
+    vv += dist[ind];
+    if (vv >= v)
+      break;
+    else
+      ++ind;
+  }
+
+  return ind;
 }
 
 
