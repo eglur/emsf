@@ -288,17 +288,6 @@ int main(int argc, char* argv[])
   const Natural max_it = atoi(argv[7]);
   const Natural run = atoi(argv[8]);
 
-  cout <<
-    "Using parameter values:" << endl <<
-    "n = " << n << endl <<
-    "sr = " << sr << endl <<
-    "na = " << na << endl <<
-    "T = " << T << endl <<
-    "num_batches = " << num_batches << endl <<
-    "eps = " << eps << endl <<
-    "max_it = " << max_it << endl <<
-    "run = " << run << endl << endl;
-  
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
 
@@ -328,14 +317,6 @@ int main(int argc, char* argv[])
     end = clock();
     t_emsf_c = double(end - begin) / CLOCKS_PER_SEC;
     
-
-    cout.precision(6);
-    cout << std::fixed
-         << e_cnt << " (" << t_cnt << ")   "
-         << e_emsf_a << " (" << t_emsf_a << ")   "
-         << e_emsf_b << " (" << t_emsf_b << ")   "
-         << e_emsf_c << " (" << t_emsf_c << ")" << endl;
-
 
     // Log error
     filename.str(std::string());
