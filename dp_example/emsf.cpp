@@ -16,13 +16,13 @@ using namespace util;
 using namespace emsf;
 
 
-inline Real frobenius_norm(mat A, mat B)
+inline Real frobenius_norm(mat &A, mat &B)
 {
   return (A.array() - B.array()).array().square().sum();
 }
 
 
-inline Real frobenius_norm_v(v_mat A, v_mat B, const Natural size)
+inline Real frobenius_norm_v(v_mat &A, v_mat &B, const Natural size)
 {
   Real e = 0.0;
   for (Natural i = 0; i < size; ++i)
@@ -145,7 +145,7 @@ model generate_model(const Natural n, const Natural sr, const Natural na)
 }
 
 
-data generate_data(model md, const Natural T)
+data generate_data(model &md, const Natural T)
 {
   data dt;
   dt.y.resize(T);
@@ -161,7 +161,7 @@ data generate_data(model md, const Natural T)
 }
 
 
-v_data generate_batch_data(model md, const Natural T, const Natural num_batches)
+v_data generate_batch_data(model &md, const Natural T, const Natural num_batches)
 {
   v_data v_dt;
   v_dt.resize(num_batches);
@@ -173,7 +173,7 @@ v_data generate_batch_data(model md, const Natural T, const Natural num_batches)
 }
 
 
-Real em_sf(model md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
+Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
 {
   v_stoch_mat P = md.P;
   vec mu = md.mu;
