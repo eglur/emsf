@@ -305,19 +305,39 @@ int main(int argc, char* argv[])
   Natural inc = ((10 * n * n) - n) / 9;
   for (Natural q = n; q <= 10 * n * n; q += inc) {
     Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
+    clock_t begin, end;
+    double t_cnt, t_emsf_a, t_emsf_b, t_emsf_c;
 
+    begin = clock();
     e_cnt = counting(dt, num_batches, q, n, na, md.P);
+    end = clock();
+    t_cnt = double(end - begin) / CLOCKS_PER_SEC;
+    
+    begin = clock();
     e_emsf_a = em_sf(md, dt, n, (Natural) 0.5 * sr, na, q, eps, max_it);
+    end = clock();
+    t_emsf_a = double(end - begin) / CLOCKS_PER_SEC;
+    
+    begin = clock();
     e_emsf_b = em_sf(md, dt, n, sr, na, q, eps, max_it);
+    end = clock();
+    t_emsf_b = double(end - begin) / CLOCKS_PER_SEC;
+    
+    begin = clock();
     e_emsf_c = em_sf(md, dt, n, 2 * sr, na, q, eps, max_it);
+    end = clock();
+    t_emsf_c = double(end - begin) / CLOCKS_PER_SEC;
+    
 
     cout.precision(6);
     cout << std::fixed
-         << e_cnt << " "
-         << e_emsf_a << " "
-         << e_emsf_b << " "
-         << e_emsf_c << endl;
+         << e_cnt << " (" << t_cnt << ")   "
+         << e_emsf_a << " (" << t_emsf_a << ")   "
+         << e_emsf_b << " (" << t_emsf_b << ")   "
+         << e_emsf_c << " (" << t_emsf_c << ")" << endl;
 
+
+    // Log error
     filename.str(std::string());
     filename << "e_cnt_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
@@ -340,6 +360,32 @@ int main(int argc, char* argv[])
     filename << "e_emsf_c_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << e_emsf_c << " ";
+    file.close();
+
+
+    // Log time
+    filename.str(std::string());
+    filename << "t_cnt_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << t_cnt << " ";
+    file.close();
+
+    filename.str(std::string());
+    filename << "t_emsf_a_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << t_emsf_a << " ";
+    file.close();
+
+    filename.str(std::string());
+    filename << "t_emsf_b_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << t_emsf_b << " ";
+    file.close();
+
+    filename.str(std::string());
+    filename << "t_emsf_c_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << t_emsf_c << " ";
     file.close();
   }
 
