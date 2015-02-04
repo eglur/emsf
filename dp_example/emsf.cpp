@@ -293,7 +293,7 @@ int main(int argc, char* argv[])
   v_data dt = generate_batch_data(md, T, num_batches);
 
   Natural inc = ((10 * n * n) - n) / 9;
-  for (Natural q = n; q <= 10 * n * n; q += n * n) {
+  for (Natural q = n; q <= 10 * n * n; q += inc) {
     Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
 
     e_cnt = counting(dt, num_batches, q, n, na, md.P);
