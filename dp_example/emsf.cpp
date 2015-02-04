@@ -269,6 +269,7 @@ Real counting(v_data &dt, const Natural num_batches, const Natural T, const Natu
 int main(int argc, char* argv[])
 {
   ofstream file;
+  stringstream filename;
 
   srand(time(NULL));
 
@@ -295,58 +296,50 @@ int main(int argc, char* argv[])
     "T = " << T << endl <<
     "num_batches = " << num_batches << endl <<
     "eps = " << eps << endl <<
-    "max_it = " << max_it << endl << endl;
+    "max_it = " << max_it << endl <<
+    "run = " << run << endl << endl;
   
   model md = generate_model(n, sr, na);
   v_data dt = generate_batch_data(md, T, num_batches);
 
-  for (Natural i = 0; i < 50; ++i) {
-    Natural inc = ((10 * n * n) - n) / 9;
-    for (Natural q = n; q <= 10 * n * n; q += inc) {
-      Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
+  Natural inc = ((10 * n * n) - n) / 9;
+  for (Natural q = n; q <= 10 * n * n; q += inc) {
+    Real e_cnt, e_emsf_a, e_emsf_b, e_emsf_c;
 
-      e_cnt = counting(dt, num_batches, q, n, na, md.P);
-      e_emsf_a = em_sf(md, dt, n, (Natural) 0.5 * sr, na, q, eps, max_it);
-      e_emsf_b = em_sf(md, dt, n, sr, na, q, eps, max_it);
-      e_emsf_c = em_sf(md, dt, n, 2 * sr, na, q, eps, max_it);
+    e_cnt = counting(dt, num_batches, q, n, na, md.P);
+    e_emsf_a = em_sf(md, dt, n, (Natural) 0.5 * sr, na, q, eps, max_it);
+    e_emsf_b = em_sf(md, dt, n, sr, na, q, eps, max_it);
+    e_emsf_c = em_sf(md, dt, n, 2 * sr, na, q, eps, max_it);
 
-      cout.precision(6);
-      cout << std::fixed
-           << e_cnt << " "
-           << e_emsf_a << " "
-           << e_emsf_b << " "
-           << e_emsf_c << endl;
+    cout.precision(6);
+    cout << std::fixed
+         << e_cnt << " "
+         << e_emsf_a << " "
+         << e_emsf_b << " "
+         << e_emsf_c << endl;
 
-      file.open("e_cnt.log", ios::app);
-      file << e_cnt << " ";
-      file.close();
-
-      file.open("e_emsf_a.log", ios::app);
-      file << e_emsf_a << " ";
-      file.close();
-
-      file.open("e_emsf_b.log", ios::app);
-      file << e_emsf_b << " ";
-      file.close();
-
-      file.open("e_emsf_c.log", ios::app);
-      file << e_emsf_c << " ";
-      file.close();
-    }
-    file.open("e_cnt.log", ios::app);
-    file << endl;
+    filename.str(std::string());
+    filename << "e_cnt_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << e_cnt << " ";
     file.close();
 
-    file.open("e_emsf_a.log", ios::app);
-    file << endl;
+    filename.str(std::string());
+    filename << "e_emsf_a_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << e_emsf_a << " ";
     file.close();
 
-    file.open("e_emsf_b.log", ios::app);
-    file << endl;
+    filename.str(std::string());
+    filename << "e_emsf_b_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << e_emsf_b << " ";
     file.close();
 
-    file.open("e_emsf_c.log", ios::app);
-    file << endl;
+    filename.str(std::string());
+    filename << "e_emsf_c_" << std::setw(2) << std::setfill('0') << run << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << e_emsf_c << " ";
     file.close();
   }
 
