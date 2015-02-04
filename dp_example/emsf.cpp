@@ -104,7 +104,7 @@ Natural sample_from_dist(vec dist)
 
   while (1) {
     vv += dist[ind];
-    if (vv > v)
+    if (vv >= v)
       break;
     else
       ++ind;
