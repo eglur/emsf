@@ -288,7 +288,7 @@ int main(int argc, char* argv[])
   const Natural sr = (Natural) (0.1 * n);
   const Natural na = 1;
   const Natural T = 10 * n * n;
-  const Natural num_batches = 100;
+  const Natural num_batches = 10;
   const Real eps = 1e20;
   const Natural max_it = 300;
 
