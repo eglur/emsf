@@ -246,7 +246,7 @@ v_mat get_P_by_counting(v_data &dt, const Natural num_batches, const Natural T, 
   for (Natural batch = 0; batch < num_batches; ++batch) {
     vecn y = dt[batch].y, a = dt[batch].a;
     for (Natural t = 0; t < T-1; ++t)
-      ++P[a(t)](y(t), y(t+1));
+      ++P[a[t]](y[t], y[t+1]);
   }
 
   for (Natural i = 0; i < na; ++i)
