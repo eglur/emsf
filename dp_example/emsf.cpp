@@ -294,10 +294,10 @@ int main(int argc, char* argv[])
 
   srand(run);
 
-  Natural sr_d = (Natural) 0.2 * n;
-  Natural sr_e = (Natural) 0.3 * n;
-  Natural sr_f = (Natural) 0.4 * n;
-  Natural sr_g = (Natural) 0.5 * n;
+  Natural sr_d = (Natural) (0.2 * n);
+  Natural sr_e = (Natural) (0.3 * n);
+  Natural sr_f = (Natural) (0.4 * n);
+  Natural sr_g = (Natural) (0.5 * n);
   
   model md_d = generate_model(n, sr_d, na);
   model md_e = generate_model(n, sr_e, na);
