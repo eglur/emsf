@@ -130,7 +130,7 @@ model generate_model(const Natural n, const Natural sr, const Natural na)
   for (Natural a = 0; a < na; ++a)
     md.P[a] = D[a] * K[a];
 
-  md.mu = generate_stochastic_matrix(1, na).transpose();
+  md.mu = generate_stochastic_matrix(1, n).transpose();
   md.pi = generate_stochastic_matrix(n, na);
 
   return md;
