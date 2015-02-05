@@ -206,7 +206,7 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
 
         row_vec k_row = K[a[t]].col(y[t+1]).transpose();
         B.row(t) = bb * pi(y[t+1], a[t+1]) * k_row;
-        B.row(t) = B.row(t) / NF(t);
+        B.row(t) = B.row(t) / NF[t];
       }
 
       mat C = A.cwiseProduct(B);
