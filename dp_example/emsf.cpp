@@ -193,13 +193,7 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
       mat B = mat::Zero(T-1, m);
       vec NF = vec::Zero(T-1);
 
-      try {
-        A.row(0) = mu[y[0]] * pi(y[0], a[0]) * D[a[0]].row(y[0]);
-      }
-      catch (int e) {
-        cout << "aqui" << endl;
-      }
-      
+      A.row(0) = mu[y[0]] * pi(y[0], a[0]) * D[a[0]].row(y[0]);
       NF[0] = A.row(0).sum();
       A.row(0) = A.row(0) / NF[0];
 
