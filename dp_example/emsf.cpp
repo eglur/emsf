@@ -185,11 +185,11 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
       vec NF = vec::Zero(T-1);
 
       A.row(0) = mu[y[0]] * pi(y[0], a[0]) * D[a[0]].row(y[0]);
-      NF(0) = A.row(0).sum();
-      A.row(0) = A.row(0) / NF(0);
+      NF[0] = A.row(0).sum();
+      A.row(0) = A.row(0) / NF[0];
 
       for (Natural t = 1; t < T-1; ++t) {
-        row_vec k_row = K[a(t-1)].col(y(t)).transpose();
+        row_vec k_row = K[a[t-1]].col(y[t]).transpose();
         Real aa = A.row(t-1).cwiseProduct(k_row).sum();
 
         A.row(t) = aa * pi(y(t), a(t)) * D[a(t)].row(y(t));
