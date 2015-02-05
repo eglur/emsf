@@ -213,7 +213,7 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
       normalize(C);
 
       for (Natural t = 0; t < T-1; ++t) {
-        D2[a(t)].row(y(t)) = D2[a(t)].row(y(t)).array() + C.row(t).array();
+        D2[a[t]].row(y[t]) = D2[a[t]].row(y[t]).array() + C.row(t).array();
         K2[a(t)].col(y(t+1)) = K2[a(t)].col(y(t+1)).array() + C.row(t).transpose().array();
       }
 
