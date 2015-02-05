@@ -194,7 +194,7 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
 
         A.row(t) = aa * pi(y[t], a[t]) * D[a[t]].row(y[t]);
         NF[t] = A.row(t).sum();
-        A.row(t) = A.row(t) / NF(t);
+        A.row(t) = A.row(t) / NF[t];
       }
 
       Natural B_T = T-2;                                        // Different index strategy on the R language
