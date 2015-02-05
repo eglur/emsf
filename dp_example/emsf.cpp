@@ -139,25 +139,20 @@ model generate_model(const Natural n, const Natural sr, const Natural na)
 
 data generate_data(model &md, const Natural T)
 {
-  try {
-    data dt;
-    dt.y.resize(T);
-    dt.a.resize(T-1);
+  data dt;
+  dt.y.resize(T);
+  dt.a.resize(T-1);
 
-    // cout << "a" << endl; 
-    dt.y[0] = sample_from_dist(md.mu);
-    for (Natural i = 0; i < T-1; ++i) {
-      // cout << "b" << endl; 
-      dt.a[i] = sample_from_dist(md.pi.row(dt.y[i]));
-      // cout << "c" << endl; 
-      dt.y[i+1] = sample_from_dist(md.P[dt.a[i]].row(dt.y[i]));
-    }
+  // cout << "a" << endl; 
+  dt.y[0] = sample_from_dist(md.mu);
+  for (Natural i = 0; i < T-1; ++i) {
+    // cout << "b" << endl; 
+    dt.a[i] = sample_from_dist(md.pi.row(dt.y[i]));
+    // cout << "c" << endl; 
+    dt.y[i+1] = sample_from_dist(md.P[dt.a[i]].row(dt.y[i]));
+  }
 
-    return dt;
-  }
-  catch (int e) {
-    cout << "yahoo" << endl;
-  }
+  return dt;
 }
 
 
