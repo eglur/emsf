@@ -192,7 +192,7 @@ Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natura
         row_vec k_row = K[a[t-1]].col(y[t]).transpose();
         Real aa = A.row(t-1).cwiseProduct(k_row).sum();
 
-        A.row(t) = aa * pi(y(t), a(t)) * D[a(t)].row(y(t));
+        A.row(t) = aa * pi(y[t], a[t]) * D[a[t]].row(y[t]);
         NF(t) = A.row(t).sum();
         A.row(t) = A.row(t) / NF(t);
       }
