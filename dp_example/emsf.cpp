@@ -293,13 +293,14 @@ int main(int argc, char* argv[])
 
   srand(run);
 
+  // sr values: factors, increment, quantity and the own vector
+  Real srf_min = 0.2;
+  Real srf_max = 0.5;
+  Real srf_inc = 0.1;
   std::vector<Natural> sr;
+  for (Real srf = srf_min; srf <= srf_max; srf += srf_inc)
+    sr.push_back((Natural) srf * n);
 
-  Natural sr_d = (Natural) (0.2 * n);
-  Natural sr_e = (Natural) (0.3 * n);
-  Natural sr_f = (Natural) (0.4 * n);
-  Natural sr_g = (Natural) (0.5 * n);
-  
   model md_d = generate_model(n, sr_d, na);
   model md_e = generate_model(n, sr_e, na);
   model md_f = generate_model(n, sr_f, na);
