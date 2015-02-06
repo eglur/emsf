@@ -58,28 +58,41 @@ inline void normalize(mat &A)
 }
 
 
-stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols, const bool constant = false)
+stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols, const bool constant = false, const bool one = false)
 {
   stoch_mat M;
-  if (constant)
-    M = mat::Constant(nrows,ncols,1);
-  else
-    M = mat::Random(nrows,ncols).cwiseAbs();
-  normalize(M);
+  if (one) {
+    M = mat::Zero(nrows, ncols);
+    for (Natural i = 0; i < nrows; ++i) {
+      M(i, util::random_Natural(0, ncols-1)) = 1.0;
+    }
+  }
+  else {
+    if (constant)
+      M = mat::Constant(nrows,ncols,1);
+    else
+      M = mat::Random(nrows,ncols).cwiseAbs();
+    normalize(M);
+  }
 
   return M;
 }
 
 
-v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na, const bool constant = false)
+v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na, const bool constant = false, const bool one = false)
 {
   v_stoch_mat M;
   M.resize(na);
   for(Natural a = 0; a < na; ++a)
-    if (constant)
-      M[a] = generate_stochastic_matrix(nrows,ncols,true);
-    else
-      M[a] = generate_stochastic_matrix(nrows,ncols);
+    if (one) {
+      M[a] = generate_stochastic_matrix(nrows, ncols, false, true);
+    }
+    else {
+      if (constant)
+        M[a] = generate_stochastic_matrix(nrows, ncols, true);
+      else
+        M[a] = generate_stochastic_matrix(nrows, ncols, false);
+    }
 
   return M;
 }
@@ -123,7 +136,7 @@ Natural sample_from_dist(vec dist)
 model generate_model(const Natural n, const Natural sr, const Natural na)
 {
   v_stoch_mat D = generate_stochastic_matrices(n, sr, na);
-  v_stoch_mat K = generate_stochastic_matrices(sr, n, na);
+  v_stoch_mat K = generate_stochastic_matrices(sr, n, na, false, true);
 
   model md;
   md.P.resize(na);
