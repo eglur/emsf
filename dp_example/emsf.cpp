@@ -311,90 +311,28 @@ int main(int argc, char* argv[])
 
   Natural inc = (T - n) / 19;
   for (Natural q = n; q <= T; q += inc) {
-    Real e_emsf_d;
-    Real e_emsf_e;
-    Real e_emsf_f;
-    Real e_emsf_g;
-
+    Real e_emsf;
+    double t_emsf;
     clock_t begin, end;
-
-    double t_emsf_d;
-    double t_emsf_e;
-    double t_emsf_f;
-    double t_emsf_g;
-
 
     // Calculate
     begin = clock();
-    e_emsf_d = em_sf(md_d, dt_d, n, sr_d, na, q, eps, max_it);
+    e_emsf = em_sf(md, dt, n, sr, na, q, eps, max_it);
     end = clock();
-    t_emsf_d = double(end - begin) / CLOCKS_PER_SEC;
-
-    begin = clock();
-    e_emsf_e = em_sf(md_e, dt_e, n, sr_e, na, q, eps, max_it);
-    end = clock();
-    t_emsf_e = double(end - begin) / CLOCKS_PER_SEC;
-
-    begin = clock();
-    e_emsf_f = em_sf(md_f, dt_f, n, sr_f, na, q, eps, max_it);
-    end = clock();
-    t_emsf_f = double(end - begin) / CLOCKS_PER_SEC;
-
-    begin = clock();
-    e_emsf_g = em_sf(md_g, dt_g, n, sr_g, na, q, eps, max_it);
-    end = clock();
-    t_emsf_g = double(end - begin) / CLOCKS_PER_SEC;
-    
+    t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
     // Log error
     filename.str(std::string());
-    filename << "e_emsf_h_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "e_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_d << " ";
+    file << e_emsf << " ";
     file.close();
-
-    filename.str(std::string());
-    filename << "e_emsf_i_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_e << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "e_emsf_j_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_f << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "e_emsf_k_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_g << " ";
-    file.close();
-
 
     // Log time
     filename.str(std::string());
-    filename << "t_emsf_h_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "t_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_d << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "t_emsf_i_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_e << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "t_emsf_j_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_f << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "t_emsf_k_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_g << " ";
+    file << t_emsf << " ";
     file.close();
   }
 
