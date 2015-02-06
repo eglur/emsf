@@ -314,32 +314,33 @@ int main(int argc, char* argv[])
   for (Natural i = 0; i < srf_qty; ++i)
     dt[i] = generate_batch_data(md[i], T, num_batches);
 
-  Natural inc = (T - n) / 19;
-  for (Natural q = n; q <= T; q += inc) {
-    Real e_emsf;
-    double t_emsf;
-    clock_t begin, end;
+  Natural q_inc = (T - n) / 19;
+  for (Natural i = 0; i < srf_qty; ++i)
+    for (Natural q = n; q <= T; q += q_inc) {
+      Real e_emsf;
+      double t_emsf;
+      clock_t begin, end;
 
-    // Calculate
-    begin = clock();
-    e_emsf = em_sf(md, dt, n, sr, na, q, eps, max_it);
-    end = clock();
-    t_emsf = double(end - begin) / CLOCKS_PER_SEC;
+      // Calculate
+      begin = clock();
+      e_emsf = em_sf(md, dt, n, sr, na, q, eps, max_it);
+      end = clock();
+      t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
-    // Log error
-    filename.str(std::string());
-    filename << "e_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf << " ";
-    file.close();
+      // Log error
+      filename.str(std::string());
+      filename << "e_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << e_emsf << " ";
+      file.close();
 
-    // Log time
-    filename.str(std::string());
-    filename << "t_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf << " ";
-    file.close();
-  }
+      // Log time
+      filename.str(std::string());
+      filename << "t_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << t_emsf << " ";
+      file.close();
+    }
 
   return 0;
 }
