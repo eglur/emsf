@@ -6,35 +6,23 @@ die () {
     exit 1
 }
 
-[ "$#" -eq 2 ] || die "Usage: concatenate.sh START END"
+[ "$#" -eq 3 ] || die "Usage: concatenate.sh PREFIX START END"
 
+PREFIX=$1
+echo $PREFIX
 
-FILENAME_ROOT="e_cnt"
-if [ -f $FILENAME_ROOT".log" ]
-then
-    rm $FILENAME_ROOT".log"
-fi
-
-for i in $(eval echo {$1..$2})
+for SR in 20 30 40 50
 do
-    FILENAME=$FILENAME_ROOT"_"`printf %02d%s ${i%}`".log"
-    (cat $FILENAME; echo) >> $FILENAME_ROOT".log"
-done
-
-
-ROOT="e_emsf"
-for l in h i j k
-do
-    LETTER=$ROOT"_"$l
-    LETTERLOG=$LETTER".log"
-    if [ -f $LETTERLOG ]
+    PREFIX_SR=$PREFIX"_"$SR
+    PREFIX_SR_LOG=$PREFIX_SR".log"
+    if [ -f $PREFIX_SR_LOG ]
     then
-        rm $LETTERLOG
+        rm $PREFIX_SR_LOG
     fi
 
-    for i in $(eval echo {$1..$2})
+    for i in $(eval echo {$2..$3})
     do
-        NUMBERLOG=$LETTER"_"`printf %02d%s ${i%}`".log"
-        (cat $NUMBERLOG; echo) >> $LETTERLOG
+        PREFIX_SR_RUN_LOG=$PREFIX_SR"_"`printf %02d%s ${i%}`".log"
+        (cat $PREFIX_SR_RUN_LOG; echo) >> $PREFIX_SR_LOG
     done
 done
