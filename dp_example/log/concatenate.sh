@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 die () {
     echo >&2 "$@"
     exit 1
@@ -7,8 +8,8 @@ die () {
 
 [ "$#" -eq 2 ] || die "Usage: concatenate.sh START END"
 
-FILENAME_ROOT="e_cnt"
 
+FILENAME_ROOT="e_cnt"
 if [ -f $FILENAME_ROOT".log" ]
 then
     rm $FILENAME_ROOT".log"
@@ -18,4 +19,22 @@ for i in $(eval echo {$1..$2})
 do
     FILENAME=$FILENAME_ROOT"_"`printf %02d%s ${i%}`".log"
     (cat $FILENAME; echo) >> $FILENAME_ROOT".log"
+done
+
+
+ROOT="e_emsf"
+for l in a b c d e f g
+do
+    LETTER=$ROOT"_"$l
+    LETTERLOG=$LETTER".log"
+    if [ -f $LETTERLOG ]
+    then
+        rm $LETTERLOG
+    fi
+
+    for i in $(eval echo {$1..$2})
+    do
+        NUMBERLOG=$LETTER"_"`printf %02d%s ${i%}`".log"
+        (cat $NUMBERLOG; echo) >> $LETTERLOG
+    done
 done
