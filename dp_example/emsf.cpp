@@ -350,7 +350,7 @@ int main(int argc, char* argv[])
 
         // Calculate
         begin = clock();
-        e_emsf = em_sf(md[i], dt[i], n, sr[i], na, q, eps, max_it);
+        e_emsf = em_sf(md[i], dt[i], n, m[i], na, q, eps, max_it);
         end = clock();
         t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
