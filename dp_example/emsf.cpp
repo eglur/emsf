@@ -289,6 +289,7 @@ int main(int argc, char* argv[])
 {
   ofstream file;
   stringstream filename;
+  stringstream id;
 
   Natural nargs = 3;
   if (argc != nargs) {
@@ -298,7 +299,6 @@ int main(int argc, char* argv[])
 
   const Natural run = atoi(argv[1]);
   const Natural n = atoi(argv[2]);
-  Natural sr;
   const Natural na = 1;
   const Natural T = (Natural) (n * n) / 2;
   const Natural num_batches = 10;
@@ -307,109 +307,63 @@ int main(int argc, char* argv[])
 
   srand(run);
 
-  Natural sr_d = (Natural) (0.2 * n);
-  Natural sr_e = (Natural) (0.3 * n);
-  Natural sr_f = (Natural) (0.4 * n);
-  Natural sr_g = (Natural) (0.5 * n);
+  // sr values: factors, increment, quantity and the own vector
+  Real srf_min = 0.2;
+  Real srf_max = 0.5;
+  Real srf_inc = 0.1;
+
+  // Just can't see why, but only works this way
+  Real srf_qty_real = ((srf_max - srf_min) / srf_inc) + 1.0;
+  Natural srf_qty = (Natural) srf_qty_real;
   
-  model md_d = generate_model(n, sr_d, na);
-  model md_e = generate_model(n, sr_e, na);
-  model md_f = generate_model(n, sr_f, na);
-  model md_g = generate_model(n, sr_g, na);
+  std::vector<Natural> sr;
+  for (Real srf = srf_min; srf <= srf_max; srf += srf_inc)
+    sr.push_back((Natural) (srf * (Real) n));
 
-  v_data dt_d = generate_batch_data(md_d, T, num_batches);
-  v_data dt_e = generate_batch_data(md_e, T, num_batches);
-  v_data dt_f = generate_batch_data(md_f, T, num_batches);
-  v_data dt_g = generate_batch_data(md_g, T, num_batches);
+  std::vector<model> md(srf_qty);
+  for (Natural i = 0; i < srf_qty; ++i)
+    md[i] = generate_model(n, sr[i], na);
 
-  Natural inc = (T - n) / 19;
-  for (Natural q = n; q <= T; q += inc) {
-    Real e_emsf_d;
-    Real e_emsf_e;
-    Real e_emsf_f;
-    Real e_emsf_g;
+  std::vector<v_data> dt(srf_qty);
+  for (Natural i = 0; i < srf_qty; ++i)
+    dt[i] = generate_batch_data(md[i], T, num_batches);
 
-    clock_t begin, end;
+  Natural q_inc = (T - n) / 19;
+  for (Natural i = 0; i < srf_qty; ++i)
+    for (Natural q = n; q <= T; q += q_inc) {
+      Real e_emsf;
+      double t_emsf;
+      clock_t begin, end;
 
-    double t_emsf_d;
-    double t_emsf_e;
-    double t_emsf_f;
-    double t_emsf_g;
+      // Calculate
+      begin = clock();
+      e_emsf = em_sf(md[i], dt[i], n, sr[i], na, q, eps, max_it);
+      end = clock();
+      t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
+      // Log error
+      id << n << "_"
+         << na << "_"
+         << T << "_"
+         << num_batches << "_"
+         << eps << "_"
+         << max_it << "_"
+         << sr[i] << "_"
+         << std::setw(2) << std::setfill('0') << run;
 
-    // Calculate
-    begin = clock();
-    e_emsf_d = em_sf(md_d, dt_d, n, sr_d, na, q, eps, max_it);
-    end = clock();
-    t_emsf_d = double(end - begin) / CLOCKS_PER_SEC;
+      filename.str(std::string());
+      filename << "e_emsf_" << id.str() << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << e_emsf << " ";
+      file.close();
 
-    begin = clock();
-    e_emsf_e = em_sf(md_e, dt_e, n, sr_e, na, q, eps, max_it);
-    end = clock();
-    t_emsf_e = double(end - begin) / CLOCKS_PER_SEC;
-
-    begin = clock();
-    e_emsf_f = em_sf(md_f, dt_f, n, sr_f, na, q, eps, max_it);
-    end = clock();
-    t_emsf_f = double(end - begin) / CLOCKS_PER_SEC;
-
-    begin = clock();
-    e_emsf_g = em_sf(md_g, dt_g, n, sr_g, na, q, eps, max_it);
-    end = clock();
-    t_emsf_g = double(end - begin) / CLOCKS_PER_SEC;
-    
-
-    // Log error
-    filename.str(std::string());
-    filename << "e_emsf_h_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_d << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "e_emsf_i_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_e << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "e_emsf_j_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_f << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "e_emsf_k_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_g << " ";
-    file.close();
-
-
-    // Log time
-    filename.str(std::string());
-    filename << "t_emsf_h_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_d << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "t_emsf_i_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_e << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "t_emsf_j_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_f << " ";
-    file.close();
-
-    filename.str(std::string());
-    filename << "t_emsf_k_" << std::setw(2) << std::setfill('0') << run << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_g << " ";
-    file.close();
-  }
+      // Log time
+      filename.str(std::string());
+      filename << "t_emsf_" << id.str() << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << t_emsf << " ";
+      file.close();
+    }
 
   return 0;
 }
