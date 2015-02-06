@@ -328,42 +328,56 @@ int main(int argc, char* argv[])
   for (Natural i = 0; i < srf_qty; ++i)
     dt[i] = generate_batch_data(md[i], T, num_batches);
 
+  // m values: factors, increment, quantity and the own vector
+  Real mf_min = 0.2;
+  Real mf_max = 2.0;
+  Real mf_inc = 0.2;
+
+  Real mf_qty_real = ((mf_max - mf_min) / mf_inc) + 1.0;
+  Natural mf_qty = (Natural) mf_qty_real;
+
+  std::vector<Natural> m;
+  for (Real mf = mf_min; mf <= mf_max; mf += mf_inc)
+    m.push_back((Natural) (mf * (Real) sr));
+
   Natural q_inc = (T - n) / 19;
   for (Natural i = 0; i < srf_qty; ++i)
-    for (Natural q = n; q <= T; q += q_inc) {
-      Real e_emsf;
-      double t_emsf;
-      clock_t begin, end;
+    for (Natural j = 0; j < mf_qty; ++j) {
+      for (Natural q = n; q <= T; q += q_inc) {
+        Real e_emsf;
+        double t_emsf;
+        clock_t begin, end;
 
-      // Calculate
-      begin = clock();
-      e_emsf = em_sf(md[i], dt[i], n, sr[i], na, q, eps, max_it);
-      end = clock();
-      t_emsf = double(end - begin) / CLOCKS_PER_SEC;
+        // Calculate
+        begin = clock();
+        e_emsf = em_sf(md[i], dt[i], n, sr[i], na, q, eps, max_it);
+        end = clock();
+        t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
-      // Log error
-      id.str(std::string());
-      id << n << "_"
-         << na << "_"
-         << T << "_"
-         << num_batches << "_"
-         << eps << "_"
-         << max_it << "_"
-         << sr[i] << "_"
-         << std::setw(2) << std::setfill('0') << run;
+        // Log error
+        id.str(std::string());
+        id << n << "_"
+           << na << "_"
+           << T << "_"
+           << num_batches << "_"
+           << eps << "_"
+           << max_it << "_"
+           << sr[i] << "_"
+           << std::setw(2) << std::setfill('0') << run;
 
-      filename.str(std::string());
-      filename << "e_emsf_" << id.str() << ".log";
-      file.open(filename.str().c_str(), ios::app);
-      file << e_emsf << " ";
-      file.close();
+        filename.str(std::string());
+        filename << "e_emsf_" << id.str() << ".log";
+        file.open(filename.str().c_str(), ios::app);
+        file << e_emsf << " ";
+        file.close();
 
-      // Log time
-      filename.str(std::string());
-      filename << "t_emsf_" << id.str() << ".log";
-      file.open(filename.str().c_str(), ios::app);
-      file << t_emsf << " ";
-      file.close();
+        // Log time
+        filename.str(std::string());
+        filename << "t_emsf_" << id.str() << ".log";
+        file.open(filename.str().c_str(), ios::app);
+        file << t_emsf << " ";
+        file.close();
+      }
     }
 
   return 0;
