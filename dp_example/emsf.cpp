@@ -348,25 +348,25 @@ int main(int argc, char* argv[])
 
     // Log error
     filename.str(std::string());
-    filename << "e_emsf_d_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "e_emsf_h_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << e_emsf_d << " ";
     file.close();
 
     filename.str(std::string());
-    filename << "e_emsf_e_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "e_emsf_i_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << e_emsf_e << " ";
     file.close();
 
     filename.str(std::string());
-    filename << "e_emsf_f_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "e_emsf_j_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << e_emsf_f << " ";
     file.close();
 
     filename.str(std::string());
-    filename << "e_emsf_g_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "e_emsf_k_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << e_emsf_g << " ";
     file.close();
@@ -374,25 +374,25 @@ int main(int argc, char* argv[])
 
     // Log time
     filename.str(std::string());
-    filename << "t_emsf_d_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "t_emsf_h_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << t_emsf_d << " ";
     file.close();
 
     filename.str(std::string());
-    filename << "t_emsf_e_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "t_emsf_i_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << t_emsf_e << " ";
     file.close();
 
     filename.str(std::string());
-    filename << "t_emsf_f_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "t_emsf_j_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << t_emsf_f << " ";
     file.close();
 
     filename.str(std::string());
-    filename << "t_emsf_g_" << std::setw(2) << std::setfill('0') << run << ".log";
+    filename << "t_emsf_k_" << std::setw(2) << std::setfill('0') << run << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << t_emsf_g << " ";
     file.close();
