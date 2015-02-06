@@ -306,7 +306,7 @@ int main(int argc, char* argv[])
     md.push_back(generate_model(n, *it, na));
 
   std::vector<v_data> dt;
-  for (std::vector<int>::iterator it = md.begin() ; it != md.end(); ++it)
+  for (std::vector<model>::iterator it = md.begin() ; it != md.end(); ++it)
     dt.push_back(generate_batch_data(*it, T, num_batches));
 
   Natural inc = (T - n) / 19;
