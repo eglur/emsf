@@ -297,17 +297,22 @@ int main(int argc, char* argv[])
   Real srf_min = 0.2;
   Real srf_max = 0.5;
   Real srf_inc = 0.1;
+
+  // Just can't see why, but only works this way
+  Real srf_qty_real = ((srf_max - srf_min) / srf_inc) + 1.0;
+  Natural srf_qty = (Natural) srf_qty_real;
+  
   std::vector<Natural> sr;
   for (Real srf = srf_min; srf <= srf_max; srf += srf_inc)
-    sr.push_back((Natural) srf * n);
+    sr.push_back((Natural) (srf * (Real) n));
 
-  std::vector<model> md;
-  for (std::vector<Natural>::iterator it = sr.begin() ; it != sr.end(); ++it)
-    md.push_back(generate_model(n, *it, na));
+  std::vector<model> md(srf_qty);
+  for (Natural i = 0; i < srf_qty; ++i)
+    md[i] = generate_model(n, sr[i], na);
 
-  std::vector<v_data> dt;
-  for (std::vector<model>::iterator it = md.begin() ; it != md.end(); ++it)
-    dt.push_back(generate_batch_data(*it, T, num_batches));
+  std::vector<v_data> dt(srf_qty);
+  for (Natural i = 0; i < srf_qty; ++i)
+    dt[i] = generate_batch_data(md[i], T, num_batches);
 
   Natural inc = (T - n) / 19;
   for (Natural q = n; q <= T; q += inc) {
