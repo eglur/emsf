@@ -337,8 +337,9 @@ int main(int argc, char* argv[])
   Natural mf_qty = (Natural) mf_qty_real;
 
   std::vector<Natural> m;
-  for (Real mf = mf_min; mf <= mf_max; mf += mf_inc)
-    m.push_back((Natural) (mf * (Real) sr));
+  for (Natural i = 0; i < srf_qty; ++i)
+    for (Real mf = mf_min; mf <= mf_max; mf += mf_inc)
+      m.push_back((Natural) (mf * (Real) sr[i]));
 
   Natural q_inc = (T - n) / 19;
   for (Natural i = 0; i < srf_qty; ++i)
