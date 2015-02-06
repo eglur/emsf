@@ -23,7 +23,7 @@ done
 
 
 ROOT="e_emsf"
-for l in a b c d e f g
+for l in h i j k
 do
     LETTER=$ROOT"_"$l
     LETTERLOG=$LETTER".log"
