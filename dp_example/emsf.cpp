@@ -309,7 +309,7 @@ int main(int argc, char* argv[])
   v_data dt_f = generate_batch_data(md_f, T, num_batches);
   v_data dt_g = generate_batch_data(md_g, T, num_batches);
 
-  Natural inc = ((10 * n * n) - n) / 9;
+  Natural inc = (T - n) / 19;
   for (Natural q = n; q <= T; q += inc) {
     Real e_emsf_d;
     Real e_emsf_e;
