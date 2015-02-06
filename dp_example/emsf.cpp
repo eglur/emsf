@@ -333,25 +333,20 @@ int main(int argc, char* argv[])
   Real mf_max = 2.0;
   Real mf_inc = 0.2;
 
-  Real mf_qty_real = ((mf_max - mf_min) / mf_inc) + 1.0;
-  Natural mf_qty = (Natural) mf_qty_real;
-
-  std::vector<Natural> m;
-  for (Natural i = 0; i < srf_qty; ++i)
-    for (Real mf = mf_min; mf <= mf_max; mf += mf_inc)
-      m.push_back((Natural) (mf * (Real) sr[i]));
-
   Natural q_inc = (T - n) / 19;
   for (Natural i = 0; i < srf_qty; ++i)
-    for (Natural j = 0; j < mf_qty; ++j) {
+    for (Real mf = mf_min; mf <= mf_max; mf += mf_inc) {
       for (Natural q = n; q <= T; q += q_inc) {
         Real e_emsf;
         double t_emsf;
         clock_t begin, end;
 
+        Real m_real = mf * (Real) sr[i];
+        Natural m = (Natural) m_real;
+
         // Calculate
         begin = clock();
-        e_emsf = em_sf(md[i], dt[i], n, m[i], na, q, eps, max_it);
+        e_emsf = em_sf(md[i], dt[i], n, m, na, q, eps, max_it);
         end = clock();
         t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
@@ -364,7 +359,7 @@ int main(int argc, char* argv[])
            << eps << "_"
            << max_it << "_"
            << sr[i] << "_"
-           << m[i] << "_"
+           << m << "_"
            << std::setw(2) << std::setfill('0') << run;
 
         filename.str(std::string());
