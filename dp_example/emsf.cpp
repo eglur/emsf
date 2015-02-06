@@ -301,10 +301,9 @@ int main(int argc, char* argv[])
   for (Real srf = srf_min; srf <= srf_max; srf += srf_inc)
     sr.push_back((Natural) srf * n);
 
-  model md_d = generate_model(n, sr_d, na);
-  model md_e = generate_model(n, sr_e, na);
-  model md_f = generate_model(n, sr_f, na);
-  model md_g = generate_model(n, sr_g, na);
+  std::vector<model> md;
+  for (std::vector<int>::iterator it = sr.begin() ; it != sr.end(); ++it)
+    md.push_back(generate_model(n, *it, na));
 
   v_data dt_d = generate_batch_data(md_d, T, num_batches);
   v_data dt_e = generate_batch_data(md_e, T, num_batches);
