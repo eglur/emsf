@@ -276,6 +276,7 @@ int main(int argc, char* argv[])
 {
   ofstream file;
   stringstream filename;
+  stringstream id;
 
   Natural nargs = 3;
   if (argc != nargs) {
@@ -323,20 +324,29 @@ int main(int argc, char* argv[])
 
       // Calculate
       begin = clock();
-      e_emsf = em_sf(md, dt, n, sr, na, q, eps, max_it);
+      e_emsf = em_sf(md[i], dt[i], n, sr[i], na, q, eps, max_it);
       end = clock();
       t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
       // Log error
+      id << n << "_"
+         << na << "_"
+         << T << "_"
+         << num_batches << "_"
+         << eps << "_"
+         << max_it << "_"
+         << sr[i] << "_"
+         << std::setw(2) << std::setfill('0') << run;
+
       filename.str(std::string());
-      filename << "e_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
+      filename << "e_emsf_" << id.str() << ".log";
       file.open(filename.str().c_str(), ios::app);
       file << e_emsf << " ";
       file.close();
 
       // Log time
       filename.str(std::string());
-      filename << "t_emsf_" << std::setw(2) << std::setfill('0') << run << ".log";
+      filename << "t_emsf_" << id.str() << ".log";
       file.open(filename.str().c_str(), ios::app);
       file << t_emsf << " ";
       file.close();
