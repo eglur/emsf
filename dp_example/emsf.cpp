@@ -342,6 +342,7 @@ int main(int argc, char* argv[])
       t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
       // Log error
+      id.str(std::string());
       id << n << "_"
          << na << "_"
          << T << "_"
