@@ -1,34 +1,19 @@
 D <- NULL
 
-## tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_cnt.log")
-## tmp <- apply(tmp, 2, mean)
-## D <- cbind(D, tmp)
-
-## tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_emsf_a.log")
-## tmp <- apply(tmp, 2, mean)
-## D <- cbind(D, tmp)
-
-## tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_emsf_b.log")
-## tmp <- apply(tmp, 2, mean)
-## D <- cbind(D, tmp)
-
-## tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_emsf_c.log")
-## tmp <- apply(tmp, 2, mean)
-## D <- cbind(D, tmp)
-
-tmp <- read.table("/home/rafaelbeirigo/log/e_emsf_h.log")
+tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_emsf_100_1_5000_10_1e+20_30_20.log")
 tmp <- apply(tmp, 2, mean)
 D <- cbind(D, tmp)
 
-tmp <- read.table("/home/rafaelbeirigo/log/e_emsf_i.log")
+tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_emsf_100_1_5000_10_1e+20_30_30.log")
 tmp <- apply(tmp, 2, mean)
 D <- cbind(D, tmp)
 
-tmp <- read.table("/home/rafaelbeirigo/log/e_emsf_j.log")
+tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_emsf_100_1_5000_10_1e+20_30_40.log")
 tmp <- apply(tmp, 2, mean)
 D <- cbind(D, tmp)
 
-tmp <- read.table("/home/rafaelbeirigo/log/e_emsf_k.log")
+
+tmp <- read.table("/home/rafaelbeirigo/emsf/dp_example/log/e_emsf_100_1_5000_10_1e+20_30_50.log")
 tmp <- apply(tmp, 2, mean)
 D <- cbind(D, tmp)
 
