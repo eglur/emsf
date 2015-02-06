@@ -136,7 +136,7 @@ Natural sample_from_dist(vec dist)
 model generate_model(const Natural n, const Natural sr, const Natural na)
 {
   v_stoch_mat D = generate_stochastic_matrices(n, sr, na);
-  v_stoch_mat K = generate_stochastic_matrices(sr, n, na, false, true);
+  v_stoch_mat K = generate_stochastic_matrices(sr, n, na);
 
   model md;
   md.P.resize(na);
