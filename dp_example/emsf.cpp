@@ -363,6 +363,7 @@ int main(int argc, char* argv[])
            << eps << "_"
            << max_it << "_"
            << sr[i] << "_"
+           << m[i] << "_"
            << std::setw(2) << std::setfill('0') << run;
 
         filename.str(std::string());
