@@ -302,7 +302,7 @@ int main(int argc, char* argv[])
     sr.push_back((Natural) srf * n);
 
   std::vector<model> md;
-  for (std::vector<int>::iterator it = sr.begin() ; it != sr.end(); ++it)
+  for (std::vector<Natural>::iterator it = sr.begin() ; it != sr.end(); ++it)
     md.push_back(generate_model(n, *it, na));
 
   std::vector<v_data> dt;
