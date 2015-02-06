@@ -305,10 +305,9 @@ int main(int argc, char* argv[])
   for (std::vector<int>::iterator it = sr.begin() ; it != sr.end(); ++it)
     md.push_back(generate_model(n, *it, na));
 
-  v_data dt_d = generate_batch_data(md_d, T, num_batches);
-  v_data dt_e = generate_batch_data(md_e, T, num_batches);
-  v_data dt_f = generate_batch_data(md_f, T, num_batches);
-  v_data dt_g = generate_batch_data(md_g, T, num_batches);
+  std::vector<v_data> dt;
+  for (std::vector<int>::iterator it = md.begin() ; it != md.end(); ++it)
+    dt.push_back(generate_batch_data(*it, T, num_batches));
 
   Natural inc = (T - n) / 19;
   for (Natural q = n; q <= T; q += inc) {
