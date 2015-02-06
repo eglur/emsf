@@ -285,7 +285,6 @@ int main(int argc, char* argv[])
 
   const Natural run = atoi(argv[1]);
   const Natural n = atoi(argv[2]);
-  Natural sr;
   const Natural na = 1;
   const Natural T = (Natural) (n * n) / 2;
   const Natural num_batches = 10;
@@ -293,6 +292,8 @@ int main(int argc, char* argv[])
   const Natural max_it = 30;
 
   srand(run);
+
+  std::vector<Natural> sr;
 
   Natural sr_d = (Natural) (0.2 * n);
   Natural sr_e = (Natural) (0.3 * n);
