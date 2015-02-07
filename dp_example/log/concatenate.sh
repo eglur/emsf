@@ -6,7 +6,7 @@ then
     mkdir -p $ONELINES_DIR
 fi
 
-N=100
+N=200
 NA=1
 T=`expr $N \* $N / 2`
 NUM_BATCHES=10
