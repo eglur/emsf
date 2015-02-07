@@ -333,6 +333,8 @@ int main(int argc, char* argv[])
   Real mf_max = 1.25;
   Real mf_inc = 0.25;
 
+  Natural q_min = n;
+  Natural q_max = T;
   Natural q_inc = (T - n) / 19;
   for (Natural i = 0; i < srf_qty; ++i) {
     clock_t begin, end;
