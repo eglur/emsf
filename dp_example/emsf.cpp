@@ -347,7 +347,7 @@ int main(int argc, char* argv[])
       v_stoch_mat D = generate_stochastic_matrices(n, m, na);
       v_stoch_mat K = generate_stochastic_matrices(m, n, na);
       for (Natural max_it = 1; max_it <= max_it_max; max_it += max_it_inc) {
-        for (Natural q = n; q <= T; q += q_inc) {
+        for (Natural q = q_min; q <= q_max; q += q_inc) {
           Real e_emsf;
           double t_emsf;
 
