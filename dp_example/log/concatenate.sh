@@ -11,7 +11,7 @@ NA=1
 T=`expr $N \* $N / 2`
 NUM_BATCHES=10
 EPS="1e+20"
-MAX_IT=120
+MAX_IT=1
 
 SRF_MIN=0.2
 SRF_MAX=0.2
