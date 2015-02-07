@@ -11,7 +11,7 @@ NA=1
 T=`expr $N \* $N / 2`
 NUM_BATCHES=10
 EPS="1e+20"
-MAX_IT=30
+MAX_IT=120
 
 SRF_MIN=0.2
 SRF_MAX=0.5
@@ -92,7 +92,7 @@ do
         M=`expr $M + $M_INC`
     done
 
-    echo "matplot(D, t=\"o\", log=\"y\", main=\"sr=$SR; maxit=$MAX_IT\")" >> $PLOT_FILENAME
+    echo "matplot(D, t=\"o\", log=\"y\", main=\"sr=$SR; maxit=$MAX_IT; D, K aleat.\")" >> $PLOT_FILENAME
     echo >> $PLOT_FILENAME
 
     SR=`expr $SR + $SR_INC`
