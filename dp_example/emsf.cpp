@@ -306,7 +306,7 @@ int main(int argc, char* argv[])
 
   // sr values: factors, increment, quantity and the own vector
   Real srf_min = 0.2;
-  Real srf_max = 0.5;
+  Real srf_max = 0.2;
   Real srf_inc = 0.1;
 
   // Just can't see why, but only works this way
