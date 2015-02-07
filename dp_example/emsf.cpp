@@ -386,7 +386,7 @@ int main(int argc, char* argv[])
     }
 
     // Counting
-    for (Natural q = n; q <= T; q += q_inc) {
+    for (Natural q = q_min; q <= q_max; q += q_inc) {
       Real e_cnt;
       double t_cnt;
 
