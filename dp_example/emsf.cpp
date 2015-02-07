@@ -400,9 +400,7 @@ int main(int argc, char* argv[])
          << T << "_"
          << num_batches << "_"
          << eps << "_"
-         << max_it << "_"
          << std::setw(4) << std::setfill('0') << sr[i] << "_"
-         << std::setw(4) << std::setfill('0') << m << "_"
          << std::setw(2) << std::setfill('0') << run;
 
       filename.str(std::string());
