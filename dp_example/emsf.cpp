@@ -302,8 +302,8 @@ int main(int argc, char* argv[])
   const Real eps = 1e20;
 
   Natural max_it_min = 1;
-  Natural max_it_max = 31;
-  Natural max_it_inc = 5;
+  Natural max_it_max = 10;
+  Natural max_it_inc = 1;
 
   srand(run);
 
