@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
   const Natural run = atoi(argv[1]);
   const Natural n = atoi(argv[2]);
   const Natural na = 1;
-  const Natural T = (Natural) (n * n) / 2;
+  const Natural T = (Natural) 10 * (n * n);
   const Natural num_batches = 10;
   const Real eps = 1e20;
 
