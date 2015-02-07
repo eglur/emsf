@@ -82,6 +82,7 @@ do
         if [ $ALL_EXIST -eq 1 ]
         then
             echo "Generated    $PREFIX_SR_M_LOG"
+
             echo "tmp <- read.table(\"$PREFIX_SR_M_LOG\")" >> $PLOT_FILENAME
             echo "tmp <- apply(tmp, 2, mean)" >> $PLOT_FILENAME
             echo "D <- cbind(D, tmp)" >> $PLOT_FILENAME
