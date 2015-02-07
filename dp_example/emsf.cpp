@@ -341,41 +341,43 @@ int main(int argc, char* argv[])
 
       v_stoch_mat D = generate_stochastic_matrices(n, m, na);
       v_stoch_mat K = generate_stochastic_matrices(m, n, na);
-      for (Natural q = n; q <= T; q += q_inc) {
-        Real e_emsf;
-        double t_emsf;
-        clock_t begin, end;
+      for (Natural max_it = 1; max_it <= max_it_max; max_it += max_it_inc) {
+        for (Natural q = n; q <= T; q += q_inc) {
+          Real e_emsf;
+          double t_emsf;
+          clock_t begin, end;
 
-        // Calculate
-        begin = clock();
-        e_emsf = em_sf(md[i], dt[i], n, m, na, q, D, K, eps, max_it);
-        end = clock();
-        t_emsf = double(end - begin) / CLOCKS_PER_SEC;
+          // Calculate
+          begin = clock();
+          e_emsf = em_sf(md[i], dt[i], n, m, na, q, D, K, eps, max_it);
+          end = clock();
+          t_emsf = double(end - begin) / CLOCKS_PER_SEC;
 
-        // Log error
-        id.str(std::string());
-        id << n << "_"
-           << na << "_"
-           << T << "_"
-           << num_batches << "_"
-           << eps << "_"
-           << max_it << "_"
-           << std::setw(4) << std::setfill('0') << sr[i] << "_"
-           << std::setw(4) << std::setfill('0') << m << "_"
-           << std::setw(2) << std::setfill('0') << run;
+          // Log error
+          id.str(std::string());
+          id << n << "_"
+             << na << "_"
+             << T << "_"
+             << num_batches << "_"
+             << eps << "_"
+             << max_it << "_"
+             << std::setw(4) << std::setfill('0') << sr[i] << "_"
+             << std::setw(4) << std::setfill('0') << m << "_"
+             << std::setw(2) << std::setfill('0') << run;
 
-        filename.str(std::string());
-        filename << "e_emsf_" << id.str() << ".log";
-        file.open(filename.str().c_str(), ios::app);
-        file << e_emsf << " ";
-        file.close();
+          filename.str(std::string());
+          filename << "e_emsf_" << id.str() << ".log";
+          file.open(filename.str().c_str(), ios::app);
+          file << e_emsf << " ";
+          file.close();
 
-        // Log time
-        filename.str(std::string());
-        filename << "t_emsf_" << id.str() << ".log";
-        file.open(filename.str().c_str(), ios::app);
-        file << t_emsf << " ";
-        file.close();
+          // Log time
+          filename.str(std::string());
+          filename << "t_emsf_" << id.str() << ".log";
+          file.open(filename.str().c_str(), ios::app);
+          file << t_emsf << " ";
+          file.close();
+        }
       }
     }
 
