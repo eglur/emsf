@@ -300,7 +300,10 @@ int main(int argc, char* argv[])
   const Natural T = (Natural) (n * n) / 2;
   const Natural num_batches = 10;
   const Real eps = 1e20;
-  const Natural max_it = 1;
+
+  Natural max_it_min = 1;
+  Natural max_it_max = 31;
+  Natural max_it_inc = 5;
 
   srand(run);
 
