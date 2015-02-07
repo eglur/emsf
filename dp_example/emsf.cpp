@@ -336,7 +336,7 @@ int main(int argc, char* argv[])
   Natural q_min = n;
   Natural q_max = T;
   Natural n_points = 100;
-  Natural q_inc = (T - n) / (n_points - 1);
+  Natural q_inc = (q_max - q_min) / (n_points - 1);
   for (Natural i = 0; i < srf_qty; ++i) {
     clock_t begin, end;
 
