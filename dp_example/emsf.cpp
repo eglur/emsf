@@ -334,7 +334,7 @@ int main(int argc, char* argv[])
   Real mf_inc = 0.4;
 
   Natural q_inc = (T - n) / 19;
-  for (Natural i = 0; i < srf_qty; ++i)
+  for (Natural i = 0; i < srf_qty; ++i) {
     for (Real mf = mf_min; mf <= mf_max; mf += mf_inc) {
       Real m_real = mf * (Real) sr[i];
       Natural m = (Natural) m_real;
@@ -380,6 +380,7 @@ int main(int argc, char* argv[])
         }
       }
     }
+  }
 
   return 0;
 }
