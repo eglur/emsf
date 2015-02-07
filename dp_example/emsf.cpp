@@ -328,7 +328,7 @@ int main(int argc, char* argv[])
   // m values: factors, increment, quantity and the own vector
   Real mf_min = 0.2;
   Real mf_max = 2.0;
-  Real mf_inc = 0.2;
+  Real mf_inc = 0.4;
 
   Natural q_inc = (T - n) / 19;
   for (Natural i = 0; i < srf_qty; ++i)
