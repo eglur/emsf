@@ -335,6 +335,7 @@ int main(int argc, char* argv[])
 
   Natural q_inc = (T - n) / 19;
   for (Natural i = 0; i < srf_qty; ++i) {
+    // EM-SF
     for (Real mf = mf_min; mf <= mf_max; mf += mf_inc) {
       Real m_real = mf * (Real) sr[i];
       Natural m = (Natural) m_real;
@@ -379,6 +380,40 @@ int main(int argc, char* argv[])
           file.close();
         }
       }
+    }
+
+    // Counting
+    for (Natural q = n; q <= T; q += q_inc) {
+      begin = clock();
+      e_cnt = counting(dt[i], num_batches, q, n, na, md[i].P);
+      end = clock();
+      t_cnt = double(end - begin) / CLOCKS_PER_SEC;
+
+      // Log error
+      id.str(std::string());
+      id << n << "_"
+         << na << "_"
+         << T << "_"
+         << num_batches << "_"
+         << eps << "_"
+         << max_it << "_"
+         << std::setw(4) << std::setfill('0') << sr[i] << "_"
+         << std::setw(4) << std::setfill('0') << m << "_"
+         << std::setw(2) << std::setfill('0') << run;
+
+      filename.str(std::string());
+      filename << "e_cnt_" << id.str() << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << e_cnt << " ";
+      file.close();
+
+      // Log time
+      filename.str(std::string());
+      filename << "t_cnt_" << std::setw(2) << std::setfill('0') << run << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << t_cnt << " ";
+      file.close();
+
     }
   }
 
