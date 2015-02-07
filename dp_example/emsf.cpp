@@ -333,13 +333,15 @@ int main(int argc, char* argv[])
   Natural q_inc = (T - n) / 19;
   for (Natural i = 0; i < srf_qty; ++i)
     for (Real mf = mf_min; mf <= mf_max; mf += mf_inc) {
+      Real m_real = mf * (Real) sr[i];
+      Natural m = (Natural) m_real;
+
+      v_stoch_mat D = generate_stochastic_matrices(n, m, na);
+      v_stoch_mat K = generate_stochastic_matrices(m, n, na);
       for (Natural q = n; q <= T; q += q_inc) {
         Real e_emsf;
         double t_emsf;
         clock_t begin, end;
-
-        Real m_real = mf * (Real) sr[i];
-        Natural m = (Natural) m_real;
 
         // Calculate
         begin = clock();
