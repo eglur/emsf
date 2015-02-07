@@ -411,11 +411,10 @@ int main(int argc, char* argv[])
 
       // Log time
       filename.str(std::string());
-      filename << "t_cnt_" << std::setw(2) << std::setfill('0') << run << ".log";
+      filename << "t_cnt_" << id.str() << ".log";
       file.open(filename.str().c_str(), ios::app);
       file << t_cnt << " ";
       file.close();
-
     }
   }
 
