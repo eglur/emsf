@@ -385,6 +385,9 @@ int main(int argc, char* argv[])
 
     // Counting
     for (Natural q = n; q <= T; q += q_inc) {
+      Real e_cnt;
+      double t_cnt;
+
       begin = clock();
       e_cnt = counting(dt[i], num_batches, q, n, na, md[i].P);
       end = clock();
