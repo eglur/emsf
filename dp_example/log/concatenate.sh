@@ -92,7 +92,7 @@ do
         M=`expr $M + $M_INC`
     done
 
-    echo "matplot(D, t=\"o\", log=\"y\", main=\"sr=$SR\")" >> $PLOT_FILENAME
+    echo "matplot(D, t=\"o\", log=\"y\", main=\"sr=$SR; maxit=$MAX_IT\")" >> $PLOT_FILENAME
     echo >> $PLOT_FILENAME
 
     SR=`expr $SR + $SR_INC`
