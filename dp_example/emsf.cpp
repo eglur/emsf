@@ -178,14 +178,11 @@ v_data generate_batch_data(model &md, const Natural T, const Natural num_batches
 }
 
 
-Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural T, const Real eps = 1e-20, const Natural max_it = 10)
+Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural T, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10)
 {
   v_stoch_mat P = md.P;
   vec mu = md.mu;
   stoch_mat pi = md.pi;
-
-  v_stoch_mat D = generate_stochastic_matrices(n, m, na, true);
-  v_stoch_mat K = generate_stochastic_matrices(m, n, na, true);
 
   Real old_score = minf;
   Real score = 0.0;
