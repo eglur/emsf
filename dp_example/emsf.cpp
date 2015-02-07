@@ -301,8 +301,8 @@ int main(int argc, char* argv[])
   const Natural num_batches = 10;
   const Real eps = 1e20;
 
-  Natural max_it_min = 1;
-  Natural max_it_max = 10;
+  Natural max_it_min = 30;
+  Natural max_it_max = 30;
   Natural max_it_inc = 1;
 
   srand(run);
