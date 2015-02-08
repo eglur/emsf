@@ -329,8 +329,8 @@ int main(int argc, char* argv[])
     dt[i] = generate_batch_data(md[i], T, num_batches);
 
   // m values: factors, increment, quantity and the own vector
-  Real mf_min = 0.25;
-  Real mf_max = 1.25;
+  Real mf_min = 0.5;
+  Real mf_max = 1.5;
   Real mf_inc = 0.25;
 
   Natural q_min = n;
