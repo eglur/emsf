@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
   const Natural run = atoi(argv[1]);
   const Natural n = atoi(argv[2]);
   const Natural na = 1;
-  const Natural T = (Natural) 10 * (n * n);
+  const Natural T = (Natural) 20 * (n * n);
   const Natural num_batches = 10;
   const Real eps = 1e20;
 
@@ -335,7 +335,7 @@ int main(int argc, char* argv[])
 
   Natural q_min = n;
   Natural q_max = T;
-  Natural n_points = 100;
+  Natural n_points = 200;
   Natural q_inc = (q_max - q_min) / (n_points - 1);
   for (Natural i = 0; i < srf_qty; ++i) {
     clock_t begin, end;
