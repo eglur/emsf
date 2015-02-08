@@ -41,18 +41,18 @@ Natural sample_from_dist(vec dist)
 }
 
 
-Natural card(mat &D)
+Natural card(mat &card_dist)
 {
-  Natural c = sample_from_dist(D) + 1;
+  Natural c = sample_from_dist(card_dist) + 1;
   if (c > 10) c = 10;
 
   return c;
 }
 
 
-Natural draw_card(Natural &xc, Natural &x_ace, mat &D)
+Natural draw_card(Natural &xc, Natural &x_ace, mat &card_dist)
 {
-  Natural c = card(D);
+  Natural c = card(card_dist);
 
   xc += c;
 
@@ -68,13 +68,13 @@ Natural draw_card(Natural &xc, Natural &x_ace, mat &D)
 }
 
 
-bool transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natural &r, Natural a, bool &end, mat &D)
+bool transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natural &r, Natural a, bool &end, mat &card_dist)
 {
   Natural stick = 0;
   Natural hit = 1;
   
   if (a == hit) {
-    draw_card(pc, p_ace, D);
+    draw_card(pc, p_ace, card_dist);
 
     if (pc > 21) {
       r = -1;
@@ -86,7 +86,7 @@ bool transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natura
   }
   else if (a == stick) {
     while (dc < 17)                                             /* TODO: checar se é < ou <= */
-      draw_card(dc, d_ace, D);
+      draw_card(dc, d_ace, card_dist);
 
     if (dc > 21)
       r = 1;
@@ -121,7 +121,7 @@ inline Natural get_a(Natural s, mat &pi)
 }
 
 
-Natural episode(mat &pi, mat &D)
+Natural episode(mat &pi, mat &card_dist)
 {
   Natural pc = 0;
   Natural p_ace = 0;
@@ -129,29 +129,29 @@ Natural episode(mat &pi, mat &D)
   Natural d_ace = 0;
   Natural r;
   
-  draw_card(pc, p_ace, D);
-  draw_card(pc, p_ace, D);
+  draw_card(pc, p_ace, card_dist);
+  draw_card(pc, p_ace, card_dist);
 
-  draw_card(dc, d_ace, D);
+  draw_card(dc, d_ace, card_dist);
 
   bool end = false;
   while (!end) {
     Natural s = get_s(pc, p_ace, dc);
     Natural a = get_a(s, pi);
-    transition(pc, p_ace, dc, d_ace, a, r, end, D);
+    transition(pc, p_ace, dc, d_ace, a, r, end, card_dist);
   }
 
   return r;
 }
 
 
-Real evaluation(Natural n_eval, mat &pi, mat &D)
+Real evaluation(Natural n_eval, mat &pi, mat &card_dist)
 {
   Real E;
 
   Natural R = 0;
   for (Natural i = 0; i < n_eval; ++i)
-    R += episode(pi, D);
+    R += episode(pi, card_dist);
 
   E = (double) R / (double) n_eval;
   
