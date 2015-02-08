@@ -157,3 +157,9 @@ Real evaluation(Natural n_eval, mat &pi, mat &D)
   
   return E;
 }
+
+
+int main()
+{
+  return 0;
+}
