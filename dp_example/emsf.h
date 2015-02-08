@@ -44,12 +44,6 @@ namespace emsf
         ++ind;
     }
 
-    if (ind > dist.size() - 1)
-      cout << "ERRO MAIOR!!!";
-  
-    if (ind < 0)
-      cout << "ERRO MENOR!!!";
-  
     return ind;
   }
 
