@@ -117,7 +117,7 @@ inline Natural get_a(Natural s, mat &pi)
 {
   //TODO
 
-  return 0;
+  return 1;
 }
 
 
@@ -161,5 +161,6 @@ Real evaluation(Natural n_eval, mat &pi, mat &D)
 
 int main()
 {
+  
   return 0;
 }
