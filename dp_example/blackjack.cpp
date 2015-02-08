@@ -17,30 +17,6 @@ using namespace util;
 using namespace emsf;
 
 
-Natural sample_from_dist(vec dist)
-{
-  Real v = random_Real();
-  Real vv = 0.0;
-  Natural ind = 0;
-
-  while (1) {
-    vv += dist[ind];
-    if (vv > v || abs(vv - v) < 1e-5)
-      break;
-    else
-      ++ind;
-  }
-
-  if (ind > dist.size() - 1)
-    cout << "ERRO MAIOR!!!";
-  
-  if (ind < 0)
-    cout << "ERRO MENOR!!!";
-  
-  return ind;
-}
-
-
 Natural card(mat &card_dist)
 {
   Natural c = sample_from_dist(card_dist) + 1;
