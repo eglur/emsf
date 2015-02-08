@@ -6,23 +6,23 @@ then
     mkdir -p $ONELINES_DIR
 fi
 
-N=200
+N=100
 NA=1
-T=`expr $N \* $N / 2`
+T=`expr 10 \* $N \* $N`
 NUM_BATCHES=10
 EPS="1e+20"
 
-MAX_IT_MIN=1
-MAX_IT_MAX=10
+MAX_IT_MIN=30
+MAX_IT_MAX=30
 MAX_IT_INC=1
 
 SRF_MIN=0.2
 SRF_MAX=0.2
 SRF_INC=0.1
 
-MF_MIN=0.2
-MF_MAX=2.0
-MF_INC=0.4
+MF_MIN=0.25
+MF_MAX=1.25
+MF_INC=0.25
 
 START=1
 END=50
