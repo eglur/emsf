@@ -137,6 +137,13 @@ Real evaluation(Natural n_eval, mat &pi, mat &card_dist)
 
 int main()
 {
+  Natural n = 200;
+  Natural na = 2;
+
+  stoch_mat card_dist = generate_stochastic_matrix(10, 13, true).transpose();
+  stoch_mat pi = generate_stochastic_matrix(n, na, true);
+
+  Real E = evaluation(1, pi, card_dist);
   
   return 0;
 }
