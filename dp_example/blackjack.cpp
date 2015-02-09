@@ -117,20 +117,6 @@ Natural episode(mat &pi, vec &card_dist)
     Natural s = get_s(pc, p_ace, dc);
     Natural a = get_a(s, pi);
     transition(pc, p_ace, dc, d_ace, r, a, end, card_dist);
-
-    // cout <<
-    //   pc <<
-    //   " " <<
-    //   p_ace <<
-    //   " " <<
-    //   dc <<
-    //   " " <<
-    //   d_ace <<
-    //   " " <<
-    //   a <<
-    //   " " <<
-    //   r <<
-    //   endl;
   }
 
   return r;
