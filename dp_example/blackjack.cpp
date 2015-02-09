@@ -174,7 +174,7 @@ v_data generate_batch_data_bj(model &md, const Natural num_batches, vec &card_di
   v_dt.resize(num_batches);
 
   for (Natural i = 0; i < num_batches; ++i)
-    v_dt[i] = generate_data_bj(md, T);
+    v_dt[i] = generate_data_bj(md, card_dist);
 
   return v_dt;
 }
