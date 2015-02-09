@@ -94,7 +94,7 @@ inline Natural get_a(Natural s, mat &pi)
 }
 
 
-Natural episode(mat &pi, vec &card_dist)
+Natural episode(mat &pi, vec &card_dist, const bool save = false, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
 {
   Natural pc = 0;
   Natural p_ace = 0;
