@@ -253,6 +253,13 @@ void print_data_bj(data_bj dt)
 }
 
 
+void print_batch_data_bj(v_data_bj dt, const Natural num_batches)
+{
+  for (Natural i = 0; i < num_batches; ++i)
+    print_data_bj(dt[i]);
+}
+
+
 int main(int argc, char* argv[])
 {
   Natural nargs = 3;
@@ -273,8 +280,8 @@ int main(int argc, char* argv[])
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
   model md = generate_model(n, sr, na);
-  data_bj dt = generate_data_bj(md, card_dist);
-  print_data_bj(dt);
+  v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
+  print_batch_data_bj(dt, num_batches);
 
   for (Natural i = 0; i < num_batches; ++i) {
     Natural R = 0;
