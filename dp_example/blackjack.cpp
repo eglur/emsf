@@ -6,12 +6,14 @@
 #include <vector>
 #include <ctime>
 #include <cmath>
+#include "blackjack.h"
 #include "util.h"
 #include "emsf.h"
 
 
 using namespace std;
 using namespace Eigen;
+using namespace blackjack;
 using namespace util;
 using namespace emsf;
 
