@@ -153,17 +153,31 @@ int main(int argc, char* argv[])
 
   const Natural n = 200;
   const Natural na = 2;
-  const Natural eval_qty = atoi(argv[1]);
-  const Natural eval_size = atoi(argv[2]);
+  const Natural num_batches = atoi(argv[1]);
+  const Natural num_episodes = atoi(argv[2]);
 
   srand(time(NULL));
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  for (Natural i = 0; i < eval_qty; ++i) {
-    Real E = evaluation(eval_size, pi, card_dist);
-    cout << E << std::endl;
+  for (Natural i = 0; i < num_batches; ++i) {
+    Natural R = 0;
+    std::vector<Natural> yv, av, rv;
+    for (Natural j = 0; j < num_episodes; ++j)
+      R += episode(pi, card_dist, true, yv, av, rv);
+
+    Natural k = 0;
+    while (k < yv.size() - 1) {
+      cout << std::setw(3) << yv[k] << ", "
+           << std::setw(3) << av[k] << ", "
+           << std::setw(3) << rv[k] << endl;;
+      ++k;
+    }
+    cout << std::setw(3) << yv[k] << "." << endl << endl;
+
+    Real E = (double) R / (double) num_episodes;
+    cout << "E: " << E << endl << endl;
   }
   
   return 0;
