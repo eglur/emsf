@@ -112,17 +112,17 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
   sf = 0;
   while (sf < 200) {
     s = get_s(pc, p_ace, dc);
-    yv.push_back(s);
+    if (save) yv.push_back(s);
 
     a = get_a(s, pi);
-    av.push_back(a);
+    if (save) av.push_back(a);
 
     transition(pc, p_ace, dc, d_ace, r, a, card_dist, sf);
 
-    rv.push_back(r);
+    if (save) rv.push_back(r);
   }
 
-  yv.push_back(sf);
+  if (save) yv.push_back(sf);
 
   return r;
 }
