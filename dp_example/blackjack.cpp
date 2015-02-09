@@ -54,6 +54,8 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
     if (pc > 21) {
       r = -1;
       end = true;
+
+      return 200;
     }
     else {
       end = false;
