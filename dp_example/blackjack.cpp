@@ -43,7 +43,7 @@ void draw_card(Natural &xc, Natural &x_ace, vec &card_dist)
 }
 
 
-void transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natural &r, Natural a, bool &end, vec &card_dist)
+Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natural &r, Natural a, bool &end, vec &card_dist)
 {
   Natural stick = 0;
   Natural hit = 1;
@@ -112,8 +112,13 @@ Natural episode(mat &pi, vec &card_dist, const bool save = false, std::vector<Na
   bool end = false;
   while (!end) {
     s = get_s(pc, p_ace, dc);
+
     a = get_a(s, pi);
+    av.push_back(a);
+
     transition(pc, p_ace, dc, d_ace, r, a, end, card_dist);
+
+    rv.push_back(r);
   }
 
   return r;
