@@ -34,6 +34,8 @@ namespace emsf
   void normalize(mat &A);
   stoch_mat generate_stochastic_matrix(const Natural nrows, const Natural ncols, const bool constant = false, const bool one = false);
   v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na, const bool constant = false, const bool one = false);
+  v_mat generate_zero_matrices(const Natural nrows, const Natural ncols, const Natural na);
+  model generate_model(const Natural n, const Natural sr, const Natural na);
 }
 
 
