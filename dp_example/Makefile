@@ -15,5 +15,8 @@ all: $(TARGET)
 $(TARGET): $(TARGET).cpp $(TARGET).h
 	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
 
+blackjack: blackjack.cpp emsf.cpp
+	$(CC) $(CFLAGS) -o blackjack blackjack.cpp emsf.cpp
+
 clean:
 	$(RM) $(TARGET)
