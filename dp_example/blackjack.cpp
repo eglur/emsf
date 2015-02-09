@@ -6,7 +6,6 @@
 #include <vector>
 #include <ctime>
 #include <cmath>
-#include "eigen3/Eigen/Dense"
 #include "util.h"
 #include "emsf.h"
 
@@ -85,15 +84,13 @@ void transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natura
 
 Natural get_s(Natural pc, Natural p_ace, Natural dc)
 {
-  return p_ace * 100 + pc * 10 + dc;
+  return p_ace * 100 + (pc - 12) * 10 + (dc - 1);
 }
 
 
 inline Natural get_a(Natural s, mat &pi)
 {
-  //TODO
-
-  return rand() < 0.5;
+  return sample_from_dist(pi.row(s).transpose());
 }
 
 
@@ -144,6 +141,8 @@ int main()
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
+
+  cout << pi << endl;
 
   Real E = evaluation(1000, pi, card_dist);
 
