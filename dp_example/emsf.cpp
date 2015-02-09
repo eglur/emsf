@@ -174,7 +174,7 @@ namespace emsf {
   }
 
 
-  Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural num_episodes, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10)
+  Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural T, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10)
   {
     v_stoch_mat P = md.P;
     vec mu = md.mu;
@@ -183,30 +183,6 @@ namespace emsf {
     Real old_score = minf;
     Real score = 0.0;
     Natural it = 0;
-
-
-
-
-
-
-    // VER OS FONTES DO EM_SF_SK !!!
-
-
-
-
-
-
-    // Mudar nome da variável T para num_episodes: T será obtida a partir dos episódios utilizados
-    // Obter T a partir dos 'num_episodes' episódios
-    // T = 0
-    // para cada episódio ep
-    //   T += conta_episodios(ep)
-       // opção:
-       // for (Natural batch = 0; batch < dt.size(); ++batch) {
-       //   vecn y = dt[batch].y;
-       //   vecn a = dt[batch].a;
-    
-    // cada episódio tem um número variável de estados
 
     while (abs(score - old_score) > eps || it < max_it) {
       old_score = score;
