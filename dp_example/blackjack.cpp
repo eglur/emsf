@@ -168,7 +168,7 @@ v_mat get_P_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natur
 }
 
 
-v_mat get_r_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natural n, const Natural na)
+vec get_r_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natural n, const Natural na)
 {
   v_mat r_count = generate_zero_matrices(1, n, na);
   v_mat r_sum = generate_zero_matrices(1, n, na);
