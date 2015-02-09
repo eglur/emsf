@@ -137,6 +137,8 @@ Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 
 int main()
 {
+  srand(time(NULL));
+
   Natural n = 200;
   Natural na = 2;
 
