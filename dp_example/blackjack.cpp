@@ -135,18 +135,26 @@ Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
-  srand(time(NULL));
+  Natural nargs = 3;
+  if (argc != nargs) {
+    cout << "Usage: blackjack eval_qty eval_size" << endl;
+    exit(EXIT_FAILURE);
+  }
 
-  Natural n = 200;
-  Natural na = 2;
+  const Natural n = 200;
+  const Natural na = 2;
+  const Natural eval_qty = atoi(argv[1]);
+  const Natural eval_size = atoi(argv[2]);
+
+  srand(time(NULL));
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  for (Natural i = 0; i < 100; ++i) {
-    Real E = evaluation(1000000, pi, card_dist);
+  for (Natural i = 0; i < eval_qty; ++i) {
+    Real E = evaluation(eval_size, pi, card_dist);
     cout << E << std::endl;
   }
   
