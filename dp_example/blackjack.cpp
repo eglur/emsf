@@ -105,7 +105,8 @@ Natural episode(mat &pi, vec &card_dist)
   Natural r;
   
   draw_card(pc, p_ace, card_dist);
-  draw_card(pc, p_ace, card_dist);
+  while (pc < 12)
+    draw_card(pc, p_ace, card_dist);
 
   draw_card(dc, d_ace, card_dist);
 
