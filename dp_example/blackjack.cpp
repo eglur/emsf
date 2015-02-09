@@ -161,7 +161,7 @@ v_mat get_P_by_counting(v_data &dt, const Natural num_batches, const Natural T, 
 }
 
 
-Real counting(v_data &dt, const Natural num_batches, const Natural T, const Natural n, const Natural na, v_mat &P)
+Real counting_bj(v_data_bj &dt, const Natural num_batches, const Natural n, const Natural na, v_mat &P)
 {
   v_mat P_cnt = get_P_by_counting(dt, num_batches, T, n, na);
   return frobenius_norm_v(P_cnt, P, na);
