@@ -143,11 +143,9 @@ int main()
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  cout << pi << endl;
-
   Real E = evaluation(1000, pi, card_dist);
 
-  std::cout << E << std::endl;
+  cout << E << std::endl;
   
   return 0;
 }
