@@ -43,7 +43,7 @@ void draw_card(Natural &xc, Natural &x_ace, vec &card_dist)
 }
 
 
-Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natural &r, Natural a, vec &card_dist, bool &end, Natural &sf)
+Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natural &r, Natural a, vec &card_dist, Natural &sf)
 {
   Natural stick = 0;
   Natural hit = 1;
@@ -53,11 +53,7 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
 
     if (pc > 21) {
       r = -1;
-      end = true;
       sf = 200;
-    }
-    else {
-      end = false;
     }
   }
   else if (a == stick) {
@@ -66,7 +62,6 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
 
     if (dc > 21) {
       r = 1;
-      end = true;
       sf = 202;
     }
     else {
@@ -75,22 +70,17 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
 
       if (p_diff < d_diff) {
         r = 1;
-        end = true;
         sf = 202;
       }
       else if (p_diff > d_diff) {
         r = -1;
-        end = true;
         sf = 200;
       }
       else {
         r = 0;
-        end = true;
         sf = 201;
       }
     }
-
-    end = true;
   }
 }
 
@@ -127,7 +117,7 @@ Natural episode(mat &pi, vec &card_dist, const bool save = false, std::vector<Na
     a = get_a(s, pi);
     av.push_back(a);
 
-    transition(pc, p_ace, dc, d_ace, r, a, card_dist, end, sf);
+    transition(pc, p_ace, dc, d_ace, r, a, card_dist, sf);
 
     rv.push_back(r);
   }
