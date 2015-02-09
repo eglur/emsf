@@ -146,6 +146,21 @@ namespace emsf {
   }
 
 
+  data generate_data_bj(model &md, vec &card_dist, const bool save)
+  {
+    data dt;
+    episode(md.pi, card_dist, true, dt.y, dt.a, dt.r);
+
+    dt.y[0] = sample_from_dist(md.mu);
+    for (Natural i = 0; i < T-1; ++i) {
+      dt.a[i] = sample_from_dist(md.pi.row(dt.y[i]));
+      dt.y[i+1] = sample_from_dist(md.P[dt.a[i]].row(dt.y[i]));
+    }
+
+    return dt;
+  }
+
+
   data generate_data(model &md, const Natural T)
   {
     data dt;
