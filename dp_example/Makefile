@@ -19,4 +19,4 @@ blackjack: blackjack.cpp emsf.cpp
 	$(CC) $(CFLAGS) -o blackjack blackjack.cpp emsf.cpp
 
 clean:
-	$(RM) $(TARGET)
+	$(RM) $(TARGET) blackjack
