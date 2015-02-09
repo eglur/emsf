@@ -65,14 +65,20 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
     while (dc < 17)                                             /* TODO: checar se é < ou <= */
       draw_card(dc, d_ace, card_dist);
 
-    if (dc > 21)
+    if (dc > 21) {
       r = 1;
+      end = true;
+      return 202;
+    }
     else {
       Natural p_diff = 21 - pc;
       Natural d_diff = 21 - dc;
 
-      if (p_diff < d_diff)
+      if (p_diff < d_diff) {
         r = 1;
+        end = true;
+        return 202;
+      }
       else if (p_diff > d_diff)
         r = -1;
       else {
