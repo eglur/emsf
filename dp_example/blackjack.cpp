@@ -131,10 +131,11 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
 Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 {
   Real E;
+  std::vector<Natural> yv, av, rv;
 
   Natural R = 0;
   for (Natural i = 0; i < n_eval; ++i)
-    R += episode(pi, card_dist);
+    R += episode(pi, card_dist, false, yv, av, rv);
 
   E = (double) R / (double) n_eval;
   
