@@ -8,7 +8,7 @@ fi
 
 N=100
 NA=1
-T=`expr 10 \* $N \* $N`
+T=`expr 20 \* $N \* $N`
 NUM_BATCHES=10
 EPS="1e+20"
 
@@ -20,8 +20,8 @@ SRF_MIN=0.2
 SRF_MAX=0.2
 SRF_INC=0.1
 
-MF_MIN=0.25
-MF_MAX=1.25
+MF_MIN=0.5
+MF_MAX=1.5
 MF_INC=0.25
 
 START=1
