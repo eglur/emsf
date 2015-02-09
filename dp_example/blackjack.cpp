@@ -96,13 +96,9 @@ inline Natural get_a(Natural s, mat &pi)
 
 Natural episode(mat &pi, vec &card_dist, const bool save = false, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
 {
-  Natural pc = 0;
-  Natural p_ace = 0;
-
-  Natural dc = 0;
-  Natural d_ace = 0;
-
-  Natural r;
+  Natural pc = 0, p_ace = 0;
+  Natural dc = 0, d_ace = 0;
+  Natural s, a, r;
   
   draw_card(pc, p_ace, card_dist);
   while (pc < 12)
@@ -112,8 +108,8 @@ Natural episode(mat &pi, vec &card_dist, const bool save = false, std::vector<Na
 
   bool end = false;
   while (!end) {
-    Natural s = get_s(pc, p_ace, dc);
-    Natural a = get_a(s, pi);
+    s = get_s(pc, p_ace, dc);
+    a = get_a(s, pi);
     transition(pc, p_ace, dc, d_ace, r, a, end, card_dist);
   }
 
