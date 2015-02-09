@@ -84,7 +84,7 @@ void transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natura
 
 Natural get_s(Natural pc, Natural p_ace, Natural dc)
 {
-  return (p_ace * 100) + ((pc - 12) * 10) + (dc - 1);
+  return (p_ace * 100) + ((pc - 12) * 10) + (dc - 2);
 }
 
 
@@ -145,9 +145,10 @@ int main()
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  Real E = evaluation(1000, pi, card_dist);
-
-  cout << E << std::endl;
+  for (Natural i = 0; i < 100; ++i) {
+    Real E = evaluation(1000000, pi, card_dist);
+    cout << E << std::endl;
+  }
   
   return 0;
 }
