@@ -268,7 +268,7 @@ int main(int argc, char* argv[])
     exit(EXIT_FAILURE);
   }
 
-  const Natural n = 200;
+  const Natural n = 203;
   const Natural sr = 20;
   const Natural na = 2;
   const Natural num_batches = atoi(argv[1]);
@@ -281,7 +281,8 @@ int main(int argc, char* argv[])
 
   model md = generate_model(n, sr, na);
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
-  print_batch_data_bj(dt, num_batches);
+
+  v_mat P = get_P_by_counting_bj(dt, num_batches, n, na);
 
   return 0;
 }
