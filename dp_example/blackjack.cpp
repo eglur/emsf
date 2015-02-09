@@ -84,7 +84,7 @@ void transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natura
 
 Natural get_s(Natural pc, Natural p_ace, Natural dc)
 {
-  return p_ace * 100 + (pc - 12) * 10 + (dc - 1);
+  return (p_ace * 100) + ((pc - 12) * 10) + (dc - 1);
 }
 
 
