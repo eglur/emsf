@@ -55,6 +55,8 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
       r = -1;
       sf = 200;
     }
+    else
+      r = 0;
   }
   else if (a == stick) {
     while (dc < 17)                                             /* TODO: checar se é < ou <= */
