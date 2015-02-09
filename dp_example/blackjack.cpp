@@ -144,6 +144,30 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
 }
 
 
+v_mat get_P_by_counting(v_data &dt, const Natural num_batches, const Natural T, const Natural n, const Natural na)
+{
+  v_mat P = generate_zero_matrices(n, n, na);
+
+  for (Natural batch = 0; batch < num_batches; ++batch) {
+    vecn y = dt[batch].y, a = dt[batch].a;
+    for (Natural t = 0; t < T-1; ++t)
+      P[a[t]](y[t], y[t+1]) = P[a[t]](y[t], y[t+1]) + 1;
+  }
+
+  for (Natural i = 0; i < na; ++i)
+    normalize(P[i]);
+
+  return P;
+}
+
+
+Real counting(v_data &dt, const Natural num_batches, const Natural T, const Natural n, const Natural na, v_mat &P)
+{
+  v_mat P_cnt = get_P_by_counting(dt, num_batches, T, n, na);
+  return frobenius_norm_v(P_cnt, P, na);
+}
+
+
 Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 {
   Real E;
@@ -168,7 +192,7 @@ data_bj generate_data_bj(model &md, vec &card_dist)
 }
 
 
-v_data generate_batch_data_bj(model &md, const Natural num_batches, vec &card_dist)
+v_data_bj generate_batch_data_bj(model &md, const Natural num_batches, vec &card_dist)
 {
   v_data_bj v_dt;
   v_dt.resize(num_batches);
