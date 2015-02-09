@@ -234,21 +234,21 @@ v_data_bj generate_batch_data_bj(model &md, const Natural num_batches, vec &card
 }
 
 
-void print_data_bj(data_bj d)
+void print_data_bj(data_bj dt)
 {
   Natural k = 0, pc, p_ace, dc;
-  while (k < d.yv.size() - 1) {
-    get_f(d.y[k], pc, p_ace, dc);
+  while (k < dt.yv.size() - 1) {
+    get_f(dt.y[k], pc, p_ace, dc);
     cout <<"s= ["
          << std::setw(1) << p_ace << ", "
          << std::setw(2) << pc << ", "
          << std::setw(2) << dc << "] ("
-         << std::setw(3) << d.y[k] << "), a="
-         << std::setw(1) << d.a[k] << ", r="
-         << std::setw(2) << d.r[k] << endl;;
+         << std::setw(3) << dt.y[k] << "), a="
+         << std::setw(1) << dt.a[k] << ", r="
+         << std::setw(2) << dt.r[k] << endl;;
     ++k;
   }
-  cout << std::setw(3) << d.y[k] << "." << endl << endl;
+  cout << std::setw(3) << dt.y[k] << "." << endl << endl;
 }
 
 
@@ -273,6 +273,7 @@ int main(int argc, char* argv[])
 
   model md = generate_model(n, sr, na);
   data_bj dt = generate_data_bj(md, card_dist);
+  print_data_bj(dt);
 
   for (Natural i = 0; i < num_batches; ++i) {
     Natural R = 0;
