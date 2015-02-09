@@ -157,8 +157,12 @@ v_mat get_P_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natur
       P[a[t]](y[t], y[t+1]) = P[a[t]](y[t], y[t+1]) + 1;
   }
 
-  for (Natural i = 0; i < na; ++i)
+  for (Natural i = 0; i < na; ++i) {
     normalize(P[i]);
+    P[i](200, 200) = 1.0;
+    P[i](201, 201) = 1.0;
+    P[i](202, 202) = 1.0;
+  }
 
   return P;
 }
