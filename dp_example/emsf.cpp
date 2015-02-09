@@ -37,7 +37,6 @@ namespace emsf {
 
   inline void normalize(mat &A)
   {
-    cout << A << endl << endl << endl;
     for (Natural i = 0; i < A.rows(); ++i) {
       Real sum = A.row(i).sum();
       if (sum > 0)
