@@ -283,31 +283,5 @@ int main(int argc, char* argv[])
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
   print_batch_data_bj(dt, num_batches);
 
-  for (Natural i = 0; i < num_batches; ++i) {
-    Natural R = 0;
-    for (Natural j = 0; j < num_episodes; ++j) {
-      std::vector<Natural> yv, av, rv;
-      R += episode(pi, card_dist, true, yv, av, rv);
-
-      Natural k = 0, pc, p_ace, dc;
-      while (k < yv.size() - 1) {
-        get_f(yv[k], pc, p_ace, dc);
-        cout <<"s= ["
-             << std::setw(1) << p_ace << ", "
-             << std::setw(2) << pc << ", "
-             << std::setw(2) << dc << "] ("
-             << std::setw(3) << yv[k] << "), a="
-             << std::setw(1) << av[k] << ", r="
-             << std::setw(2) << rv[k] << endl;;
-        ++k;
-      }
-      cout << std::setw(3) << yv[k] << "." << endl << endl;
-    }
-
-    Real E = (double) R / (double) num_episodes;
-    cout << "E: " << E << endl << endl;
-  }
-  cout << "================================================================================" << endl << endl;
-
   return 0;
 }
