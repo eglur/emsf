@@ -181,15 +181,15 @@ v_mat get_r_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natur
 
     Natural T = y.size();
     for (Natural t = 0; t < T-1; ++t) {
-      r_count[a[t]][y[t]] += 1;
-      r_sum[a[t]][y[t]] += r[t];
+      r_count[a[t]](y[t]) += 1;
+      r_sum[a[t]](y[t]) += r[t];
     }
   }
 
   for (Natural a = 0; a < na; ++a) {
     for (Natural s = 0; s < n; ++s) {
-      if (r_count[a][s] > 0.0) {
-	r_mean[a][s] = r_sum[a][s] / r_count[a][s];
+      if (r_count[a](s) > 0.0) {
+        r_mean[a](s) = r_sum[a](s) / r_count[a](s);
       }
     }
   }
