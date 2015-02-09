@@ -172,11 +172,12 @@ v_mat get_r_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natur
 {
   v_mat r_count = generate_zero_matrices(1, n, na);
   v_mat r_sum = generate_zero_matrices(1, n, na);
-  v_mat r = generate_zero_matrices(1, n, na);
+  v_mat r_mean = generate_zero_matrices(1, n, na);
 
   for (Natural batch = 0; batch < num_batches; ++batch) {
     std::vector<Natural> y = dt[batch].y;
     std::vector<Natural> a = dt[batch].a;
+    std::vector<Natural> r = dt[batch].r;
 
     Natural T = y.size();
     for (Natural t = 0; t < T-1; ++t) {
@@ -188,12 +189,12 @@ v_mat get_r_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natur
   for (Natural a = 0; a < na; ++a) {
     for (Natural s = 0; s < n; ++s) {
       if (r_count[a][s] > 0.0) {
-	r[a][s] = r_sum[a][s] / r_count[a][s];
+	r_mean[a][s] = r_sum[a][s] / r_count[a][s];
       }
     }
   }
 
-  return r;
+  return r_mean;
 }
 
 
