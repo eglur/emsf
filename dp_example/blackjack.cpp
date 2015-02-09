@@ -75,8 +75,11 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
         r = 1;
       else if (p_diff > d_diff)
         r = -1;
-      else
+      else {
         r = 0;
+        end = true;
+        return 201;
+      }
     }
 
     end = true;
