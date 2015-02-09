@@ -117,14 +117,12 @@ Natural episode(mat &pi, vec &card_dist, const bool save = false, std::vector<Na
   while (pc < 12)
     draw_card(pc, p_ace, card_dist);
 
-  s = get_s(pc, p_ace, dc);
-  yv.push_back(s);
-
   draw_card(dc, d_ace, card_dist);
 
   bool end = false;
   while (!end) {
     s = get_s(pc, p_ace, dc);
+    yv.push_back(s);
 
     a = get_a(s, pi);
     av.push_back(a);
