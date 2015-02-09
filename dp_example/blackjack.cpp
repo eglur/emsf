@@ -119,8 +119,8 @@ Natural episode(mat &pi, vec &card_dist, const bool save = false, std::vector<Na
 
   draw_card(dc, d_ace, card_dist);
 
-  bool end = false;
-  while (!end) {
+  sf = 0;
+  while (sf < 200) {
     s = get_s(pc, p_ace, dc);
     yv.push_back(s);
 
