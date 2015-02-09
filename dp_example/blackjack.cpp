@@ -222,7 +222,7 @@ data_bj generate_data_bj(model &md, vec &card_dist)
 }
 
 
-v_data_bj generate_batch_data_bj(model &md, const Natural num_batches, vec &card_dist)
+v_data_bj generate_batch_data_bj(model &md, vec &card_dist, const Natural num_batches)
 {
   v_data_bj v_dt;
   v_dt.resize(num_batches);
@@ -237,7 +237,8 @@ v_data_bj generate_batch_data_bj(model &md, const Natural num_batches, vec &card
 void print_data_bj(data_bj dt)
 {
   Natural k = 0, pc, p_ace, dc;
-  while (k < dt.yv.size() - 1) {
+
+  while (k < dt.y.size() - 1) {
     get_f(dt.y[k], pc, p_ace, dc);
     cout <<"s= ["
          << std::setw(1) << p_ace << ", "
