@@ -243,6 +243,7 @@ int main(int argc, char* argv[])
   }
 
   const Natural n = 200;
+  const Natural sr = 20;
   const Natural na = 2;
   const Natural num_batches = atoi(argv[1]);
   const Natural num_episodes = atoi(argv[2]);
@@ -251,6 +252,8 @@ int main(int argc, char* argv[])
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
+
+  model md = generate_model(n, sr, na);
 
   for (Natural i = 0; i < num_batches; ++i) {
     Natural R = 0;
