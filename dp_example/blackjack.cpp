@@ -144,12 +144,15 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
 }
 
 
-v_mat get_P_by_counting(v_data &dt, const Natural num_batches, const Natural T, const Natural n, const Natural na)
+v_mat get_P_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natural n, const Natural na)
 {
   v_mat P = generate_zero_matrices(n, n, na);
 
   for (Natural batch = 0; batch < num_batches; ++batch) {
-    vecn y = dt[batch].y, a = dt[batch].a;
+    vecn y = dt[batch].y;
+    vecn a = dt[batch].a;
+
+    T = y.size();
     for (Natural t = 0; t < T-1; ++t)
       P[a[t]](y[t], y[t+1]) = P[a[t]](y[t], y[t+1]) + 1;
   }
