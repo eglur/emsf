@@ -195,6 +195,8 @@ namespace emsf {
         vecn y = dt[batch].y;
         vecn a = dt[batch].a;
       
+	Natural T = y.size();
+
         mat A = mat::Zero(T-1, m);
         mat B = mat::Zero(T-1, m);
         vec NF = vec::Zero(T-1);
