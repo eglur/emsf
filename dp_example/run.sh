@@ -5,12 +5,11 @@ die () {
     exit 1
 }
 
-[ "$#" -eq 3 ] || die "Usage: run.sh START END n"
+[ "$#" -eq 3 ] || die "Usage: run.sh START END"
 
 for i in $(eval echo {$1..$2})
 do
-    COMMAND="./emsf $i $3"
+    COMMAND="./blackjack $i 10000 1000000 0 100"
     echo $COMMAND
     $COMMAND &
 done
-
