@@ -176,7 +176,7 @@ namespace emsf {
   }
 
 
-  void em_sf_sk(model &md, v_data_bj &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat D, v_stoch_mat K, const Natural max_it = 10)
+  void em_sf_sk(model &md, v_data_bj &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat &D, v_stoch_mat &K, const Natural max_it = 10)
   {
     vec mu = md.mu;
     stoch_mat pi = md.pi;
