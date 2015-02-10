@@ -206,7 +206,7 @@ namespace emsf {
         A.row(0) = A.row(0) / NF[0];
 
         for (Natural t = 1; t < T-1; ++t) {
-          row_vec k_row = K[a[t-1]].col(y[t]).transpose();
+          row_vec k_row = K[0].col(y[t]).transpose();
           Real aa = A.row(t-1).cwiseProduct(k_row).sum();
 
           A.row(t) = aa * pi(y[t], a[t]) * D[a[t]].row(y[t]);
@@ -215,13 +215,13 @@ namespace emsf {
         }
 
         Natural B_T = T-2;                                        // Different index strategy on the R language
-        B.row(B_T) = K[a[B_T]].col(y[B_T+1]).transpose();
+        B.row(B_T) = K[0].col(y[B_T+1]).transpose();
         B.row(B_T) = B.row(B_T) / NF[B_T];
         for (Natural t = B_T-1; t >= 0; --t) {
           row_vec d_row = D[a[t+1]].row(y[t+1]);
           Real bb = B.row(t+1).cwiseProduct(d_row).sum();
 
-          row_vec k_row = K[a[t]].col(y[t+1]).transpose();
+          row_vec k_row = K[0].col(y[t+1]).transpose();
           B.row(t) = bb * pi(y[t+1], a[t+1]) * k_row;
           B.row(t) = B.row(t) / NF[t];
         }
@@ -231,16 +231,16 @@ namespace emsf {
 
         for (Natural t = 0; t < T-1; ++t) {
           D2[a[t]].row(y[t]) = D2[a[t]].row(y[t]).array() + C.row(t).array();
-          K2[a[t]].col(y[t+1]) = K2[a[t]].col(y[t+1]).array() + C.row(t).transpose().array();
+          K2[0].col(y[t+1]) = K2[0].col(y[t+1]).array() + C.row(t).transpose().array();
         }
 
         score = score - NF.array().inverse().log().sum();
       }
 
-      for (Natural i = 0; i < na; ++i) {
+      for (Natural i = 0; i < na; ++i)
         normalize(D2[i]);
-        normalize(K2[i]);
-      }
+
+      normalize(K2[0]);
 
       D = D2;
       K = K2;
@@ -250,7 +250,7 @@ namespace emsf {
 
     v_stoch_mat P_bar(na);
     for (Natural i = 0; i < na; ++i)
-      P_bar[i] = D[i] * K[i];
+      P_bar[i] = D[i] * K[0];
 
     return frobenius_norm_v(P_bar, P, na);
   }
