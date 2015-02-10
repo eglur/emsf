@@ -174,7 +174,7 @@ namespace emsf {
   }
 
 
-  Real em_sf_sk(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10)
+  void em_sf_sk(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10)
   {
     v_stoch_mat P = md.P;
     vec mu = md.mu;
@@ -247,12 +247,6 @@ namespace emsf {
 
       ++it;
     }
-
-    v_stoch_mat P_bar(na);
-    for (Natural i = 0; i < na; ++i)
-      P_bar[i] = D[i] * K[0];
-
-    return frobenius_norm_v(P_bar, P, na);
   }
 
 
