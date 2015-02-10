@@ -8,6 +8,9 @@ using namespace util;
 
 namespace blackjack
 {
+  typedef mat stoch_mat;
+  typedef std::vector<stoch_mat> v_stoch_mat;
+
   class model_bj
   {
   public:
