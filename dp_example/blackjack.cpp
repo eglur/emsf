@@ -332,12 +332,14 @@ int main(int argc, char* argv[])
     Real vdepi = evaluation(num_episodes, pi_stc, card_dist);
 
     id.str(std::string());
-    id << sr << "_"
-       << na << "_"
-       << num_batches << "_"
+    id << num_batches << "_"
        << num_episodes << "_"
        << min_batches << "_"
        << num_points << "_"
+       << num_points << "_"
+       << max_it << "_"
+       << gamma_pisf << "_"
+       << max_it_pisf << "_"
        << std::setw(2) << std::setfill('0') << run;
     // cout << *(agt->pi()) << endl;
     cout << vdepi << endl;
