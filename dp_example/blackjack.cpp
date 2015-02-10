@@ -282,7 +282,7 @@ int main(int argc, char* argv[])
   const Natural n = 203;
   const Natural na = 2;
   const Natural run = atoi(argv[1]);
-  const Natural num_episodes = atoi(argv[2]);
+  const Natural max_episodes = atoi(argv[2]);
   const Natural inc_episodes = atoi(argv[3]);
 
   srand(time(NULL));
@@ -290,13 +290,13 @@ int main(int argc, char* argv[])
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  Real v_banca;
-  v_banca = evaluation(num_episodes, pi, card_dist);
+  id.str(std::string());
+  id << max_episodes << "_"
+     << inc_episodes << "_"
+     << std::setw(2) << std::setfill('0') << run;
 
-  for (Natural i = 1; i <= num_episodes; i += inc_episodes) {
-    id.str(std::string());
-    id << num_episodes << "_"
-       << std::setw(2) << std::setfill('0') << run;
+  for (Natural num_episodes = inc_episodes; num_episodes <= max_episodes; num_episodes += inc_episodes) {
+    Real v_banca = evaluation(num_episodes, pi, card_dist);
 
     // Log value
     filename.str(std::string());
@@ -306,5 +306,11 @@ int main(int argc, char* argv[])
     file.close();
   }
 
+  // Put a new line char
+  filename.str(std::string());
+  filename << "v_banca_bj_" << id.str() << ".log";
+  file.open(filename.str().c_str(), ios::app);
+  file << "\n";
+  file.close();
   return 0;
 }
