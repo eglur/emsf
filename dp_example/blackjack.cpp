@@ -112,7 +112,7 @@ Natural get_f(Natural s, Natural &pc, Natural &p_ace, Natural &dc)
 
 inline Natural get_a(Natural s, mat &pi)
 {
-  return sample_from_dist(pi.row(s).transpose());
+  return pi(s);
 }
 
 
