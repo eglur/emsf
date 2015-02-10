@@ -112,7 +112,7 @@ Natural get_f(Natural s, Natural &pc, Natural &p_ace, Natural &dc)
 
 inline Natural get_a(Natural s, mat &pi)
 {
-  return pi(s);
+  return sample_from_dist(pi.row(s).transpose());
 }
 
 
@@ -265,7 +265,7 @@ void print_batch_data_bj(v_data_bj dt, const Natural num_batches)
 
 int main(int argc, char* argv[])
 {
-  Natural nargs = 3;
+  Natural nargs = 6;
   if (argc != nargs) {
     cout << "Usage: blackjack eval_qty eval_size" << endl;
     exit(EXIT_FAILURE);
@@ -285,21 +285,34 @@ int main(int argc, char* argv[])
   model md = generate_model(n, sr, na);
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
-  v_mat P = get_P_by_counting_bj(dt, num_batches, n, na);
-  v_mat r = get_R_by_counting_bj(dt, num_batches, n, na);
+  Natural min_batches = atoi(argv[3]);
+  Natural num_points = atoi(argv[4]);
+  Natural inc_batches = atoi(argv[5]);
+  for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
+    v_mat P = get_P_by_counting_bj(dt, nb, n, na);
+    v_mat r = get_R_by_counting_bj(dt, nb, n, na);
 
-  mdp M(n, na);
-  for (Natural a = 0; a < na; ++a) {
-    M.P(a) = P[a];
-    M.r(a) = r[a];
+    mdp M(n, na);
+    for (Natural a = 0; a < na; ++a) {
+      M.P(a) = P[a];
+      M.r(a) = r[a];
+    }
+
+    // Solve the MDP using policy iteration
+    Real gamma = 1.0;
+    pt_agent agt = policy_iteration(M, gamma);
+
+    vecn pi_det = *agt->pi();
+    stoch_mat pi_stc = mat::Zero(n, na);
+    for (Natural s = 0; s < n; ++s)
+      pi_stc(s, pi_det[s]) = 1.0;
+
+    Real vdepi = evaluation(num_episodes, pi_stc, card_dist);
+
+    cout << "num_batches: " << nb
+         << "\tnum_episodes: " << num_episodes
+         << "\tvdepi: " << vdepi << endl;
   }
-
-  // Solve the MDP using policy iteration
-  Real gamma = 1.0;
-  pt_agent agt = policy_iteration(M, gamma);
-
-  // Print value function
-  cout << *agt->pi() << endl;
 
   return 0;
 }
