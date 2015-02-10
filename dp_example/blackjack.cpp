@@ -116,7 +116,7 @@ inline Natural get_a(Natural s, mat &pi)
 }
 
 
-Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
+Natural episode(mat &pi, vec &card_dist, vec &mu, const bool save, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
 {
   Natural pc = 0, p_ace = 0;
   Natural dc = 0, d_ace = 0;
@@ -127,6 +127,8 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
     draw_card(pc, p_ace, card_dist);
 
   draw_card(dc, d_ace, card_dist);
+
+  mu(get_s(pc, p_ace, dc)) += 1;
 
   sf = 0;
   while (sf < 200) {
@@ -205,10 +207,11 @@ Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 {
   Real E;
   std::vector<Natural> yv, av, rv;
-
+  vec mu(203);
+  
   Natural R = 0;
   for (Natural i = 0; i < n_eval; ++i)
-    R += episode(pi, card_dist, false, yv, av, rv);
+    R += episode(pi, card_dist, mu, false, yv, av, rv);
 
   E = (double) R / (double) n_eval;
   
@@ -219,7 +222,7 @@ Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 data_bj generate_data_bj(model &md, vec &card_dist)
 {
   data_bj dt;
-  episode(md.pi, card_dist, true, dt.y, dt.a, dt.r);
+  episode(md.pi, card_dist, md.mu, true, dt.y, dt.a, dt.r);
 
   return dt;
 }
@@ -269,14 +272,15 @@ int main(int argc, char* argv[])
   stringstream filename;
   stringstream id;
 
-  Natural nargs = 6;
+  Natural nargs = 8;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points" << endl;
+    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points eps max_it" << endl;
     exit(EXIT_FAILURE);
   }
 
   const Natural n = 203;
   const Natural sr = 20;
+  const Natural m = 20;
   const Natural na = 2;
   const Natural run = atoi(argv[1]);
   const Natural num_batches = atoi(argv[2]);
@@ -284,14 +288,58 @@ int main(int argc, char* argv[])
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
   const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
+  const Natural eps = atoi(argv[6]);
+  const Natural max_it = atoi(argv[7]);
 
   srand(time(NULL));
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
-  stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  model md = generate_model(n, sr, na);
+  v_stoch_mat D = generate_stochastic_matrices(n, m, na);
+  v_stoch_mat K = generate_stochastic_matrices(m, n, 1);
+
+  model md;
+  md.mu = vec::Zero(n, 1);
+  md.pi = generate_stochastic_matrix(n, na, true);
+
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
+
+  for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
+    clock_t begin, end;
+    double t_emsf_sk;
+
+    // Calculate
+    begin = clock();
+    em_sf_sk(md, dt, n, m, na, nb, D, K, eps, max_it);
+    end = clock();
+    t_emsf_sk = double(end - begin) / CLOCKS_PER_SEC;
+
+    // Log error
+    id.str(std::string());
+    id << sr << "_"
+       << m << "_"
+       << run << "_"
+       << num_batches << "_"
+       << num_episodes << "_"
+       << min_batches << "_"
+       << num_points << "_"
+       << eps << "_"
+       << max_it << "_"
+       << std::setw(2) << std::setfill('0') << run;
+
+    filename.str(std::string());
+    filename << "e_emsf_" << id.str() << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << e_emsf_sk << " ";
+    file.close();
+
+    // Log time
+    filename.str(std::string());
+    filename << "t_emsf_" << id.str() << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << t_emsf_sk << " ";
+    file.close();
+  }
 
   return 0;
 }
