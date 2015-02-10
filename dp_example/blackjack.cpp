@@ -303,9 +303,19 @@ int main(int argc, char* argv[])
 
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
+  // Normalize md.mu
+  mat mu2 = md.mu.transpose();
+  normalize(mu2);
+  md.mu = mu2.transpose();
+
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
     em_sf_sk(md, dt, n, m, na, nb, D, K, max_it);
   }
 
+  vec r_hat = vec::Zero(n, 1);
+  r_hat(200) = -1.0;
+  r_hat(201) = 0.0;
+  r_hat(200) = 1.0;
+  
   return 0;
 }
