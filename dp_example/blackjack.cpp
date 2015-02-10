@@ -299,7 +299,7 @@ int main(int argc, char* argv[])
   pt_agent agt = policy_iteration(M, gamma);
 
   // Print value function
-  cout << *agt->V() << endl;
+  cout << *agt->pi() << endl;
 
   return 0;
 }
