@@ -38,7 +38,7 @@ namespace emsf
   v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na, const bool constant = false, const bool one = false);
   v_mat generate_zero_matrices(const Natural nrows, const Natural ncols, const Natural na);
   model generate_model(const Natural n, const Natural sr, const Natural na);
-  void em_sf_sk(model &md, v_data_bj &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10);
+  void em_sf_sk(model &md, v_data_bj &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat D, v_stoch_mat K, const Natural max_it = 10);
 }
 
 
