@@ -273,79 +273,36 @@ int main(int argc, char* argv[])
   stringstream filename;
   stringstream id;
 
-  Natural nargs = 6;
+  Natural nargs = 4;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points" << endl;
+    cout << "Usage: blackjack run num_episodes" << endl;
     exit(EXIT_FAILURE);
   }
 
   const Natural n = 203;
-  const Natural sr = 20;
   const Natural na = 2;
   const Natural run = atoi(argv[1]);
-  const Natural num_batches = atoi(argv[2]);
-  const Natural num_episodes = atoi(argv[3]);
-  const Natural min_batches = atoi(argv[4]);
-  const Natural num_points = atoi(argv[5]);
-  const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
+  const Natural num_episodes = atoi(argv[2]);
+  const Natural inc_episodes = atoi(argv[3]);
 
   srand(time(NULL));
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  model md = generate_model(n, sr, na);
-  v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
+  Real v_banca;
+  v_banca = evaluation(num_episodes, pi, card_dist);
 
-  for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
-    clock_t begin, end;
-    Real v_cnt;
-    double t_cnt;
-
-    begin = clock();
-    v_mat P = get_P_by_counting_bj(dt, nb, n, na);
-    v_mat r = get_R_by_counting_bj(dt, nb, n, na);
-
-    mdp M(n, na);
-    for (Natural a = 0; a < na; ++a) {
-      M.P(a) = P[a];
-      M.r(a) = r[a];
-    }
-
-    // Solve the MDP using policy iteration
-    Real gamma = 1.0;
-    pt_agent agt = policy_iteration(M, gamma);
-    end = clock();
-    t_cnt = double(end - begin) / CLOCKS_PER_SEC;
-
-    vecn pi_det = *agt->pi();
-    stoch_mat pi_stc = mat::Zero(n, na);
-    for (Natural s = 0; s < n; ++s)
-      pi_stc(s, pi_det[s]) = 1.0;
-
-    v_cnt = evaluation(num_episodes, pi_stc, card_dist);
-
+  for (Natural i = 0; i <= num_episodes; i += inc_episodes) {
     id.str(std::string());
-    id << sr << "_"
-       << na << "_"
-       << num_batches << "_"
-       << num_episodes << "_"
-       << min_batches << "_"
-       << num_points << "_"
+    id << num_episodes << "_"
        << std::setw(2) << std::setfill('0') << run;
-
-    // Log time
-    filename.str(std::string());
-    filename << "t_cnt_bj_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_cnt << " ";
-    file.close();
 
     // Log value
     filename.str(std::string());
-    filename << "v_cnt_bj_" << id.str() << ".log";
+    filename << "v_banca_bj_" << id.str() << ".log";
     file.open(filename.str().c_str(), ios::app);
-    file << v_cnt << " ";
+    file << v_banca << " ";
     file.close();
   }
 
