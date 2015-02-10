@@ -7,15 +7,18 @@
 #include <ctime>
 #include <cmath>
 #include "blackjack.h"
-#include "util.h"
 #include "emsf.h"
+#include "policy_iteration.h"
 
 
+using namespace std;
+using namespace dp;
 using namespace std;
 using namespace Eigen;
 using namespace blackjack;
 using namespace util;
 using namespace emsf;
+using namespace dp;
 
 
 Natural card(vec &card_dist)
@@ -283,7 +286,20 @@ int main(int argc, char* argv[])
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
   v_mat P = get_P_by_counting_bj(dt, num_batches, n, na);
-  v_mat R = get_R_by_counting_bj(dt, num_batches, n, na);
+  v_mat r = get_R_by_counting_bj(dt, num_batches, n, na);
+
+  mdp M(n, na);
+  for (Natural a = 0; a < na; ++a) {
+    M.P(a) = P[a];
+    M.r(a) = r[a];
+  }
+
+  // Solve the MDP using policy iteration
+  Real gamma = 1.0;
+  pt_agent agt = policy_iteration(M, gamma);
+
+  // Print value function
+  cout << *agt->V() << endl;
 
   return 0;
 }
