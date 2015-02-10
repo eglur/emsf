@@ -9,11 +9,13 @@
 #include "eigen3/Eigen/Dense"
 #include "util.h"
 #include "emsf.h"
+#include "blackjack.h"
 
 
 using namespace std;
 using namespace Eigen;
 using namespace util;
+using namespace blackjack;
 
 
 namespace emsf {
@@ -174,7 +176,7 @@ namespace emsf {
   }
 
 
-  void em_sf_sk(model &md, v_data_bj &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10)
+  void em_sf_sk(model &md, v_data_bj &dt, const Natural n, const Natural m, const Natural na, const Natural num_batches, v_stoch_mat D, v_stoch_mat K, const Natural max_it = 10)
   {
     vec mu = md.mu;
     stoch_mat pi = md.pi;
@@ -183,7 +185,7 @@ namespace emsf {
     Real score = 0.0;
     Natural it = 0;
 
-    while (abs(score - old_score) > eps || it < max_it) {
+    while (it < max_it) {
       old_score = score;
       score = 0.0;
 
@@ -191,8 +193,8 @@ namespace emsf {
       v_mat K2 = generate_zero_matrices(m, n, 1);
 
       for (Natural batch = 0; batch < num_batches; ++batch) {
-        vecn y = dt[batch].y;
-        vecn a = dt[batch].a;
+        std::vector<Natural> y = dt[batch].y;
+        std::vector<Natural> a = dt[batch].a;
       
 	Natural T = y.size();
 
