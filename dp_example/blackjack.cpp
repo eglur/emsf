@@ -305,40 +305,7 @@ int main(int argc, char* argv[])
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
-    clock_t begin, end;
-    double t_emsf_sk;
-
-    // Calculate
-    begin = clock();
     em_sf_sk(md, dt, n, m, na, nb, D, K, eps, max_it);
-    end = clock();
-    t_emsf_sk = double(end - begin) / CLOCKS_PER_SEC;
-
-    // Log error
-    id.str(std::string());
-    id << sr << "_"
-       << m << "_"
-       << run << "_"
-       << num_batches << "_"
-       << num_episodes << "_"
-       << min_batches << "_"
-       << num_points << "_"
-       << eps << "_"
-       << max_it << "_"
-       << std::setw(2) << std::setfill('0') << run;
-
-    filename.str(std::string());
-    filename << "e_emsf_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << e_emsf_sk << " ";
-    file.close();
-
-    // Log time
-    filename.str(std::string());
-    filename << "t_emsf_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_emsf_sk << " ";
-    file.close();
   }
 
   return 0;
