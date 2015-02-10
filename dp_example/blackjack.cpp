@@ -265,17 +265,25 @@ void print_batch_data_bj(v_data_bj dt, const Natural num_batches)
 
 int main(int argc, char* argv[])
 {
+  ofstream file;
+  stringstream filename;
+  stringstream id;
+
   Natural nargs = 6;
   if (argc != nargs) {
-    cout << "Usage: blackjack eval_qty eval_size" << endl;
+    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points" << endl;
     exit(EXIT_FAILURE);
   }
 
   const Natural n = 203;
   const Natural sr = 20;
   const Natural na = 2;
-  const Natural num_batches = atoi(argv[1]);
-  const Natural num_episodes = atoi(argv[2]);
+  const Natural run = atoi(argv[1]);
+  const Natural num_batches = atoi(argv[2]);
+  const Natural num_episodes = atoi(argv[3]);
+  const Natural min_batches = atoi(argv[4]);
+  const Natural num_points = atoi(argv[5]);
+  const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
 
   srand(time(NULL));
 
@@ -285,10 +293,12 @@ int main(int argc, char* argv[])
   model md = generate_model(n, sr, na);
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
-  Natural min_batches = atoi(argv[3]);
-  Natural num_points = atoi(argv[4]);
-  Natural inc_batches = atoi(argv[5]);
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
+    clock_t begin, end;
+    Real v_cnt;
+    double t_cnt;
+
+    begin = clock();
     v_mat P = get_P_by_counting_bj(dt, nb, n, na);
     v_mat r = get_R_by_counting_bj(dt, nb, n, na);
 
@@ -301,17 +311,38 @@ int main(int argc, char* argv[])
     // Solve the MDP using policy iteration
     Real gamma = 1.0;
     pt_agent agt = policy_iteration(M, gamma);
+    end = clock();
+    t_cnt = double(end - begin) / CLOCKS_PER_SEC;
 
     vecn pi_det = *agt->pi();
     stoch_mat pi_stc = mat::Zero(n, na);
     for (Natural s = 0; s < n; ++s)
       pi_stc(s, pi_det[s]) = 1.0;
 
-    Real vdepi = evaluation(num_episodes, pi_stc, card_dist);
+    v_cnt = evaluation(num_episodes, pi_stc, card_dist);
 
-    cout << "num_batches: " << nb
-         << "\tnum_episodes: " << num_episodes
-         << "\tvdepi: " << vdepi << endl;
+    id.str(std::string());
+    id << sr << "_"
+       << na << "_"
+       << num_batches << "_"
+       << num_episodes << "_"
+       << min_batches << "_"
+       << num_points << "_"
+       << std::setw(2) << std::setfill('0') << run;
+
+    // Log time
+    filename.str(std::string());
+    filename << "t_cnt_bj_" << id.str() << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << t_cnt << " ";
+    file.close();
+
+    // Log value
+    filename.str(std::string());
+    filename << "v_cnt_bj_" << id.str() << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << v_cnt << " ";
+    file.close();
   }
 
   return 0;
