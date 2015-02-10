@@ -133,7 +133,11 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
     s = get_s(pc, p_ace, dc);
     if (save) yv.push_back(s);
 
-    a = get_a(s, pi);
+    if (pc < 17)
+      a = 1;
+    else
+      a = 0;
+
     if (save) av.push_back(a);
 
     transition(pc, p_ace, dc, d_ace, r, a, card_dist, sf);
