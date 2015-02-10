@@ -168,11 +168,11 @@ v_mat get_P_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natur
 }
 
 
-vec get_R_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natural n, const Natural na)
+v_mat get_R_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natural n, const Natural na)
 {
-  v_mat r_count = generate_zero_matrices(1, n, na);
-  v_mat r_sum = generate_zero_matrices(1, n, na);
-  v_mat r_mean = generate_zero_matrices(1, n, na);
+  v_mat r_count = generate_zero_matrices(n, 1, na);
+  v_mat r_sum = generate_zero_matrices(n, 1, na);
+  v_mat r_mean = generate_zero_matrices(n, 1, na);
 
   for (Natural batch = 0; batch < num_batches; ++batch) {
     std::vector<Natural> y = dt[batch].y;
@@ -283,6 +283,10 @@ int main(int argc, char* argv[])
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
   v_mat P = get_P_by_counting_bj(dt, num_batches, n, na);
+  v_mat R = get_R_by_counting_bj(dt, num_batches, n, na);
+
+  cout << R[0] << endl << endl;
+  cout << R[1] << endl << endl;
 
   return 0;
 }
