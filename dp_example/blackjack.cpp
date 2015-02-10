@@ -281,7 +281,7 @@ int main(int argc, char* argv[])
 
   const Natural n = 203;
   const Natural sr = 20;
-  const Natural m = 20;
+  const Natural m = 50;
   const Natural na = 2;
   const Natural run = atoi(argv[1]);
   const Natural num_batches = atoi(argv[2]);
@@ -319,13 +319,16 @@ int main(int argc, char* argv[])
   r_hat(201) = 0.0;
   r_hat(202) = 1.0;
   
-  cout << D[0] << endl << endl;
-  cout << K[0] << endl << endl;
-  cout << r_hat << endl << endl;
+  pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf);
 
-  pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf, eps_pisf);
+  stoch_mat pi_stc = stoch_mat::Zero(n, na);
+  for (Natural i = 0; i < n; ++i)
+    pi_stc(i, agt->pi(i)) = 1;
 
-  cout << (*agt->V()).transpose() << endl << endl;
-  cout << *agt->pi() << endl << endl;
+  Real vdepi = evaluation(num_episodes, pi_stc, card_dist);
+
+  // cout << *(agt->pi()) << endl;
+  cout << vdepi << endl;
+
   return 0;
 }
