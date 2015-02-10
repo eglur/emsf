@@ -215,7 +215,7 @@ namespace emsf {
         }
 
         Natural B_T = T-2;                                        // Different index strategy on the R language
-        B.row(B_T) = K[a[B_T]].col(y[B_T]).transpose();
+        B.row(B_T) = K[a[B_T]].col(y[B_T+1]).transpose();
         B.row(B_T) = B.row(B_T) / NF[B_T];
         for (Natural t = B_T-1; t >= 0; --t) {
           row_vec d_row = D[a[t+1]].row(y[t+1]);
@@ -295,7 +295,7 @@ namespace emsf {
         }
 
         Natural B_T = T-2;                                        // Different index strategy on the R language
-        B.row(B_T) = K[a[B_T]].col(y[B_T]).transpose();
+        B.row(B_T) = K[a[B_T]].col(y[B_T+1]).transpose();
         B.row(B_T) = B.row(B_T) / NF[B_T];
         for (Natural t = B_T-1; t >= 0; --t) {
           row_vec d_row = D[a[t+1]].row(y[t+1]);
