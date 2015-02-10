@@ -7,10 +7,24 @@ generate.stochastic.matrix <- function(nrows, ncols)
    A
 }
 
+generate.stochastic.matrix.one <- function(nrows, ncols)
+{
+   A <- matrix(0, nrows, ncols)
+   for (i in 1:nrow(A)) A[i, sample(1:ncol(A), 1)] <- 1
+   A
+}
+
 generate.stochastic.matrices <- function(nrows, ncols, na)
 {
    A <- array(0, c(nrows, ncols, na))
    for (a in 1:na) A[,,a] <- generate.stochastic.matrix(nrows, ncols)
+   A
+}
+
+generate.stochastic.matrices.one <- function(nrows, ncols, na)
+{
+   A <- array(0, c(nrows, ncols, na))
+   for (a in 1:na) A[,,a] <- generate.stochastic.matrix.one(nrows, ncols)
    A
 }
 
@@ -97,9 +111,11 @@ em.sf <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
     
     error <- NULL
        
-    while (abs(score - old.score) > eps || it < max.it)
+    while ( it < max.it) # && abs(score - old.score) > eps &&
     {
         
+       it <- it + 1
+       
        old.score <- score 
        score <- 0
         
@@ -120,8 +136,8 @@ em.sf <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
         A <- matrix(0, T-1, m)
         B <- matrix(0, T-1, m)
         NF <- array(0, T-1)
-        
-        
+
+     
         A[1,] <- mu[y[1]] * pi[y[1], a[1]] * D[y[1],,a[1]]
         NF[1] <- sum(A[1,])
         A[1,] <- A[1,] / NF[1]
@@ -168,8 +184,142 @@ em.sf <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
       D <- D2
       K <- K2
       
+#       e <- 0
+#       for (i in 1:na) e <- e + sum((D[,,i] %*% K[,,i] - P[,,i])^2)
+#       
+#       error <- c(error, e)
+#       plot(error)
+# 
+#       print(score)
+       
+   }
+        
+#     list(D = D, K = K)
       e <- 0
       for (i in 1:na) e <- e + sum((D[,,i] %*% K[,,i] - P[,,i])^2)
+      e
+}
+    
+
+    
+## SINGLE K
+
+generate.model.single.K <- function(n, m, na)
+{
+    D <- generate.stochastic.matrices(n, m, na)
+    K <- generate.stochastic.matrices(m, n, 1)
+    
+    P <- array(0, c(n,n,na))
+    for (a in 1:na) P[,,a] <- D[,,a] %*% K[,,1]
+        
+    mu <- runif(n)
+    mu <- mu / sum(mu)
+    pi <- generate.stochastic.matrix(n, na)
+    
+    list(P = P, pi = pi, mu = mu)
+}
+
+
+generate.model.and.data.single.K <- function(n, m, na, T, num.batches)
+{
+   md <- generate.model.single.K(n,m,na)
+   dt <- generate.batch.data(md$P, md$mu, md$pi, T, num.batches)
+   list(P = md$P, pi = md$pi, mu = md$mu, y = dt$y, a = dt$a)
+}
+    
+
+em.sf.single.K <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
+{
+# Assumes that each observation and each action has appeared at least once
+    n <- length(unique(unlist(OBS)))
+    na <- length(unique(unlist(ACT)))
+   
+    D <- generate.stochastic.matrices(n,m,na)
+    K <- generate.stochastic.matrices(m,n,1)
+    
+
+    old.score <- -Inf 
+    score <- 0
+    it <- 0
+    
+    error <- NULL
+       
+    while ( it < max.it) # && abs(score - old.score) > eps &&
+    {
+        
+       it <- it + 1
+       
+       old.score <- score 
+       score <- 0
+        
+        
+        D2 <- array(0, c(n, m, na))
+        K2 <- array(0, c(m, n, 1))
+
+       
+        
+       for (batch in 1:length(OBS))
+       {
+        
+        y <- OBS[[batch]]
+        a <- ACT[[batch]]
+
+        T <- length(y)
+        
+        A <- matrix(0, T-1, m)
+        B <- matrix(0, T-1, m)
+        NF <- array(0, T-1)
+
+     
+        A[1,] <- mu[y[1]] * pi[y[1], a[1]] * D[y[1],,a[1]]
+        NF[1] <- sum(A[1,])
+        A[1,] <- A[1,] / NF[1]
+        
+       
+        for (t in 2:(T-1))
+        {
+            aa <- sum(A[t-1,] * K[, y[t], 1])
+            A[t,] <- aa * pi[y[t],a[t]] * D[y[t],,a[t]]
+            NF[t] <- sum(A[t,])
+            A[t,] <- A[t,] / NF[t] 
+        }
+        
+                
+        B[T-1, ] <- K[, y[T-1], 1]
+        B[T-1, ] <- B[T-1, ]  / NF[T-1]
+        for (t in (T-2):1)
+        {
+            bb <- sum(B[t+1,] * D[y[t+1], , a[t+1]])
+            B[t,] <- bb * pi[y[t+1], a[t+1]] * K[, y[t+1], 1]
+            B[t,] <- B[t,] / NF[t] 
+        }
+        
+         
+        C <- A * B 
+        C <- C / apply(C, 1, sum)
+        
+        for (t in 1:(T-1))
+        {
+            D2[y[t], , a[t]] <- D2[y[t], , a[t]] + C[t,]
+            K2[, y[t+1], 1] <- K2[, y[t+1], 1] + C[t,]
+        }
+        
+        score <- score - sum(log(1/NF)) ## is this correct?
+      }
+
+        
+      for (i in 1:na) 
+      {
+         D2[,,i] <- D2[,,i] / apply(D2[,,i], 1, sum)
+      }
+
+      K2[,,1] <- K2[,,1] / apply(K2[,,1], 1, sum)
+
+      D <- D2
+      K <- K2
+      
+      e <- 0
+      for (i in 1:na) e <- e + sum((D[,,i] %*% K[,,1] - P[,,i])^2)
       
       error <- c(error, e)
       plot(error)
@@ -179,7 +329,7 @@ em.sf <- function(P, OBS, ACT, m, mu, pi, eps = 1e-20, max.it = 10)
    }
         
     list(D = D, K = K)
-}
-    
-    
-    
+#       e <- 0
+#       for (i in 1:na) e <- e + sum((D[,,i] %*% K[,,i] - P[,,i])^2)
+#       e
+}    
