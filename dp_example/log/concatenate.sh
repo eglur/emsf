@@ -8,7 +8,7 @@ fi
 
     COMMAND="./blackjack $i 10000 1000000 0 100"
 
-NUM_BATCHES=10000
+NUM_BATCHES=100000
 NUM_EPISODES=1000000
 MIN_BATCHES=0
 NUM_POINTS=100
@@ -54,6 +54,7 @@ then
     echo >> $PLOT_FILENAME
 fi            
 
-echo "matplot(D, t=\"o\", log=\"y\", main=\"n=$N; sr=$SR; maxit=$MAX_IT; D, K aleat.\")" >> $PLOT_FILENAME
+echo "matplot(D, t=\"o\", main=\"Counting + PI utilizando $NUM_BATCHES lotes (avaliando em $NUM_EPISODES jogos)\")" >> $PLOT_FILENAME
+echo "grid()" >> $PLOT_FILENAME
 echo >> $PLOT_FILENAME
 echo
