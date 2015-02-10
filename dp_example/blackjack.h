@@ -8,6 +8,14 @@ using namespace util;
 
 namespace blackjack
 {
+  class model_bj
+  {
+  public:
+    v_stoch_mat P;
+    vec mu;
+    vecn pi;
+  };
+
   class data_bj
   {
   public:
