@@ -358,87 +358,120 @@ namespace emsf {
     v_mat P_cnt = get_P_by_counting(dt, num_batches, T, n, na);
     return frobenius_norm_v(P_cnt, P, na);
   }
-}
 
 
-using namespace emsf;
+  int main(int argc, char* argv[])
+  {
+    ofstream file;
+    stringstream filename;
+    stringstream id;
 
+    Natural nargs = 3;
+    if (argc != nargs) {
+      cout << "Usage: emsf run n" << endl;
+      exit(EXIT_FAILURE);
+    }
 
-int main(int argc, char* argv[])
-{
-  ofstream file;
-  stringstream filename;
-  stringstream id;
+    const Natural run = atoi(argv[1]);
+    const Natural n = atoi(argv[2]);
+    const Natural na = 1;
+    const Natural T = (Natural) 20 * (n * n);
+    const Natural num_batches = 10;
+    const Real eps = 1e20;
 
-  Natural nargs = 3;
-  if (argc != nargs) {
-    cout << "Usage: emsf run n" << endl;
-    exit(EXIT_FAILURE);
-  }
+    Natural max_it_min = 30;
+    Natural max_it_max = 30;
+    Natural max_it_inc = 1;
 
-  const Natural run = atoi(argv[1]);
-  const Natural n = atoi(argv[2]);
-  const Natural na = 1;
-  const Natural T = (Natural) 20 * (n * n);
-  const Natural num_batches = 10;
-  const Real eps = 1e20;
+    srand(run);
 
-  Natural max_it_min = 30;
-  Natural max_it_max = 30;
-  Natural max_it_inc = 1;
+    // sr values: factors, increment, quantity and the own vector
+    Real srf_min = 0.2;
+    Real srf_max = 0.2;
+    Real srf_inc = 0.1;
 
-  srand(run);
-
-  // sr values: factors, increment, quantity and the own vector
-  Real srf_min = 0.2;
-  Real srf_max = 0.2;
-  Real srf_inc = 0.1;
-
-  // Just can't see why, but only works this way
-  Real srf_qty_real = ((srf_max - srf_min) / srf_inc) + 1.0;
-  Natural srf_qty = (Natural) srf_qty_real;
+    // Just can't see why, but only works this way
+    Real srf_qty_real = ((srf_max - srf_min) / srf_inc) + 1.0;
+    Natural srf_qty = (Natural) srf_qty_real;
   
-  std::vector<Natural> sr;
-  for (Real srf = srf_min; srf <= srf_max; srf += srf_inc)
-    sr.push_back((Natural) (srf * (Real) n));
+    std::vector<Natural> sr;
+    for (Real srf = srf_min; srf <= srf_max; srf += srf_inc)
+      sr.push_back((Natural) (srf * (Real) n));
 
-  std::vector<model> md(srf_qty);
-  for (Natural i = 0; i < srf_qty; ++i)
-    md[i] = generate_model(n, sr[i], na);
+    std::vector<model> md(srf_qty);
+    for (Natural i = 0; i < srf_qty; ++i)
+      md[i] = generate_model(n, sr[i], na);
 
-  std::vector<v_data> dt(srf_qty);
-  for (Natural i = 0; i < srf_qty; ++i)
-    dt[i] = generate_batch_data(md[i], T, num_batches);
+    std::vector<v_data> dt(srf_qty);
+    for (Natural i = 0; i < srf_qty; ++i)
+      dt[i] = generate_batch_data(md[i], T, num_batches);
 
-  // m values: factors, increment, quantity and the own vector
-  Real mf_min = 0.5;
-  Real mf_max = 1.5;
-  Real mf_inc = 0.25;
+    // m values: factors, increment, quantity and the own vector
+    Real mf_min = 0.5;
+    Real mf_max = 1.5;
+    Real mf_inc = 0.25;
 
-  Natural q_min = n;
-  Natural q_max = T;
-  Natural n_points = 200;
-  Natural q_inc = (q_max - q_min) / (n_points - 1);
-  for (Natural i = 0; i < srf_qty; ++i) {
-    clock_t begin, end;
+    Natural q_min = n;
+    Natural q_max = T;
+    Natural n_points = 200;
+    Natural q_inc = (q_max - q_min) / (n_points - 1);
+    for (Natural i = 0; i < srf_qty; ++i) {
+      clock_t begin, end;
 
-    // EM-SF
-    for (Real mf = mf_min; mf <= mf_max; mf += mf_inc) {
-      Real m_real = mf * (Real) sr[i];
-      Natural m = (Natural) m_real;
+      // EM-SF
+      for (Real mf = mf_min; mf <= mf_max; mf += mf_inc) {
+        Real m_real = mf * (Real) sr[i];
+        Natural m = (Natural) m_real;
 
-      v_stoch_mat D = generate_stochastic_matrices(n, m, na);
-      v_stoch_mat K = generate_stochastic_matrices(m, n, na);
-      for (Natural max_it = max_it_min; max_it <= max_it_max; max_it += max_it_inc) {
+        v_stoch_mat D = generate_stochastic_matrices(n, m, na);
+        v_stoch_mat K = generate_stochastic_matrices(m, n, na);
+        for (Natural max_it = max_it_min; max_it <= max_it_max; max_it += max_it_inc) {
+          for (Natural q = q_min; q <= q_max; q += q_inc) {
+            Real e_emsf;
+            double t_emsf;
+
+            // Calculate
+            begin = clock();
+            e_emsf = em_sf(md[i], dt[i], n, m, na, q, D, K, eps, max_it);
+            end = clock();
+            t_emsf = double(end - begin) / CLOCKS_PER_SEC;
+
+            // Log error
+            id.str(std::string());
+            id << n << "_"
+               << na << "_"
+               << T << "_"
+               << num_batches << "_"
+               << eps << "_"
+               << max_it << "_"
+               << std::setw(4) << std::setfill('0') << sr[i] << "_"
+               << std::setw(4) << std::setfill('0') << m << "_"
+               << std::setw(2) << std::setfill('0') << run;
+
+            filename.str(std::string());
+            filename << "e_emsf_" << id.str() << ".log";
+            file.open(filename.str().c_str(), ios::app);
+            file << e_emsf << " ";
+            file.close();
+
+            // Log time
+            filename.str(std::string());
+            filename << "t_emsf_" << id.str() << ".log";
+            file.open(filename.str().c_str(), ios::app);
+            file << t_emsf << " ";
+            file.close();
+          }
+        }
+
+        // Counting
         for (Natural q = q_min; q <= q_max; q += q_inc) {
-          Real e_emsf;
-          double t_emsf;
+          Real e_cnt;
+          double t_cnt;
 
-          // Calculate
           begin = clock();
-          e_emsf = em_sf(md[i], dt[i], n, m, na, q, D, K, eps, max_it);
+          e_cnt = counting(dt[i], num_batches, q, n, na, md[i].P);
           end = clock();
-          t_emsf = double(end - begin) / CLOCKS_PER_SEC;
+          t_cnt = double(end - begin) / CLOCKS_PER_SEC;
 
           // Log error
           id.str(std::string());
@@ -447,61 +480,25 @@ int main(int argc, char* argv[])
              << T << "_"
              << num_batches << "_"
              << eps << "_"
-             << max_it << "_"
              << std::setw(4) << std::setfill('0') << sr[i] << "_"
-             << std::setw(4) << std::setfill('0') << m << "_"
              << std::setw(2) << std::setfill('0') << run;
 
           filename.str(std::string());
-          filename << "e_emsf_" << id.str() << ".log";
+          filename << "e_cnt_" << id.str() << ".log";
           file.open(filename.str().c_str(), ios::app);
-          file << e_emsf << " ";
+          file << e_cnt << " ";
           file.close();
 
           // Log time
           filename.str(std::string());
-          filename << "t_emsf_" << id.str() << ".log";
+          filename << "t_cnt_" << id.str() << ".log";
           file.open(filename.str().c_str(), ios::app);
-          file << t_emsf << " ";
+          file << t_cnt << " ";
           file.close();
         }
       }
 
-      // Counting
-      for (Natural q = q_min; q <= q_max; q += q_inc) {
-        Real e_cnt;
-        double t_cnt;
-
-        begin = clock();
-        e_cnt = counting(dt[i], num_batches, q, n, na, md[i].P);
-        end = clock();
-        t_cnt = double(end - begin) / CLOCKS_PER_SEC;
-
-        // Log error
-        id.str(std::string());
-        id << n << "_"
-           << na << "_"
-           << T << "_"
-           << num_batches << "_"
-           << eps << "_"
-           << std::setw(4) << std::setfill('0') << sr[i] << "_"
-           << std::setw(2) << std::setfill('0') << run;
-
-        filename.str(std::string());
-        filename << "e_cnt_" << id.str() << ".log";
-        file.open(filename.str().c_str(), ios::app);
-        file << e_cnt << " ";
-        file.close();
-
-        // Log time
-        filename.str(std::string());
-        filename << "t_cnt_" << id.str() << ".log";
-        file.open(filename.str().c_str(), ios::app);
-        file << t_cnt << " ";
-        file.close();
-      }
+      return 0;
     }
-
-    return 0;
   }
 }
