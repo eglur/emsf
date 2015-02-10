@@ -298,8 +298,8 @@ int main(int argc, char* argv[])
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
 
-  v_stoch_mat D = generate_stochastic_matrices(n, m, na);
-  v_stoch_mat K = generate_stochastic_matrices(m, n, 1);
+  v_stoch_mat D_original = generate_stochastic_matrices(n, m, na);
+  v_stoch_mat K_original = generate_stochastic_matrices(m, n, 1);
 
   model md;
   md.mu = vec::Zero(n, 1);
@@ -312,23 +312,36 @@ int main(int argc, char* argv[])
   normalize(mu2);
   md.mu = mu2.transpose();
 
-  em_sf_sk(md, dt, n, m, na, num_batches, D, K, max_it);
+  for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
+    v_stoch_mat D = D_original;
+    v_stoch_mat K = K_original;
 
-  vec r_hat = vec::Zero(n, 1);
-  r_hat(200) = -1.0;
-  r_hat(201) = 0.0;
-  r_hat(202) = 1.0;
+    em_sf_sk(md, dt, n, m, na, nb, D, K, max_it);
+
+    vec r_hat = vec::Zero(n, 1);
+    r_hat(200) = -1.0;
+    r_hat(201) = 0.0;
+    r_hat(202) = 1.0;
   
-  pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf);
+    pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf);
 
-  stoch_mat pi_stc = stoch_mat::Zero(n, na);
-  for (Natural i = 0; i < n; ++i)
-    pi_stc(i, agt->pi(i)) = 1;
+    stoch_mat pi_stc = stoch_mat::Zero(n, na);
+    for (Natural i = 0; i < n; ++i)
+      pi_stc(i, agt->pi(i)) = 1;
 
-  Real vdepi = evaluation(num_episodes, pi_stc, card_dist);
+    Real vdepi = evaluation(num_episodes, pi_stc, card_dist);
 
-  // cout << *(agt->pi()) << endl;
-  cout << vdepi << endl;
+    id.str(std::string());
+    id << sr << "_"
+       << na << "_"
+       << num_batches << "_"
+       << num_episodes << "_"
+       << min_batches << "_"
+       << num_points << "_"
+       << std::setw(2) << std::setfill('0') << run;
+    // cout << *(agt->pi()) << endl;
+    cout << vdepi << endl;
+  }
 
   return 0;
 }
