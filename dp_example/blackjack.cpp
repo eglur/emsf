@@ -275,7 +275,7 @@ int main(int argc, char* argv[])
 
   Natural nargs = 4;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_episodes" << endl;
+    cout << "Usage: blackjack RUN NUM_EPISODES INC_EPISODES" << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -293,7 +293,7 @@ int main(int argc, char* argv[])
   Real v_banca;
   v_banca = evaluation(num_episodes, pi, card_dist);
 
-  for (Natural i = 0; i <= num_episodes; i += inc_episodes) {
+  for (Natural i = 1; i <= num_episodes; i += inc_episodes) {
     id.str(std::string());
     id << num_episodes << "_"
        << std::setw(2) << std::setfill('0') << run;
