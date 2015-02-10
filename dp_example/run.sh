@@ -9,7 +9,7 @@ die () {
 
 for i in $(eval echo {$1..$2})
 do
-    COMMAND="./blackjack $i 200000 1000000 0 100"
+    COMMAND="./blackjack $i 100000 1000000 0 100"
     echo $COMMAND
     $COMMAND &
 done
