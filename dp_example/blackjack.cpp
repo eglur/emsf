@@ -293,57 +293,5 @@ int main(int argc, char* argv[])
   model md = generate_model(n, sr, na);
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
-  for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
-    clock_t begin, end;
-    Real v_cnt;
-    double t_cnt;
-
-    begin = clock();
-    v_mat P = get_P_by_counting_bj(dt, nb, n, na);
-    v_mat r = get_R_by_counting_bj(dt, nb, n, na);
-
-    mdp M(n, na);
-    for (Natural a = 0; a < na; ++a) {
-      M.P(a) = P[a];
-      M.r(a) = r[a];
-    }
-
-    // Solve the MDP using policy iteration
-    Real gamma = 1.0;
-    pt_agent agt = policy_iteration(M, gamma);
-    end = clock();
-    t_cnt = double(end - begin) / CLOCKS_PER_SEC;
-
-    vecn pi_det = *agt->pi();
-    stoch_mat pi_stc = mat::Zero(n, na);
-    for (Natural s = 0; s < n; ++s)
-      pi_stc(s, pi_det[s]) = 1.0;
-
-    v_cnt = evaluation(num_episodes, pi_stc, card_dist);
-
-    id.str(std::string());
-    id << sr << "_"
-       << na << "_"
-       << num_batches << "_"
-       << num_episodes << "_"
-       << min_batches << "_"
-       << num_points << "_"
-       << std::setw(2) << std::setfill('0') << run;
-
-    // Log time
-    filename.str(std::string());
-    filename << "t_cnt_bj_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_cnt << " ";
-    file.close();
-
-    // Log value
-    filename.str(std::string());
-    filename << "v_cnt_bj_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << v_cnt << " ";
-    file.close();
-  }
-
   return 0;
 }
