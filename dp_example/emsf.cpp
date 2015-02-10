@@ -191,7 +191,7 @@ namespace emsf {
       v_mat D2 = generate_zero_matrices(n, m, na);
       v_mat K2 = generate_zero_matrices(m, n, na);
 
-      for (Natural batch = 0; batch < dt.size(); ++batch) {
+      for (Natural batch = 0; batch < num_batches; ++batch) {
         vecn y = dt[batch].y;
         vecn a = dt[batch].a;
       
