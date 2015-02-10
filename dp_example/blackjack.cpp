@@ -272,9 +272,9 @@ int main(int argc, char* argv[])
   stringstream filename;
   stringstream id;
 
-  Natural nargs = 8;
+  Natural nargs = 7;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points eps max_it" << endl;
+    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points max_it" << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -288,8 +288,7 @@ int main(int argc, char* argv[])
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
   const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
-  const Natural eps = atoi(argv[6]);
-  const Natural max_it = atoi(argv[7]);
+  const Natural max_it = atoi(argv[6]);
 
   srand(time(NULL));
 
@@ -305,7 +304,7 @@ int main(int argc, char* argv[])
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
-    em_sf_sk(md, dt, n, m, na, nb, D, K, eps, max_it);
+    em_sf_sk(md, dt, n, m, na, nb, D, K, max_it);
   }
 
   return 0;
