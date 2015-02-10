@@ -285,8 +285,5 @@ int main(int argc, char* argv[])
   v_mat P = get_P_by_counting_bj(dt, num_batches, n, na);
   v_mat R = get_R_by_counting_bj(dt, num_batches, n, na);
 
-  cout << R[0] << endl << endl;
-  cout << R[1] << endl << endl;
-
   return 0;
 }
