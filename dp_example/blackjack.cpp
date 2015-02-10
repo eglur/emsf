@@ -9,6 +9,7 @@
 #include "blackjack.h"
 #include "emsf.h"
 #include "policy_iteration.h"
+#include "pisf.h"
 
 
 using namespace std;
@@ -272,9 +273,9 @@ int main(int argc, char* argv[])
   stringstream filename;
   stringstream id;
 
-  Natural nargs = 7;
+  Natural nargs = 10;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points max_it" << endl;
+    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA MAX_IT_PISF EPS_PISF" << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -289,6 +290,9 @@ int main(int argc, char* argv[])
   const Natural num_points = atoi(argv[5]);
   const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
   const Natural max_it = atoi(argv[6]);
+  const Real gamma_pisf = atof(argv[7]);
+  const Real max_it_pisf = atof(argv[8]);
+  const Real eps_pisf = atof(argv[9]);
 
   srand(time(NULL));
 
@@ -308,14 +312,20 @@ int main(int argc, char* argv[])
   normalize(mu2);
   md.mu = mu2.transpose();
 
-  for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
-    em_sf_sk(md, dt, n, m, na, nb, D, K, max_it);
-  }
+  em_sf_sk(md, dt, n, m, na, num_batches, D, K, max_it);
 
   vec r_hat = vec::Zero(n, 1);
   r_hat(200) = -1.0;
   r_hat(201) = 0.0;
-  r_hat(200) = 1.0;
+  r_hat(202) = 1.0;
   
+  cout << D[0] << endl << endl;
+  cout << K[0] << endl << endl;
+  cout << r_hat << endl << endl;
+
+  pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf, eps_pisf);
+
+  cout << (*agt->V()).transpose() << endl << endl;
+  cout << *agt->pi() << endl << endl;
   return 0;
 }
