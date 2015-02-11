@@ -1,13 +1,5 @@
 #!/bin/bash
 
-ONELINES_DIR="./onelines"
-if [ ! -d $ONELINES_DIR ]
-then
-    mkdir -p $ONELINES_DIR
-fi
-
-    COMMAND="./blackjack $i 10000 1000000 0 100"
-
 NUM_BATCHES=100000
 NUM_EPISODES=1000000
 MIN_BATCHES=0
