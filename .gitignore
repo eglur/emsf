@@ -15,7 +15,6 @@
 dp_example/TAGS
 dp_example/emsf
 dp_example/blackjack
-dp_example/*.log
 
 \#*
 *~
