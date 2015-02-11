@@ -58,7 +58,7 @@ then
     echo >> $PLOT_FILENAME
 fi            
 
-echo "matplot(D, t=\"l\", main=\"EMSF-SK + PISF utilizando $NUM_BATCHES lotes (avaliando em $NUM_EPISODES jogos)\")" >> $PLOT_FILENAME
+echo "matplot(D, t=\"l\", main=\"$PREFIX\")" >> $PLOT_FILENAME
 echo "grid()" >> $PLOT_FILENAME
 echo >> $PLOT_FILENAME
 echo
