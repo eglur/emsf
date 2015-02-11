@@ -273,9 +273,9 @@ int main(int argc, char* argv[])
   stringstream filename;
   stringstream id;
 
-  Natural nargs = 10;
+  Natural nargs = 9;
   if (argc != nargs) {
-    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA MAX_IT_PISF EPS_PISF" << endl;
+    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA MAX_IT_PISF" << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -292,7 +292,6 @@ int main(int argc, char* argv[])
   const Natural max_it = atoi(argv[6]);
   const Real gamma_pisf = atof(argv[7]);
   const Real max_it_pisf = atof(argv[8]);
-  const Real eps_pisf = atof(argv[9]);
 
   srand(time(NULL));
 
