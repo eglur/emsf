@@ -16,7 +16,7 @@ $(TARGET): $(TARGET).cpp $(TARGET).h
 	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
 
 blackjack: blackjack.cpp emsf.cpp
-	$(CC) $(CFLAGS) -o blackjack blackjack.cpp emsf.cpp mdp.cpp
+	$(CC) $(CFLAGS) -o blackjack blackjack.cpp emsf.cpp mdp.cpp pisf.cpp
 
 clean:
 	$(RM) $(TARGET) blackjack
