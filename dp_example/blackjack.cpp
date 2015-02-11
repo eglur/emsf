@@ -285,7 +285,7 @@ int main(int argc, char* argv[])
   const Natural num_points = atoi(argv[5]);
   const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
 
-  srand(time(NULL));
+  srand(run);
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
