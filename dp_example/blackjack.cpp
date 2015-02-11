@@ -293,7 +293,7 @@ int main(int argc, char* argv[])
   const Real max_it_pisf = atof(argv[8]);
   const Natural m = atoi(argv[9]);
 
-  srand(time(NULL));
+  srand(run);
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
 
