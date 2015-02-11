@@ -41,8 +41,6 @@ done
 
 if [ $ALL_EXIST -eq 1 ]
 then
-    echo "Generated    $PREFIX_LOG"
-
     echo "tmp <- read.table(\"$PREFIX_LOG\")" >> $PLOT_FILENAME
     echo "tmp <- apply(tmp, 2, mean)" >> $PLOT_FILENAME
     echo "D <- cbind(D, tmp)" >> $PLOT_FILENAME
@@ -52,4 +50,5 @@ fi
 echo "matplot(D, t=\"l\", main=\"$PREFIX\")" >> $PLOT_FILENAME
 echo "grid()" >> $PLOT_FILENAME
 echo >> $PLOT_FILENAME
-echo
+
+echo "Generated    $PLOT_FILENAME"
