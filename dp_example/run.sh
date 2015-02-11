@@ -7,7 +7,7 @@ die () {
 
 [ "$#" -eq 2 ] || die "Usage: run.sh START END"
 
-for M in 5 15
+for M in 10 50 100
 do
     while [ "$(pidof blackjack)" ]
     do
