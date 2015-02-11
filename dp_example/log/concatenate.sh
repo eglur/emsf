@@ -27,7 +27,6 @@ ALL_EXIST=1
 for RUN in $(eval echo {$START..$END})
 do
     PREFIX_RUN_LOG=$PREFIX"_"`printf %02d%s ${RUN%}`".log"
-    echo $PREFIX_RUN_LOG
     if [ -f $PREFIX_RUN_LOG ]
     then
         (cat $PREFIX_RUN_LOG; echo) >> $PREFIX_LOG
@@ -38,15 +37,13 @@ done
 
 if [ $ALL_EXIST -eq 1 ]
 then
-    echo "Generated    $PREFIX_LOG"
-
     echo "tmp <- read.table(\"$PREFIX_LOG\")" >> $PLOT_FILENAME
     echo "tmp <- apply(tmp, 2, mean)" >> $PLOT_FILENAME
     echo "D <- cbind(D, tmp)" >> $PLOT_FILENAME
-    echo >> $PLOT_FILENAME
+
+    echo "SUCCESS on generating    $PLOT_FILENAME"
 fi            
 
+echo >> $PLOT_FILENAME
 echo "matplot(D, t=\"o\", main=\"Counting + PI utilizando $NUM_BATCHES lotes (avaliando em $NUM_EPISODES jogos)\")" >> $PLOT_FILENAME
 echo "grid()" >> $PLOT_FILENAME
-echo >> $PLOT_FILENAME
-echo
