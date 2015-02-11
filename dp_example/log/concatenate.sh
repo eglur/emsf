@@ -12,14 +12,18 @@ NUM_BATCHES=100000
 NUM_EPISODES=1000000
 MIN_BATCHES=0
 NUM_POINTS=100
+MAX_IT=30
+GAMMA_PISF=1
+MAX_IT_PISF=300
+M=75
 N=203
 SR=20
 NA=2
 
 START=1
-END=50
+END=25
 
-PREFIX="v_cnt_bj_"$SR"_"$NA"_"$NUM_BATCHES"_"$NUM_EPISODES"_"$MIN_BATCHES"_"$NUM_POINTS
+PREFIX="v_emsf_bj_"$NUM_BATCHES"_"$NUM_EPISODES"_"$MIN_BATCHES"_"$NUM_POINTS"_"$NUM_POINTS"_"$MAX_IT"_"$GAMMA_PISF"_"$MAX_IT_PISF"_"$M
 
 PLOT_FILENAME="plot_"$PREFIX".R"
 echo "D <- NULL" > $PLOT_FILENAME
@@ -54,7 +58,7 @@ then
     echo >> $PLOT_FILENAME
 fi            
 
-echo "matplot(D, t=\"o\", main=\"Counting + PI utilizando $NUM_BATCHES lotes (avaliando em $NUM_EPISODES jogos)\")" >> $PLOT_FILENAME
+echo "matplot(D, t=\"l\", main=\"EMSF-SK + PISF utilizando $NUM_BATCHES lotes (avaliando em $NUM_EPISODES jogos)\")" >> $PLOT_FILENAME
 echo "grid()" >> $PLOT_FILENAME
 echo >> $PLOT_FILENAME
 echo
