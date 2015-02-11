@@ -343,6 +343,7 @@ int main(int argc, char* argv[])
        << max_it << "_"
        << gamma_pisf << "_"
        << max_it_pisf << "_"
+       << m << "_"
        << std::setw(2) << std::setfill('0') << run;
 
     // Log time
