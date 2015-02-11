@@ -313,9 +313,11 @@ int main(int argc, char* argv[])
   md.mu = mu2.transpose();
 
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
+    clock_t begin, end;
     v_stoch_mat D = D_original;
     v_stoch_mat K = K_original;
 
+    begin = clock();
     em_sf_sk(md, dt, n, m, na, nb, D, K, max_it);
 
     vec r_hat = vec::Zero(n, 1);
@@ -324,12 +326,14 @@ int main(int argc, char* argv[])
     r_hat(202) = 1.0;
   
     pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf);
+    end = clock();
+    double t_emsf_bj = double(end - begin) / CLOCKS_PER_SEC;
 
     stoch_mat pi_stc = stoch_mat::Zero(n, na);
     for (Natural i = 0; i < n; ++i)
       pi_stc(i, agt->pi(i)) = 1;
 
-    Real vdepi = evaluation(num_episodes, pi_stc, card_dist);
+    Real v_emsf_bj = evaluation(num_episodes, pi_stc, card_dist);
 
     id.str(std::string());
     id << num_batches << "_"
@@ -341,8 +345,20 @@ int main(int argc, char* argv[])
        << gamma_pisf << "_"
        << max_it_pisf << "_"
        << std::setw(2) << std::setfill('0') << run;
-    // cout << *(agt->pi()) << endl;
-    cout << vdepi << endl;
+
+    // Log time
+    filename.str(std::string());
+    filename << "t_emsf_bj_" << id.str() << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << t_emsf_bj << " ";
+    file.close();
+
+    // Log value
+    filename.str(std::string());
+    filename << "v_emsf_bj_" << id.str() << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << v_emsf_bj << " ";
+    file.close();
   }
 
   return 0;
