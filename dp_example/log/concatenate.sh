@@ -31,7 +31,6 @@ ALL_EXIST=1
 for RUN in $(eval echo {$START..$END})
 do
     PREFIX_RUN_LOG=$PREFIX"_"`printf %02d%s ${RUN%}`".log"
-    echo $PREFIX_RUN_LOG
     if [ -f $PREFIX_RUN_LOG ]
     then
         (cat $PREFIX_RUN_LOG; echo) >> $PREFIX_LOG
