@@ -7,7 +7,7 @@ die () {
 
 [ "$#" -eq 2 ] || die "Usage: run.sh START END"
 
-CORES=15
+CORES=14
 START=$1
 END=$2
 
