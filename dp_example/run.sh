@@ -26,7 +26,7 @@ do
 	sleep 1
     done
 
-    for M in 10 50 100
+    for M in 5 15 20 25
     do
 	while [ "$(pidof blackjack)" ]
 	do
