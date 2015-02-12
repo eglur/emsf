@@ -1,62 +1,51 @@
 #!/bin/bash
 
-# ./blackjack 101 30000 1000000 0 100 30 1.0 300 100 &
-# ./blackjack 102 30000 1000000 0 100 30 1.0 300 100 &
-# ./blackjack 103 30000 1000000 0 100 30 1.0 300 100 &
-# ./blackjack 104 30000 1000000 0 100 30 1.0 300 100 &
-# ./blackjack 105 30000 1000000 0 100 30 1.0 300 100 &
-# ./blackjack 106 30000 1000000 0 100 30 1.0 300 100 &
-./blackjack 107 30000 1000000 0 100 30 1.0 300 100 &
+die () {
+    echo >&2 "$@"
+    exit 1
+}
 
-# ./blackjack 101 30000 1000000 0 100 30 1.0 300 50 &
-# ./blackjack 102 30000 1000000 0 100 30 1.0 300 50 &
+[ "$#" -eq 2 ] || die "Usage: run.sh START END"
 
-# die () {
-#     echo >&2 "$@"
-#     exit 1
-# }
+CORES=15
+START=$1
+END=$2
 
-# [ "$#" -eq 2 ] || die "Usage: run.sh START END"
+LOCAL_START=$START
+LOCAL_END=`expr $START + $CORES - 1`
 
-# CORES=15
-# START=$1
-# END=$2
+if [ $LOCAL_END -gt $END ]
+then
+    LOCAL_END=$END
+fi
 
-# LOCAL_START=$START
-# LOCAL_END=`expr $START + $CORES - 1`
+while [ $LOCAL_START -le $END ]
+do
+    while [ "$(pidof blackjack)" ]
+    do
+	sleep 1
+    done
 
-# if [ $LOCAL_END -gt $END ]
-# then
-#     LOCAL_END=$END
-# fi
+    for M in 10 50 100
+    do
+	while [ "$(pidof blackjack)" ]
+	do
+	    sleep 1
+	done
 
-# while [ $LOCAL_START -le $END ]
-# do
-#     while [ "$(pidof blackjack)" ]
-#     do
-# 	sleep 1
-#     done
+	for i in $(eval echo {$LOCAL_START..$LOCAL_END})
+	do
+	    COMMAND="./blackjack $i 30000 1000000 0 100 30 1.0 300 $M"
+	    echo $COMMAND
+	    $COMMAND &
+	done
+    done
 
-#     for M in 10 50 100
-#     do
-# 	while [ "$(pidof blackjack)" ]
-# 	do
-# 	    sleep 1
-# 	done
+    LOCAL_START=`expr $LOCAL_END + 1`
+    LOCAL_END=`expr $LOCAL_START + $CORES - 1`
 
-# 	for i in $(eval echo {$LOCAL_START..$LOCAL_END})
-# 	do
-# 	    COMMAND="./blackjack $i 30000 1000000 0 100 30 1.0 300 $M"
-# 	    echo $COMMAND
-# 	    $COMMAND &
-# 	done
-#     done
-
-#     LOCAL_START=`expr $LOCAL_END + 1`
-#     LOCAL_END=`expr $LOCAL_START + $CORES - 1`
-
-#     if [ $LOCAL_END -gt $END ]
-#     then
-# 	LOCAL_END=$END
-#     fi
-# done
+    if [ $LOCAL_END -gt $END ]
+    then
+	LOCAL_END=$END
+    fi
+done
