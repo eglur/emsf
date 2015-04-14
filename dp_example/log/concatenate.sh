@@ -1,54 +1,59 @@
 #!/bin/bash
 
-NUM_BATCHES=30000
-NUM_EPISODES=1000000
-MIN_BATCHES=0
-NUM_POINTS=100
-MAX_IT=30
-GAMMA_PISF=1
-MAX_IT_PISF=300
-M=$1
-N=203
-SR=20
-NA=2
+#############################
+# Parâmetros do experimento #
+#############################
+NUM_EPISODES=1000000    # Quantidade de episódios
+
+NUM_BATCHES=30000       # Quantidade final de batches utilizados
+MIN_BATCHES=0           # Quantidade inicial de batches utilizados
+NUM_POINTS=100          # Número total de pontos; o programa obtém internamente o incremento
+
+MAX_IT=30               # Número máximo de iterações do EM-SF
+
+GAMMA_PISF=1            # Valor do gamma utilizado no PISF
+MAX_IT_PISF=300         # Número máximo de iterações do PISF
 
 START=1
 END=100
 
-PREFIX="v_emsf_bj_"$NUM_BATCHES"_"$NUM_EPISODES"_"$MIN_BATCHES"_"$NUM_POINTS"_"$NUM_POINTS"_"$MAX_IT"_"$GAMMA_PISF"_"$MAX_IT_PISF"_"$M
-
-PLOT_FILENAME="plot_"$PREFIX".R"
-echo "D <- NULL" > $PLOT_FILENAME
-echo >> $PLOT_FILENAME
-
-PREFIX_LOG=$PREFIX".log"
-if [ -f $PREFIX_LOG ]
-then
-    rm $PREFIX_LOG
-fi
-
-ALL_EXIST=1
-for RUN in $(eval echo {$START..$END})
+for M in 5 15 20 25
 do
-    PREFIX_RUN_LOG=$PREFIX"_"`printf %02d%s ${RUN%}`".log"
-    if [ -f $PREFIX_RUN_LOG ]
-    then
-        (cat $PREFIX_RUN_LOG; echo) >> $PREFIX_LOG
-    else
-        ALL_EXIST=0
-    fi
-done
+    PREFIX="v_emsf_bj_"$NUM_BATCHES"_"$NUM_EPISODES"_"$MIN_BATCHES"_"$NUM_POINTS"_"$NUM_POINTS"_"$MAX_IT"_"$GAMMA_PISF"_"$MAX_IT_PISF"_"$M
 
-if [ $ALL_EXIST -eq 1 ]
-then
-    echo "tmp <- read.table(\"$PREFIX_LOG\")" >> $PLOT_FILENAME
-    echo "tmp <- apply(tmp, 2, mean)" >> $PLOT_FILENAME
-    echo "D <- cbind(D, tmp)" >> $PLOT_FILENAME
+    PLOT_FILENAME="plot_"$PREFIX".R"
+    echo "D <- NULL" > $PLOT_FILENAME
     echo >> $PLOT_FILENAME
-fi            
 
-echo "matplot(D, t=\"l\", main=\"$PREFIX\")" >> $PLOT_FILENAME
-echo "grid()" >> $PLOT_FILENAME
-echo >> $PLOT_FILENAME
+    PREFIX_LOG=$PREFIX".log"
+    if [ -f $PREFIX_LOG ]
+    then
+        rm $PREFIX_LOG
+    fi
 
-echo "Generated    $PLOT_FILENAME"
+    ALL_EXIST=1
+    for RUN in $(eval echo {$START..$END})
+    do
+        PREFIX_RUN_LOG=$PREFIX"_"`printf %02d%s ${RUN%}`".log"
+        if [ -f $PREFIX_RUN_LOG ]
+        then
+            (cat $PREFIX_RUN_LOG; echo) >> $PREFIX_LOG
+        else
+            ALL_EXIST=0
+        fi
+    done
+
+    if [ $ALL_EXIST -eq 1 ]
+    then
+        echo "tmp <- read.table(\"$PREFIX_LOG\")" >> $PLOT_FILENAME
+        echo "tmp <- apply(tmp, 2, mean)" >> $PLOT_FILENAME
+        echo "D <- cbind(D, tmp)" >> $PLOT_FILENAME
+        echo >> $PLOT_FILENAME
+    fi            
+
+    echo "matplot(D, t=\"l\", main=\"$PREFIX\")" >> $PLOT_FILENAME
+    echo "grid()" >> $PLOT_FILENAME
+    echo >> $PLOT_FILENAME
+
+    echo "Generated    $PLOT_FILENAME"
+done
