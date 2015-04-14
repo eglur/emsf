@@ -270,15 +270,17 @@ void print_batch_data_bj(v_data_bj dt, const Natural num_batches)
 int main(int argc, char* argv[])
 {
   ofstream file;
-  stringstream filename;
-  stringstream id;
+  stringstream filename;                                           // Nome do arquivo com os resultados
+  stringstream id;                                                 // ID discriminante de cada experimento (contera os parametros utilizados)
 
+  // Testa se os parâmetros foram informados corretamente
   Natural nargs = 10;
   if (argc != nargs) {
     cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA MAX_IT_PISF M" << endl;
     exit(EXIT_FAILURE);
   }
 
+  // Parâmetros do experimento
   const Natural n = 203;
   const Natural sr = 20;
   const Natural na = 2;
@@ -293,10 +295,17 @@ int main(int argc, char* argv[])
   const Real max_it_pisf = atof(argv[8]);
   const Natural m = atoi(argv[9]);
 
+  // "Aleatoriza" com base no número do experimento (o número da
+  // repetição do experimento que está sendo executada)
   srand(run);
 
+  // Distribuição de probabilidade para cada carta do baralho
+  // (Blackjack)
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
 
+  // D e K utilizadas em todos os experimentos (D e K são modificadas
+  // em em_sf, portanto é necessário guardá-las para realizar um novo,
+  // e.g., com diferentes valores de batches)
   v_stoch_mat D_original = generate_stochastic_matrices(n, m, na);
   v_stoch_mat K_original = generate_stochastic_matrices(m, n, 1);
 
@@ -312,28 +321,32 @@ int main(int argc, char* argv[])
   md.mu = mu2.transpose();
 
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
-    clock_t begin, end;
+    clock_t begin, end;                                            // Para cronometrar experimento
     v_stoch_mat D = D_original;
     v_stoch_mat K = K_original;
 
-    begin = clock();
-    em_sf_sk(md, dt, n, m, na, nb, D, K, max_it);
+    begin = clock();                                               // Inicia cronômetro
+    em_sf_sk(md, dt, n, m, na, nb, D, K, max_it);                  // Executa em_sf_sk
 
-    vec r_hat = vec::Zero(n, 1);
+    vec r_hat = vec::Zero(n, 1);                                   // Obtém dados para o PISF
     r_hat(200) = -1.0;
     r_hat(201) = 0.0;
     r_hat(202) = 1.0;
   
-    pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf);
-    end = clock();
-    double t_emsf_bj = double(end - begin) / CLOCKS_PER_SEC;
+    pt_agent agt = pisf(D, K[0], K[0] * r_hat, gamma_pisf, max_it_pisf); // Executa PISF
+    end = clock();                                                 // Pára o cronômetro
+    double t_emsf_bj = double(end - begin) / CLOCKS_PER_SEC;       // Calcula tempo gasto em segundos
 
+    // Obtém política estocástica (PISF retorna uma política
+    // determinística)
     stoch_mat pi_stc = stoch_mat::Zero(n, na);
     for (Natural i = 0; i < n; ++i)
       pi_stc(i, agt->pi(i)) = 1;
 
+    // Avalia a política no domínio
     Real v_emsf_bj = evaluation(num_episodes, pi_stc, card_dist);
 
+    // Obtém o ID para o arquivo com os resultados do experimento
     id.str(std::string());
     id << num_batches << "_"
        << num_episodes << "_"
@@ -346,14 +359,14 @@ int main(int argc, char* argv[])
        << m << "_"
        << std::setw(2) << std::setfill('0') << run;
 
-    // Log time
+    // Log time (persiste tempo gasto)
     filename.str(std::string());
     filename << "t_emsf_bj_" << id.str() << ".log";
     file.open(filename.str().c_str(), ios::app);
     file << t_emsf_bj << " ";
     file.close();
 
-    // Log value
+    // Log value (persiste valor da política obtida com o EM-SF-SK)
     filename.str(std::string());
     filename << "v_emsf_bj_" << id.str() << ".log";
     file.open(filename.str().c_str(), ios::app);
