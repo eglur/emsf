@@ -65,7 +65,7 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
       r = 0;
   }
   else if (a == stick) {
-    while (dc < 17)                                             /* TODO: checar se é < ou <= */
+    while (dc < 17)
       draw_card(dc, d_ace, card_dist);
 
     if (dc > 21) {
