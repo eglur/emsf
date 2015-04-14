@@ -121,32 +121,40 @@ inline Natural get_a(Natural s, mat &pi)
 
 Natural episode(mat &pi, vec &card_dist, vec &mu, const bool save, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
 {
-  Natural pc = 0, p_ace = 0;
-  Natural dc = 0, d_ace = 0;
-  Natural s, a, r, sf;
+  Natural pc = 0, p_ace = 0;                                       // pc: somatório do player (agente); p_ace: player possui ás
+  Natural dc = 0, d_ace = 0;                                       // dc: somatório do dealer; d_ace: player possui ás
+  Natural s, a, r, sf;                                             // s: estado, a: ação, r: recompensa, sf: armazena, quando ocorre, o valor do estado final
   
   draw_card(pc, p_ace, card_dist);
+  // Compra até pelo menos ter 12 pontos (não faz sentido agir antes
+  // disso (seguindo Sutton))
   while (pc < 12)
     draw_card(pc, p_ace, card_dist);
 
+  // Carta do dealer que ficará visível para o player
   draw_card(dc, d_ace, card_dist);
 
+  // Utilizado na geração de batch data para o cálculo de frequência
+  // de visitação dos estados
   mu(get_s(pc, p_ace, dc)) += 1;
 
   sf = 0;
-  while (sf < 200) {
+  while (sf < 200) { // Estados finais estão entre 200 e 202
+    // Obtém representação numérica do estado
     s = get_s(pc, p_ace, dc);
-    if (save) yv.push_back(s);
+    if (save) yv.push_back(s);                                     // Utilizado na geração de batch data
 
+    // Obtém ação segundo a política utilizada
     a = get_a(s, pi);
-    if (save) av.push_back(a);
+    if (save) av.push_back(a);                                     // Utilizado na geração de batch data
 
+    // Realiza a transição s, a, s', obtendo a recompensa em r
     transition(pc, p_ace, dc, d_ace, r, a, card_dist, sf);
 
-    if (save) rv.push_back(r);
+    if (save) rv.push_back(r);                                     // Utilizado na geração de batch data
   }
 
-  if (save) yv.push_back(sf);
+  if (save) yv.push_back(sf);                                      // Utilizado na geração de batch data
 
   return r;
 }
