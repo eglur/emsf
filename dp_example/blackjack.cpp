@@ -51,6 +51,7 @@ void draw_card(Natural &xc, Natural &x_ace, vec &card_dist)
 
 Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Natural &r, Natural a, vec &card_dist, Natural &sf)
 {
+  // Ações possíveis no Blackjack
   Natural stick = 0;
   Natural hit = 1;
   
@@ -59,18 +60,19 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
 
     if (pc > 21) {
       r = -1;
-      sf = 200;
+      sf = 200; // estado 200: agente perde
     }
     else
       r = 0;
   }
   else if (a == stick) {
+    // Estratégia fixa do dealer: comprar até obter 17 ou mais
     while (dc < 17)
       draw_card(dc, d_ace, card_dist);
 
     if (dc > 21) {
       r = 1;
-      sf = 202;
+      sf = 202; // 202: agente ganha
     }
     else {
       Natural p_diff = 21 - pc;
@@ -78,15 +80,15 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
 
       if (p_diff < d_diff) {
         r = 1;
-        sf = 202;
+        sf = 202; // 202: agente ganha
       }
       else if (p_diff > d_diff) {
         r = -1;
-        sf = 200;
+        sf = 200; // 200: agente perde
       }
       else {
         r = 0;
-        sf = 201;
+        sf = 201; // 201: empate
       }
     }
   }
