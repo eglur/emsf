@@ -265,6 +265,34 @@ v_mat get_R_by_counting_bj(data_bj &dt, const Natural n, const Natural na)
 }
 
 
+v_mat get_R_mean_from_batch(data_bj &dt, const Natural n, const Natural na)
+{
+  v_mat r_count = generate_zero_matrices(n, 1, na);
+  v_mat r_sum = generate_zero_matrices(n, 1, na);
+  v_mat r_mean = generate_zero_matrices(n, 1, na);
+
+  std::vector<Natural> y = dt.y;
+  std::vector<Natural> a = dt.a;
+  std::vector<Natural> r = dt.r;
+
+  Natural T = y.size();
+  for (Natural t = 0; t < T-1; ++t) {
+    r_count[a[t]](y[t]) += 1;
+    r_sum[a[t]](y[t]) += r[t];
+  }
+
+  for (Natural a = 0; a < na; ++a) {
+    for (Natural s = 0; s < n; ++s) {
+      if (r_count[a](s) > 0.0) {
+        r_mean[a](s) = r_sum[a](s) / r_count[a](s);
+      }
+    }
+  }
+
+  return r_mean;
+}
+
+
 Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 {
   Real E;
@@ -354,6 +382,17 @@ v_mat get_P_from_C(v_mat &C, Natural n, Natural na) {
 }
 
 
+void update_P(v_mat &P, v_mat &C, Natural n, Natural na) {
+  P = get_P_from_C(C, n, na);
+}
+
+
+void update_R(v_mat &r, data_bj &dt, Natural batches, Natural n, Natural na) {
+  for (Natural a = 0; a < na; ++a)
+    r[a] += get_R_mean_from_batch(dt, n, na) / batches;
+}
+
+
 int main(int argc, char* argv[])
 {
   ofstream file;
@@ -384,7 +423,9 @@ int main(int argc, char* argv[])
 
   data_bj dt;
   v_mat C = generate_zero_matrices(n, n, na);
-  
+  v_mat P;
+  v_mat r = generate_zero_matrices(n, n, na);
+
   for (Natural batch = 1; batch <= num_batches; ++batch) {
     clock_t begin, end;
     Real v_cnt;
@@ -395,8 +436,8 @@ int main(int argc, char* argv[])
     dt = generate_data_bj(pi, epsilon, card_dist);
 
     count_transitions(C, dt);
-    v_mat P = get_P_from_C(C, n, na);
-    v_mat r = get_R_by_counting_bj(dt, n, na);
+    update_P(P, C);
+    update_R(r, batch);
 
     mdp M(n, na);
     for (Natural a = 0; a < na; ++a) {
