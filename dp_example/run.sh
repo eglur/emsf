@@ -7,40 +7,35 @@ die () {
 
 [ "$#" -eq 2 ] || die "Usage: run.sh START END"
 
-CORES=15
+NCORES=15
 START=$1
 END=$2
 
-LOCAL_START=$START
-LOCAL_END=`expr $START + $CORES - 1`
-
-if [ $LOCAL_END -gt $END ]
-then
-    LOCAL_END=$END
-fi
-
-while [ $LOCAL_START -le $END ]
+PIDS=()
+for i in $(seq $START $END)
 do
-    while [ "$(pidof blackjack)" ]
+    for EPSILON in "0.01" "0.05" "0.10" "0.20" "0.30" "0.40" "0.50" "0.60" "0.70" "0.80" "0.90" "1.0"
     do
-	sleep 1
-    done
+        COMMAND="./blackjack $i 30000 1000000 0 100 $EPSILON"
+        echo $COMMAND
+        $COMMAND &
 
-    for i in $(eval echo {$LOCAL_START..$LOCAL_END})
-    do
-        for EPSILON in "0.01" "0.05" "0.10" "0.20" "0.30" "0.40" "0.50" "0.60" "0.70" "0.80" "0.90" "1.0"
-        do
-	    COMMAND="./blackjack $i 30000 1000000 0 100 $EPSILON"
-	    echo $COMMAND
-	    $COMMAND &
+        # Adiciona pid do emsf que acabou de ser executado à lista de emsfs em execução
+        PIDS+=($!)
+
+        # Somente continua se o tamanho da lista de pids em execução ainda não chegou ao limite (i.e., quantidade de cores)
+        # Enquanto isso, checa se os pids da lista ainda estão em execução e a atualiza
+        while [ ${#PIDS[@]} == $NCORES ]; do
+            sleep 1
+            # Para cada pid da lista
+            for i in $(seq 0 $((${#PIDS[@]} - 1))); do
+                if ! $(ps -p ${PIDS[$i]} &> /dev/null); then
+                    # Remove pid da lista se processo já terminou sua execução
+                    PIDS=(${PIDS[@]:0:$i} ${PIDS[@]:(($i +1))})
+                    # Sair, pois não é sensato iterar por índice em uma lista que acabou de ser alterada
+                    break
+                fi
+            done
         done
     done
-
-    LOCAL_START=`expr $LOCAL_END + 1`
-    LOCAL_END=`expr $LOCAL_START + $CORES - 1`
-
-    if [ $LOCAL_END -gt $END ]
-    then
-	LOCAL_END=$END
-    fi
 done
