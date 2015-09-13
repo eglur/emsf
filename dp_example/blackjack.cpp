@@ -392,7 +392,7 @@ int main(int argc, char* argv[])
 
     begin = clock();
 
-    dt = generate_data_bj(pi, card_dist);
+    dt = generate_data_bj(pi, epsilon, card_dist);
 
     v_mat P = get_P_from_C(C, n, na);
     v_mat r = get_R_by_counting_bj(dt, n, na);
