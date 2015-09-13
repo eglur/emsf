@@ -343,7 +343,7 @@ int main(int argc, char* argv[])
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
   model md = generate_model(n, sr, na);
-  v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
+  v_data_bj dt = generate_data_bj(pi, card_dist);
   v_mat C = generate_zero_matrices(n, n, na);
   
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
