@@ -424,7 +424,7 @@ int main(int argc, char* argv[])
          << num_episodes << "_"
          << min_batches << "_"
          << num_points << "_"
-         << std::fixed << std::setprecision(2) << epsilon << "_"
+         << epsilon * 100 << "_"
          << std::setw(2) << std::setfill('0') << run;
 
       // Log time
