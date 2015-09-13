@@ -134,6 +134,7 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
     if (save) yv.push_back(s);
 
     a = get_a(s, pi);
+
     if (save) av.push_back(a);
 
     transition(pc, p_ace, dc, d_ace, r, a, card_dist, sf);
@@ -164,7 +165,11 @@ Natural episode(mat &pi, Real epsilon, vec &card_dist, const bool save, std::vec
     s = get_s(pc, p_ace, dc);
     if (save) yv.push_back(s);
 
-    a = get_a(s, pi);
+    if (((double) rand() / (RAND_MAX)) <= epsilon)
+      a = rand() % 2; // stick == 0; hit == 1
+    else
+      a = get_a(s, pi);
+    
     if (save) av.push_back(a);
 
     transition(pc, p_ace, dc, d_ace, r, a, card_dist, sf);
