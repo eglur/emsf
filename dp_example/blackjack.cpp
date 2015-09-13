@@ -398,7 +398,7 @@ void update_R(v_mat &r, data_bj &dt, Natural batches, Natural n, Natural na) {
   v_mat r_mean = get_R_mean_from_batch(dt, n, na);
   
   for (Natural a = 0; a < na; ++a)
-    r[a] = r[a] + (r_mean[a] / batches);
+    r[a] = (((batches - 1) * r[a]) + r_mean[a]) / batches;
 }
 
 
