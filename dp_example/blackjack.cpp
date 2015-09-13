@@ -423,7 +423,7 @@ int main(int argc, char* argv[])
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
   const Real epsilon = atof(argv[6]);
-  const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points + 1;
+  const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points;
 
   srand(run);
 
