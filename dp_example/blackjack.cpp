@@ -147,7 +147,7 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
 }
 
 
-Natural episode(mat &pi, float epsilon, vec &card_dist, const bool save, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
+Natural episode(mat &pi, Real epsilon, vec &card_dist, const bool save, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
 {
   Natural pc = 0, p_ace = 0;
   Natural dc = 0, d_ace = 0;
@@ -256,7 +256,7 @@ data_bj generate_data_bj(mat &pi, vec &card_dist)
 }
 
 
-data_bj generate_data_bj(mat &pi, float epsilon, vec &card_dist)
+data_bj generate_data_bj(mat &pi, Real epsilon, vec &card_dist)
 {
   data_bj dt;
   episode(pi, card_dist, true, dt.y, dt.a, dt.r);
