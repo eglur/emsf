@@ -147,6 +147,37 @@ Natural episode(mat &pi, vec &card_dist, const bool save, std::vector<Natural> &
 }
 
 
+Natural episode(mat &pi, float epsilon, vec &card_dist, const bool save, std::vector<Natural> &yv, std::vector<Natural> &av, std::vector<Natural> &rv)
+{
+  Natural pc = 0, p_ace = 0;
+  Natural dc = 0, d_ace = 0;
+  Natural s, a, r, sf;
+  
+  draw_card(pc, p_ace, card_dist);
+  while (pc < 12)
+    draw_card(pc, p_ace, card_dist);
+
+  draw_card(dc, d_ace, card_dist);
+
+  sf = 0;
+  while (sf < 200) {
+    s = get_s(pc, p_ace, dc);
+    if (save) yv.push_back(s);
+
+    a = get_a(s, pi);
+    if (save) av.push_back(a);
+
+    transition(pc, p_ace, dc, d_ace, r, a, card_dist, sf);
+
+    if (save) rv.push_back(r);
+  }
+
+  if (save) yv.push_back(sf);
+
+  return r;
+}
+
+
 v_mat get_P_by_counting_bj(v_data_bj &dt, const Natural num_batches, const Natural n, const Natural na)
 {
   v_mat P = generate_zero_matrices(n, n, na);
