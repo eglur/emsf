@@ -382,7 +382,6 @@ int main(int argc, char* argv[])
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  model md = generate_model(n, sr, na);
   data_bj dt;
   v_mat C = generate_zero_matrices(n, n, na);
   
