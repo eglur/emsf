@@ -308,6 +308,13 @@ void print_batch_data_bj(v_data_bj dt, const Natural num_batches)
 }
 
 
+void count_transitions(v_mat &C, data_bj &dt)
+{
+  for (Natural t = 0; t < dt.y.size() - 1; ++t)
+    C[dt.a[t]](dt.y[t], dt.y[t+1]) += 1;
+}
+
+
 int main(int argc, char* argv[])
 {
   ofstream file;
@@ -337,8 +344,7 @@ int main(int argc, char* argv[])
 
   model md = generate_model(n, sr, na);
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
-
-  matn C = mat::Zero(n, n);
+  v_mat C = generate_zero_matrices(n, n, na);
   
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
     clock_t begin, end;
