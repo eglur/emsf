@@ -408,9 +408,9 @@ int main(int argc, char* argv[])
   stringstream filename;
   stringstream id;
 
-  Natural nargs = 7;
+  Natural nargs = 6;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points epsilon" << endl;
+    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points" << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -441,6 +441,8 @@ int main(int argc, char* argv[])
     double t_cnt;
 
     begin = clock();
+
+    epsilon = 1.0 - ((Real)batch / num_batches);
 
     dt = generate_data_bj(pi, epsilon, card_dist);
 
@@ -475,7 +477,6 @@ int main(int argc, char* argv[])
          << num_episodes << "_"
          << min_batches << "_"
          << num_points << "_"
-         << epsilon << "_"
          << std::setw(2) << std::setfill('0') << run;
 
       // Log time
