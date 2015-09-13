@@ -315,6 +315,16 @@ void count_transitions(v_mat &C, data_bj &dt)
 }
 
 
+void get_P_from_C(v_mat &C, Natural n, Natural na) {
+  v_mat P = generate_zero_matrices(n, n, na);
+  
+  for (Natural a = 0; a < na; ++a) {
+    P[a] = C[a];
+    normalize(P[a]);
+  }
+}
+
+
 int main(int argc, char* argv[])
 {
   ofstream file;
@@ -343,7 +353,7 @@ int main(int argc, char* argv[])
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
   model md = generate_model(n, sr, na);
-  v_data_bj dt = generate_data_bj(pi, card_dist);
+  data_bj dt = generate_data_bj(pi, card_dist);
   v_mat C = generate_zero_matrices(n, n, na);
   
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
@@ -352,7 +362,7 @@ int main(int argc, char* argv[])
     double t_cnt;
 
     begin = clock();
-    v_mat P = get_P_by_counting_bj(dt, nb, n, na);
+    v_mat P = get_P_from_C(C, n, na);
     v_mat r = get_R_by_counting_bj(dt, nb, n, na);
 
     mdp M(n, na);
