@@ -225,6 +225,15 @@ data_bj generate_data_bj(mat &pi, vec &card_dist)
 }
 
 
+data_bj generate_data_bj(mat &pi, float epsilon, vec &card_dist)
+{
+  data_bj dt;
+  episode(pi, card_dist, true, dt.y, dt.a, dt.r);
+
+  return dt;
+}
+
+
 v_data_bj generate_batch_data_bj(model &md, vec &card_dist, const Natural num_batches)
 {
   v_data_bj v_dt;
