@@ -264,7 +264,7 @@ data_bj generate_data_bj(mat &pi, vec &card_dist)
 data_bj generate_data_bj(mat &pi, Real epsilon, vec &card_dist)
 {
   data_bj dt;
-  episode(pi, card_dist, true, dt.y, dt.a, dt.r);
+  episode(pi, epsilon, card_dist, true, dt.y, dt.a, dt.r);
 
   return dt;
 }
