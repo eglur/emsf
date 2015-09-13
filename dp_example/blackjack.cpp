@@ -374,7 +374,7 @@ int main(int argc, char* argv[])
   const Natural num_episodes = atoi(argv[3]);
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
-  const Natural epsilon = atof(argv[6]);
+  const Real epsilon = atof(argv[6]);
   const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points + 1;
 
   srand(run);
@@ -424,7 +424,7 @@ int main(int argc, char* argv[])
          << num_episodes << "_"
          << min_batches << "_"
          << num_points << "_"
-         << epsilon * 100 << "_"
+         << epsilon << "_"
          << std::setw(2) << std::setfill('0') << run;
 
       // Log time
