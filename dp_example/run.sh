@@ -28,7 +28,7 @@ do
 
     for i in $(eval echo {$LOCAL_START..$LOCAL_END})
     do
-	COMMAND="./blackjack $i 30000 1000000 0 100"
+	COMMAND="./blackjack $i 30000 1000000 0 100 0.1"
 	echo $COMMAND
 	$COMMAND &
     done
