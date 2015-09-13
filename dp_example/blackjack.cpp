@@ -388,8 +388,10 @@ void update_P(v_mat &P, v_mat &C, Natural n, Natural na) {
 
 
 void update_R(v_mat &r, data_bj &dt, Natural batches, Natural n, Natural na) {
+  v_mat r_mean = get_R_mean_from_batch(dt, n, na);
+  
   for (Natural a = 0; a < na; ++a)
-    r[a] += get_R_mean_from_batch(dt, n, na) / batches;
+    r[a] += r_mean[a] / batches;
 }
 
 
@@ -436,8 +438,8 @@ int main(int argc, char* argv[])
     dt = generate_data_bj(pi, epsilon, card_dist);
 
     count_transitions(C, dt);
-    update_P(P, C);
-    update_R(r, batch);
+    update_P(P, C, n, na);
+    update_R(r, dt, batch, n, na);
 
     mdp M(n, na);
     for (Natural a = 0; a < na; ++a) {
