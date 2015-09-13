@@ -12,11 +12,11 @@ START=$1
 END=$2
 
 PIDS=()
-for i in $(seq $START $END)
+for RUN in $(seq $START $END)
 do
     for EPSILON in "0.01" "0.05" "0.10" "0.20" "0.30" "0.40" "0.50" "0.60" "0.70" "0.80" "0.90" "1.0"
     do
-        COMMAND="./blackjack $i 30000 1000000 0 100 $EPSILON"
+        COMMAND="./blackjack $RUN 30000 1000000 0 100 $EPSILON"
         echo $COMMAND
         $COMMAND &
 
