@@ -338,6 +338,8 @@ int main(int argc, char* argv[])
   model md = generate_model(n, sr, na);
   v_data_bj dt = generate_batch_data_bj(md, card_dist, num_batches);
 
+  matn C = mat::Zero(n, n);
+  
   for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
     clock_t begin, end;
     Real v_cnt;
