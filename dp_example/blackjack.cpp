@@ -442,7 +442,7 @@ int main(int argc, char* argv[])
 
     begin = clock();
 
-    epsilon = 1.0 - ((Real)batch / num_batches);
+    epsilon = 1.1 - ((Real)batch / num_batches);
 
     dt = generate_data_bj(pi, epsilon, card_dist);
 
