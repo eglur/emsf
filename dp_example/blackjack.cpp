@@ -362,7 +362,7 @@ int main(int argc, char* argv[])
 
   Natural nargs = 7;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points" << endl;
+    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points epsilon" << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -415,6 +415,8 @@ int main(int argc, char* argv[])
       pi_stc(s, pi_det[s]) = 1.0;
 
     v_cnt = evaluation(num_episodes, pi_stc, card_dist);
+
+    pi = pi_stc;
 
     id.str(std::string());
     id << sr << "_"
