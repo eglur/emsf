@@ -422,10 +422,8 @@ int main(int argc, char* argv[])
   const Natural num_episodes = atoi(argv[3]);
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
-  const Real epsilon = atof(argv[6]);
-  const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points + 1;
-
-  srand(run);
+  const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points;
+  Real epsilon;
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
@@ -434,6 +432,8 @@ int main(int argc, char* argv[])
   v_mat C = generate_zero_matrices(n, n, na);
   v_mat P;
   v_mat r = generate_zero_matrices(n, n, na);
+
+  srand(run);
 
   for (Natural batch = 1; batch <= num_batches; ++batch) {
     clock_t begin, end;
