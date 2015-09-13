@@ -20,3 +20,6 @@ dp_example/blackjack
 *~
 
 .Rhistory
+
+**/*.log
+
