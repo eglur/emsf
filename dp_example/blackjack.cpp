@@ -360,7 +360,7 @@ int main(int argc, char* argv[])
   stringstream filename;
   stringstream id;
 
-  Natural nargs = 6;
+  Natural nargs = 7;
   if (argc != nargs) {
     cout << "Usage: blackjack run num_batches num_episodes min_batches num_points" << endl;
     exit(EXIT_FAILURE);
@@ -374,6 +374,7 @@ int main(int argc, char* argv[])
   const Natural num_episodes = atoi(argv[3]);
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
+  const Natural epsilon = atoi(argv[6]);
   const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
 
   srand(run);
