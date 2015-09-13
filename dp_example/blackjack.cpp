@@ -378,12 +378,19 @@ v_mat get_P_from_C(v_mat &C, Natural n, Natural na) {
     P[a] = C[a];
     normalize(P[a]);
   }
+
   return P;
 }
 
 
 void update_P(v_mat &P, v_mat &C, Natural n, Natural na) {
   P = get_P_from_C(C, n, na);
+
+  for (Natural a = 0; a < na; ++a) {
+    P[a](200, 200) = 1.0;
+    P[a](201, 201) = 1.0;
+    P[a](202, 202) = 1.0;
+  }
 }
 
 
