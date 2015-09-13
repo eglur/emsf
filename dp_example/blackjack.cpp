@@ -216,15 +216,6 @@ Real evaluation(Natural n_eval, mat &pi, vec &card_dist)
 }
 
 
-data_bj generate_data_bj(model &md, vec &card_dist)
-{
-  data_bj dt;
-  episode(md.pi, card_dist, true, dt.y, dt.a, dt.r);
-
-  return dt;
-}
-
-
 data_bj generate_data_bj(mat &pi, vec &card_dist)
 {
   data_bj dt;
@@ -240,7 +231,7 @@ v_data_bj generate_batch_data_bj(model &md, vec &card_dist, const Natural num_ba
   v_dt.resize(num_batches);
 
   for (Natural i = 0; i < num_batches; ++i)
-    v_dt[i] = generate_data_bj(md, card_dist);
+    v_dt[i] = generate_data_bj(md.pi, card_dist);
 
   return v_dt;
 }
