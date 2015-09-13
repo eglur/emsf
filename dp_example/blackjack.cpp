@@ -375,7 +375,7 @@ int main(int argc, char* argv[])
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
   const Natural epsilon = atof(argv[6]);
-  const Natural inc_batches = (double) (num_batches - min_batches) / (double) num_points + 1;
+  const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points + 1;
 
   srand(run);
 
@@ -385,7 +385,7 @@ int main(int argc, char* argv[])
   data_bj dt;
   v_mat C = generate_zero_matrices(n, n, na);
   
-  for (Natural nb = min_batches; nb <= num_batches; nb += inc_batches) {
+  for (Natural batch = 1; batch <= num_batches; ++batch) {
     clock_t begin, end;
     Real v_cnt;
     double t_cnt;
@@ -414,32 +414,34 @@ int main(int argc, char* argv[])
     for (Natural s = 0; s < n; ++s)
       pi_stc(s, pi_det[s]) = 1.0;
 
-    v_cnt = evaluation(num_episodes, pi_stc, card_dist);
+    if (batch % batches_per_point == 0) {
+      v_cnt = evaluation(num_episodes, pi_stc, card_dist);
+
+      id.str(std::string());
+      id << sr << "_"
+         << na << "_"
+         << num_batches << "_"
+         << num_episodes << "_"
+         << min_batches << "_"
+         << num_points << "_"
+         << std::setw(2) << std::setfill('0') << run;
+
+      // Log time
+      filename.str(std::string());
+      filename << "t_cnt_bj_" << id.str() << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << t_cnt << " ";
+      file.close();
+
+      // Log value
+      filename.str(std::string());
+      filename << "v_cnt_bj_" << id.str() << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << v_cnt << " ";
+      file.close();
+    }
 
     pi = pi_stc;
-
-    id.str(std::string());
-    id << sr << "_"
-       << na << "_"
-       << num_batches << "_"
-       << num_episodes << "_"
-       << min_batches << "_"
-       << num_points << "_"
-       << std::setw(2) << std::setfill('0') << run;
-
-    // Log time
-    filename.str(std::string());
-    filename << "t_cnt_bj_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << t_cnt << " ";
-    file.close();
-
-    // Log value
-    filename.str(std::string());
-    filename << "v_cnt_bj_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << v_cnt << " ";
-    file.close();
   }
 
   return 0;
