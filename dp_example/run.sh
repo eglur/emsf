@@ -28,12 +28,9 @@ do
 
     for i in $(eval echo {$LOCAL_START..$LOCAL_END})
     do
-        for EPSILON in "0.01" "0.05" "0.10" "0.20" "0.30" "0.40" "0.50" "0.60" "0.70" "0.80" "0.90" "1.0"
-        do
-	    COMMAND="./blackjack $i 30000 1000000 0 100 $EPSILON"
-	    echo $COMMAND
-	    $COMMAND &
-        done
+	COMMAND="./blackjack $i 30000 1000000 0 100"
+	echo $COMMAND
+	$COMMAND &
     done
 
     LOCAL_START=`expr $LOCAL_END + 1`
