@@ -394,6 +394,7 @@ int main(int argc, char* argv[])
 
     dt = generate_data_bj(pi, epsilon, card_dist);
 
+    count_transitions(C, dt);
     v_mat P = get_P_from_C(C, n, na);
     v_mat r = get_R_by_counting_bj(dt, n, na);
 
