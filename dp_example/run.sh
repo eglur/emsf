@@ -12,9 +12,9 @@ NUM_EPISODES=1000000
 MIN_BATCHES=0
 NUM_POINTS=100
 MAX_IT=$NUM_BATCHES
+TC=100
 GAMMA_PISF=0.999
 MAX_IT_PISF=300
-
 
 case "$HOSTNAME" in
     prjcuda02)
@@ -44,7 +44,7 @@ do
         do
             for EPSILON in "0.15"
             do
-                COMMAND="./blackjack $RUN $NUM_BATCHES $NUM_EPISODES $MIN_BATCHES $NUM_POINTS $MAX_IT $GAMMA_PISF $MAX_IT_PISF $M $EPSILON $ALPHA"
+                COMMAND="./blackjack $RUN $NUM_BATCHES $NUM_EPISODES $MIN_BATCHES $NUM_POINTS $MAX_IT $TC $GAMMA_PISF $MAX_IT_PISF $M $EPSILON $ALPHA"
                 echo $COMMAND
                 $COMMAND &
 
