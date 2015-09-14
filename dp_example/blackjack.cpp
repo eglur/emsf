@@ -492,7 +492,7 @@ int main(int argc, char* argv[])
  // Testa se os parâmetros foram informados corretamente
   Natural nargs = 12;
   if (argc != nargs) {
-    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA MAX_IT_PISF M EPSILON ALPHA" << endl;
+    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA_PISF MAX_IT_PISF M EPSILON ALPHA" << endl;
     exit(EXIT_FAILURE);
   }
 
