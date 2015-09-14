@@ -9,7 +9,7 @@
 #include "blackjack.h"
 #include "emsf.h"
 #include "policy_iteration.h"
-
+#include "pisf.h"
 
 using namespace std;
 using namespace dp;
@@ -64,7 +64,7 @@ Natural transition(Natural &pc, Natural &p_ace, Natural &dc, Natural &d_ace, Nat
       r = 0;
   }
   else if (a == stick) {
-    while (dc < 17)                                             /* TODO: checar se é < ou <= */
+    while (dc < 17)
       draw_card(dc, d_ace, card_dist);
 
     if (dc > 21) {
@@ -402,12 +402,12 @@ void update_R(v_mat &r, data_bj &dt, Natural batches, Natural n, Natural na) {
 }
 
 
-void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Real epsilon, Real alpha, vec card_dist)
+void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Real epsilon, Real alpha, vec card_dist, Real gamma_pisf, Natural max_it_pisf, Natural num_episodes, Natural sr, Natural num_batches, Natural min_batches, Natural num_points, Natural run)
 {
   v_stoch_mat D = generate_stochastic_matrices(n, m, na);
-  v_stoch_mat K = generate_stochastic_matrices(m, n, na);
+  stoch_mat K = generate_stochastic_matrix(m, n);
   v_stoch_mat DHat = generate_stochastic_matrices(n, m, na);
-  v_stoch_mat KHat = generate_stochastic_matrices(m, n, na);
+  stoch_mat KHat = generate_stochastic_matrix(m, n);
   v_mat C = generate_constant_matrices(n, n, na, 1.0);
   v_vec x = generate_zero_vectors(n, na);
   v_vec y = generate_zero_vectors(m, na);
@@ -423,15 +423,13 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Re
       for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
           if (C[a](i, j)) {
-            float g = D[a].row(i) * K[a].col(j);
-            vec w = (C[a](i, j) / g) * D[a].row(i).cwiseProduct(K[a].col(j));
+            float g = D[a].row(i) * K.col(j);
+            vec w = (C[a](i, j) / g) * D[a].row(i).cwiseProduct(K.col(j));
 
-            //Update D
             DHat[a].row(i) = DHat[a].row(i) + w;
             x[a](i) = x[a](i) + w.sum();
 
-            // Update K
-            KHat[a].col(j) = KHat[a].col(j) + w;
+            KHat.col(j) = KHat.col(j) + w;
             y[a] = y[a] + w;
           }
         }
@@ -439,9 +437,9 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Re
 
       // Commit changes
       for(int i = 0; i < m; i++)
-        KHat[a].row(i) = KHat[a].row(i) / y[a](i);
+        KHat.row(i) = KHat.row(i) / y[a](i);
 
-      K[a] = (1-alpha) * K[a] + alpha * KHat[a]; 
+      K = (1-alpha) * K + alpha * KHat; 
 
       for(int i = 0; i < n; i++)
         if (x[a](i))
@@ -449,25 +447,56 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Re
 
       // Free DHat, KHat, x, y
       DHat[a].setZero();
-      KHat[a].setZero();
+      KHat.setZero();
       x[a].setZero();
       y[a].setZero();
     }
+
+    vec RHat = vec::Zero(n, 1);
+    RHat(200) = -1.0;
+    RHat(201) = 0.0;
+    RHat(202) = 1.0;
+  
+    pt_agent agt = pisf(D, K, K * RHat, gamma_pisf, max_it_pisf);
+
+    pi.setZero();
+    for (Natural i = 0; i < n; ++i)
+      pi(i, agt->pi(i)) = 1.0;
+
+    Real v = evaluation(num_episodes, pi, card_dist);
+
+    ofstream file;
+    stringstream filename;
+    stringstream id;
+    id.str(std::string());
+    id << sr << "_"
+       << na << "_"
+       << num_batches << "_"
+       << num_episodes << "_"
+       << min_batches << "_"
+       << num_points << "_"
+       << epsilon << "_"
+       << std::setw(2) << std::setfill('0') << run;
+
+    // Log value
+    filename.str(std::string());
+    filename << "v_aaai_bj_" << id.str() << ".log";
+    file.open(filename.str().c_str(), ios::app);
+    file << v << " ";
+    file.close();
   }
 }
 
 int main(int argc, char* argv[])
 {
-  ofstream file;
-  stringstream filename;
-  stringstream id;
-
-  Natural nargs = 7;
+ // Testa se os parâmetros foram informados corretamente
+  Natural nargs = 12;
   if (argc != nargs) {
-    cout << "Usage: blackjack run num_batches num_episodes min_batches num_points epsilon" << endl;
+    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA MAX_IT_PISF M EPSILON ALPHA" << endl;
     exit(EXIT_FAILURE);
   }
 
+  // Parâmetros do experimento
   const Natural n = 203;
   const Natural sr = 20;
   const Natural na = 2;
@@ -476,79 +505,18 @@ int main(int argc, char* argv[])
   const Natural num_episodes = atoi(argv[3]);
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
-  const Real epsilon = atof(argv[6]);
-  const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points;
+  const Natural max_it = atoi(argv[6]);
+  const Real gamma_pisf = atof(argv[7]);
+  const Natural max_it_pisf = atoi(argv[8]);
+  const Natural m = atoi(argv[9]);
+  const Real epsilon = atof(argv[10]);
+  const Real alpha = atof(argv[11]);
 
   srand(run);
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
-  stoch_mat pi = generate_stochastic_matrix(n, na, true);
 
-  data_bj dt;
-  v_mat C = generate_zero_matrices(n, n, na);
-  v_mat P;
-  v_mat r = generate_zero_matrices(n, n, na);
-
-  for (Natural batch = 1; batch <= num_batches; ++batch) {
-    clock_t begin, end;
-    Real v_cnt;
-    double t_cnt;
-
-    begin = clock();
-
-    dt = generate_data_bj(pi, epsilon, card_dist);
-
-    count_transitions(C, dt);
-    update_P(P, C, n, na);
-    update_R(r, dt, batch, n, na);
-
-    mdp M(n, na);
-    for (Natural a = 0; a < na; ++a) {
-      M.P(a) = P[a];
-      M.r(a) = r[a];
-    }
-
-    // Solve the MDP using policy iteration
-    Real gamma = 1.0;
-    pt_agent agt = policy_iteration(M, gamma);
-    end = clock();
-    t_cnt = double(end - begin) / CLOCKS_PER_SEC;
-
-    vecn pi_det = *agt->pi();
-    stoch_mat pi_stc = mat::Zero(n, na);
-    for (Natural s = 0; s < n; ++s)
-      pi_stc(s, pi_det[s]) = 1.0;
-
-    if (batch % batches_per_point == 0) {
-      v_cnt = evaluation(num_episodes, pi_stc, card_dist);
-
-      id.str(std::string());
-      id << sr << "_"
-         << na << "_"
-         << num_batches << "_"
-         << num_episodes << "_"
-         << min_batches << "_"
-         << num_points << "_"
-         << epsilon << "_"
-         << std::setw(2) << std::setfill('0') << run;
-
-      // Log time
-      filename.str(std::string());
-      filename << "t_cnt_bj_" << id.str() << ".log";
-      file.open(filename.str().c_str(), ios::app);
-      file << t_cnt << " ";
-      file.close();
-
-      // Log value
-      filename.str(std::string());
-      filename << "v_cnt_bj_" << id.str() << ".log";
-      file.open(filename.str().c_str(), ios::app);
-      file << v_cnt << " ";
-      file.close();
-    }
-
-    pi = pi_stc;
-  }
+  emsf_aaai(n, m, na, max_it, epsilon, alpha, card_dist, gamma_pisf, max_it_pisf, num_episodes, sr, num_batches, min_batches, num_points, run);
 
   return 0;
 }
