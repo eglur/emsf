@@ -453,26 +453,25 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, Natural max_i
         KHat.setZero();
         x[a].setZero();
         y[a].setZero();
+
+        vec RHat = vec::Zero(n, 1);
+        RHat(200) = -1.0;
+        RHat(201) = 0.0;
+        RHat(202) = 1.0;
+  
+        pt_agent agt = pisf(D, K, K * RHat, gamma_pisf, max_it_pisf);
+        pi.setZero();
+        for (Natural i = 0; i < n; ++i)
+          pi(i, agt->pi(i)) = 1.0;
       }
     }
-
-    vec RHat = vec::Zero(n, 1);
-    RHat(200) = -1.0;
-    RHat(201) = 0.0;
-    RHat(202) = 1.0;
-  
-    pt_agent agt = pisf(D, K, K * RHat, gamma_pisf, max_it_pisf);
-
-    pi.setZero();
-    for (Natural i = 0; i < n; ++i)
-      pi(i, agt->pi(i)) = 1.0;
-
-    Real v = evaluation(num_episodes, pi, card_dist);
 
     if (!(it % batches_per_point)) {
       ofstream file;
       stringstream filename;
       stringstream id;
+      Real v = evaluation(num_episodes, pi, card_dist);
+
       id.str(std::string());
       id << n << "_"
          << sr << "_"
