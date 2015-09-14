@@ -22,7 +22,6 @@ case "$HOSTNAME" in
         ;;
     turing)
         NCORES=11
-        exit 0
         ;;
     skye)
         NCORES=3
