@@ -29,6 +29,7 @@ namespace emsf
 
   typedef std::vector<data> v_data;
   typedef std::vector<mat> v_mat;
+  typedef std::vector<vec> v_vec;
 
   Natural sample_from_dist(vec dist);
   void normalize(mat &A);
@@ -36,6 +37,8 @@ namespace emsf
   v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na, const bool constant = false, const bool one = false);
   v_mat generate_zero_matrices(const Natural nrows, const Natural ncols, const Natural na);
   model generate_model(const Natural n, const Natural sr, const Natural na);
+  v_mat generate_constant_matrices(const Natural nrows, const Natural ncols, const Natural na, const Real value);
+  v_vec generate_zero_vectors(const Natural n, Natural na);
 }
 
 
