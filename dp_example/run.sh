@@ -12,7 +12,7 @@ NUM_EPISODES=1000000
 MIN_BATCHES=0
 NUM_POINTS=100
 MAX_IT=$NUM_BATCHES
-GAMMA_PISF=1
+GAMMA_PISF=0.999
 MAX_IT_PISF=300
 
 
@@ -38,11 +38,11 @@ END=$2
 PIDS=()
 for RUN in $(seq $START $END)
 do
-    for M in 10 100
+    for M in "5" "10"
     do
-        for ALPHA in "0.1" "0.4" "1.0"
+        for ALPHA in "0.2" "0.4" "0.6" "0.8" "1.0"
         do
-            for EPSILON in "0.1" "0.4" "1.0"
+            for EPSILON in "0.15"
             do
                 COMMAND="./blackjack $RUN $NUM_BATCHES $NUM_EPISODES $MIN_BATCHES $NUM_POINTS $MAX_IT $GAMMA_PISF $MAX_IT_PISF $M $EPSILON $ALPHA"
                 echo $COMMAND
