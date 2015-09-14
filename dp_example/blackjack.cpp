@@ -402,7 +402,7 @@ void update_R(v_mat &r, data_bj &dt, Natural batches, Natural n, Natural na) {
 }
 
 
-void emsf_aaai(const Natural n, const Natural m, const Natural na, int max_it, Real epsilon, Real alpha, vec card_dist, Real gamma_pisf, Natural max_it_pisf, Natural num_episodes, Natural sr, Natural num_batches, Natural min_batches, Natural num_points, Natural run)
+void emsf_aaai(const Natural n, const Natural m, const Natural na, Natural max_it, Natural tc, Real epsilon, Real alpha, vec card_dist, Real gamma_pisf, Natural max_it_pisf, Natural num_episodes, Natural sr, Natural num_batches, Natural min_batches, Natural num_points, Natural run)
 {
   v_stoch_mat D = generate_stochastic_matrices(n, m, na);
   stoch_mat K = generate_stochastic_matrix(m, n);
@@ -436,21 +436,23 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, int max_it, R
         }
       }
 
-      // Commit changes
-      for(int i = 0; i < m; i++)
-        KHat.row(i) = KHat.row(i) / y[a](i);
+      if (!(it % tc)) {
+        // Commit changes
+        for(int i = 0; i < m; i++)
+          KHat.row(i) = KHat.row(i) / y[a](i);
 
-      K = (1-alpha) * K + alpha * KHat; 
+        K = (1-alpha) * K + alpha * KHat; 
 
-      for(int i = 0; i < n; i++)
-        if (x[a](i))
-          D[a].row(i) = (1-alpha) * D[a].row(i) + alpha * DHat[a].row(i) / x[a](i); 
+        for(int i = 0; i < n; i++)
+          if (x[a](i))
+            D[a].row(i) = (1-alpha) * D[a].row(i) + alpha * DHat[a].row(i) / x[a](i); 
 
-      // Free DHat, KHat, x, y
-      DHat[a].setZero();
-      KHat.setZero();
-      x[a].setZero();
-      y[a].setZero();
+        // Free DHat, KHat, x, y
+        DHat[a].setZero();
+        KHat.setZero();
+        x[a].setZero();
+        y[a].setZero();
+      }
     }
 
     vec RHat = vec::Zero(n, 1);
@@ -499,9 +501,9 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, int max_it, R
 int main(int argc, char* argv[])
 {
  // Testa se os parâmetros foram informados corretamente
-  Natural nargs = 12;
+  Natural nargs = 13;
   if (argc != nargs) {
-    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT GAMMA_PISF MAX_IT_PISF M EPSILON ALPHA" << endl;
+    cout << "Usage: blackjack RUN NUM_BATCHES NUM_EPISODES MIN_BATCHES NUM_POINTS MAX_IT TC GAMMA_PISF MAX_IT_PISF M EPSILON ALPHA" << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -515,17 +517,18 @@ int main(int argc, char* argv[])
   const Natural min_batches = atoi(argv[4]);
   const Natural num_points = atoi(argv[5]);
   const Natural max_it = atoi(argv[6]);
-  const Real gamma_pisf = atof(argv[7]);
-  const Natural max_it_pisf = atoi(argv[8]);
-  const Natural m = atoi(argv[9]);
-  const Real epsilon = atof(argv[10]);
-  const Real alpha = atof(argv[11]);
+  const Natural tc = atoi(argv[7]);
+  const Real gamma_pisf = atof(argv[8]);
+  const Natural max_it_pisf = atoi(argv[9]);
+  const Natural m = atoi(argv[10]);
+  const Real epsilon = atof(argv[11]);
+  const Real alpha = atof(argv[12]);
 
   srand(run);
 
   vec card_dist = generate_stochastic_matrix(1, 13, true).transpose();
 
-  emsf_aaai(n, m, na, max_it, epsilon, alpha, card_dist, gamma_pisf, max_it_pisf, num_episodes, sr, num_batches, min_batches, num_points, run);
+  emsf_aaai(n, m, na, max_it, tc, epsilon, alpha, card_dist, gamma_pisf, max_it_pisf, num_episodes, sr, num_batches, min_batches, num_points, run);
 
   return 0;
 }
