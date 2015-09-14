@@ -9,11 +9,12 @@
 #include "eigen3/Eigen/Dense"
 #include "util.h"
 #include "emsf.h"
-
+#include "blackjack.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace util;
+using namespace blackjack;
 
 
 namespace emsf {
@@ -67,6 +68,17 @@ namespace emsf {
   }
 
 
+  v_mat generate_constant_matrices(const Natural nrows, const Natural ncols, const Natural na, const Real value)
+  {
+    v_mat vm;
+    vm.resize(na);
+    for (Natural a = 0; a < na; ++a)
+      vm[a] = mat::Constant(nrows, ncols, value);
+
+    return vm;
+  }
+
+
   v_stoch_mat generate_stochastic_matrices(const Natural nrows,const Natural ncols, const Natural na, const bool constant, const bool one)
   {
     v_stoch_mat M;
@@ -94,6 +106,17 @@ namespace emsf {
       vm[a] = mat::Zero(nrows, ncols);
 
     return vm;
+  }
+
+
+  v_vec generate_zero_vectors(const Natural n, Natural na)
+  {
+    v_vec vv;
+    vv.resize(na);
+    for (Natural a = 0; a < na; ++a)
+      vv[a] = vec::Zero(n);
+
+    return vv;
   }
 
 
@@ -333,101 +356,6 @@ namespace emsf {
       P_bar[i] = D[i] * K[i];
 
     return frobenius_norm_v(P_bar, P, na);
-  }
-
-
-  //  Real em_sf(model &md, v_data &dt, const Natural n, const Natural m, const Natural na, const Natural T, v_stoch_mat D, v_stoch_mat K, const Real eps = 1e-20, const Natural max_it = 10)
-  void emsf_aaai(const Natural n, const Natural m, const Natural na)
-  {
-    v_stoch_mat D_original = generate_stochastic_matrices(n, m, na);
-    v_stoch_mat K_original = generate_stochastic_matrices(m, n, na);
-
-    // //Couting matrix
-    // SparseMatrix<float, RowMajor> C(N, N);
-    // //Solve the 'nan' problem
-    // for (int i = 0; i < N; i++)
-    //   for (int j = 0; j < N; j++)
-    //     C.insert(i, j) = 1;
-
-    // //Auxiliary matrix
-    // SparseMatrix<float, RowMajor>  DHat(N,M);
-    // SparseMatrix<float, ColMajor>  KHat(M,N);
-
-    // //Sum of Dhat rows
-    // SparseVector<float, RowMajor> x(N);
-    // //Sum of Khat rows
-    // SparseVector<float, ColMajor> y(M);
-
-    // int iTc = 0;
-    // int L = 0;
-    // int s = data.getNext(), sline = -1; //states (last and current)
-    // for (int it = 1; it <= maxIt; it++){
-    //   for (int t = 1; t <= T; t++){
-    //     //if (t % 1000 == 0) cout << " it: " << t << endl;
-    //     //Get a next state (from dataset or online)
-    //     sline = data.getNext();
-
-    //     //transition
-    //     C.coeffRef(s, sline) = C.coeff(s, sline) + 1;
-    //     s = sline;
-
-    //     //accumulate changes
-    //     if (t % ta == 0){
-    //       for (int k = 0; k < C.outerSize(); ++k){
-    //         for (SparseMatrix<float, RowMajor>::InnerIterator it(C,k); it; ++it){
-    //           if (it.value() != 0){
-    //             int i = it.row(); int j = it.col();
-    //             float g = ((SparseMatrix<float, RowMajor>)(D.row(i) * SparseMatrix<float, RowMajor>(K.col(j)))).coeff(0, 0);
-    //             SparseVector<float, RowMajor> w =  (it.value()/g) * (D.row(i).cwiseProduct(SparseVector<float, RowMajor>(K.col(j))));
-
-    //             //Update D
-    //             DHat.row(i) = DHat.row(i) + w;
-    //             x.coeffRef(i) = x.coeff(i) + w.sum();
-
-    //             //Update K
-    //             KHat.col(j) = KHat.col(j) + SparseVector<float, ColMajor>(w);
-    //             y = y + SparseVector<float, ColMajor>(w);
-
-    //             L += it.value() * log(g);
-    //           }
-    //         }
-    //       }
-    //       //Solve the 'nan' problem
-    //       for (int i = 0; i < N; i++)
-    //         for (int j = 0; j < N; j++)
-    //           C.coeffRef(i, j) = 1;
-    //     }
-    //     //commit changes
-    //     if (t % tc == 0){
-    //       SparseMatrix<float, RowMajor> auxKh(KHat);
-    //       for(int i = 0; i < M; i++){
-    //         auxKh.row(i) = auxKh.row(i) / y.coeff(i);
-    //       }
-    //       KHat = SparseMatrix<float, ColMajor>(auxKh);
-    //       K = (1-alpha) * K + alpha * KHat; 
-
-    //       for(int i = 0; i < N; i++){
-    //         if (x.coeff(i) != 0){ //if row i changed
-    //           D.row(i) = (1-alpha) * D.row(i) + alpha * DHat.row(i) / x.coeff(i); 
-    //         }
-    //       }
-    //       //Free DHat, KHat, x, y
-    //       DHat.setZero();
-    //       KHat.setZero();
-    //       x.setZero();
-    //       y.setZero();
-    //       iTc++;
-    //       L = 0;
-
-    //       // Print results
-    //       cout << it << " ";
-    //       cout << " L " << L;
-    //       cout << " KL " << Tools::KL(model.getP(), D*K) << " ";
-    //       cout << " F " << Tools::frobenius(model.getP(), D*K) << endl;
-    //     }
-    //   }
-    // }
-    return D * K;
   }
 
 
