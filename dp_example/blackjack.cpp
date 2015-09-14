@@ -435,6 +435,7 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, Natural max_i
           }
         }
       }
+      C[a].setZero();
 
       if (!(it % tc)) {
         // Commit changes
