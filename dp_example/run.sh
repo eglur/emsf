@@ -15,7 +15,23 @@ MAX_IT=$NUM_BATCHES
 GAMMA_PISF=1
 MAX_IT_PISF=300
 
-NCORES=3
+
+case "$HOSTNAME" in
+    prjcuda02)
+        NCORES=15
+        ;;
+    turing)
+        NCORES=11
+        exit 0
+        ;;
+    skye)
+        NCORES=3
+        ;;
+    *)
+        echo "Numero de cores desconhecido."
+        exit 1
+esac
+
 START=$1
 END=$2
 
