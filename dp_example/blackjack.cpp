@@ -402,7 +402,7 @@ void update_R(v_mat &r, data_bj &dt, Natural batches, Natural n, Natural na) {
 }
 
 
-void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Real epsilon, Real alpha, vec card_dist, Real gamma_pisf, Natural max_it_pisf, Natural num_episodes, Natural sr, Natural num_batches, Natural min_batches, Natural num_points, Natural run)
+void emsf_aaai(const Natural n, const Natural m, const Natural na, int max_it, Real epsilon, Real alpha, vec card_dist, Real gamma_pisf, Natural max_it_pisf, Natural num_episodes, Natural sr, Natural num_batches, Natural min_batches, Natural num_points, Natural run)
 {
   v_stoch_mat D = generate_stochastic_matrices(n, m, na);
   stoch_mat K = generate_stochastic_matrix(m, n);
@@ -412,8 +412,9 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Re
   v_vec x = generate_zero_vectors(n, na);
   v_vec y = generate_zero_vectors(m, na);
   stoch_mat pi = generate_stochastic_matrix(n, na, true);
+  const Natural batches_per_point = (double) (num_batches - min_batches) / (double) num_points;
 
-  for (int it = 1; it <= maxIt; it++) {
+  for (int it = 1; it <= max_it; it++) {
     // Get the next batch
     data_bj dt = generate_data_bj(pi, epsilon, card_dist);
     count_transitions(C, dt);
@@ -465,25 +466,33 @@ void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Re
 
     Real v = evaluation(num_episodes, pi, card_dist);
 
-    ofstream file;
-    stringstream filename;
-    stringstream id;
-    id.str(std::string());
-    id << sr << "_"
-       << na << "_"
-       << num_batches << "_"
-       << num_episodes << "_"
-       << min_batches << "_"
-       << num_points << "_"
-       << epsilon << "_"
-       << std::setw(2) << std::setfill('0') << run;
+    if (!(it % batches_per_point)) {
+      ofstream file;
+      stringstream filename;
+      stringstream id;
+      id.str(std::string());
+      id << n << "_"
+         << sr << "_"
+         << na << "_"
+         << num_batches  << "_"
+         << num_episodes  << "_"
+         << min_batches  << "_"
+         << num_points  << "_"
+         << max_it  << "_"
+         << gamma_pisf  << "_"
+         << max_it_pisf  << "_"
+         << m << "_"
+         << epsilon  << "_"
+         << alpha  << "_"
+         << std::setw(2) << std::setfill('0') << run;
 
-    // Log value
-    filename.str(std::string());
-    filename << "v_aaai_bj_" << id.str() << ".log";
-    file.open(filename.str().c_str(), ios::app);
-    file << v << " ";
-    file.close();
+      // Log value
+      filename.str(std::string());
+      filename << "v_aaai_bj_" << id.str() << ".log";
+      file.open(filename.str().c_str(), ios::app);
+      file << v << " ";
+      file.close();
+    }
   }
 }
 
