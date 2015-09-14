@@ -402,6 +402,60 @@ void update_R(v_mat &r, data_bj &dt, Natural batches, Natural n, Natural na) {
 }
 
 
+void emsf_aaai(const Natural n, const Natural m, const Natural na, int maxIt, Real epsilon, Real alpha, vec card_dist)
+{
+  v_stoch_mat D = generate_stochastic_matrices(n, m, na);
+  v_stoch_mat K = generate_stochastic_matrices(m, n, na);
+  v_stoch_mat DHat = generate_stochastic_matrices(n, m, na);
+  v_stoch_mat KHat = generate_stochastic_matrices(m, n, na);
+  v_mat C = generate_constant_matrices(n, n, na, 1.0);
+  v_vec x = generate_zero_vectors(n, na);
+  v_vec y = generate_zero_vectors(m, na);
+  stoch_mat pi = generate_stochastic_matrix(n, na, true);
+
+  for (int it = 1; it <= maxIt; it++) {
+    // Get the next batch
+    data_bj dt = generate_data_bj(pi, epsilon, card_dist);
+    count_transitions(C, dt);
+
+    for (Natural a = 0; a < na; ++a) {
+      //Accumulate changes
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+          if (C[a](i, j)) {
+            float g = D[a].row(i) * K[a].col(j);
+            vec w = (C[a](i, j) / g) * D[a].row(i).cwiseProduct(K[a].col(j));
+
+            //Update D
+            DHat[a].row(i) = DHat[a].row(i) + w;
+            x[a](i) = x[a](i) + w.sum();
+
+            // Update K
+            KHat[a].col(j) = KHat[a].col(j) + w;
+            y[a] = y[a] + w;
+          }
+        }
+      }
+
+      // Commit changes
+      for(int i = 0; i < m; i++)
+        KHat[a].row(i) = KHat[a].row(i) / y[a](i);
+
+      K[a] = (1-alpha) * K[a] + alpha * KHat[a]; 
+
+      for(int i = 0; i < n; i++)
+        if (x[a](i))
+          D[a].row(i) = (1-alpha) * D[a].row(i) + alpha * DHat[a].row(i) / x[a](i); 
+
+      // Free DHat, KHat, x, y
+      DHat[a].setZero();
+      KHat[a].setZero();
+      x[a].setZero();
+      y[a].setZero();
+    }
+  }
+}
+
 int main(int argc, char* argv[])
 {
   ofstream file;
