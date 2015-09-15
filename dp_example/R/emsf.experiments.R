@@ -75,15 +75,19 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
     pch1 <- c(5, 2, 1, 0)
     pch2 <- c(18, 17, 16, 15)
 
-    col1 <- c("black", "red", "blue", "black")
-    col1 <- c("blue", "red", "green", "black")
+    pch1 <- c(5, 2, 1)
+    pch2 <- c(18, 17, 16)
+
+    col1 <- c("red", "green", "blue", "black")
+    col1 <- c("blue", "green", "red")
 
     emsf.experiment.plot.results(save=TRUE,
                                  tcs=tcs,
-                                 inds=1:1,
+                                 alphas=c(0.1, 0.3, 0.5, 0.7),
+                                 inds=c(1, 3, 4),
                                  pch=c(pch1, pch2),
                                  col=c(col1, col1),
-                                 ylim=c(0.625, 0.76),
+                                 ylim=ylim,
                                  pos=pos,
                                  cex=cex)
 }
