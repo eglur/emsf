@@ -4,7 +4,6 @@ source("dp.R")
 source("emsf.R")
 source("util.R")
 
-
 # counting (maximum likelihood)
 # ne: # de jogos para avaliar a política
 bj.ml <- function(num.episodes = 3e4, epsilon = 0.15, tc = 1000, df = 0.999, max.iter = 200, ne = 1e6)
@@ -713,12 +712,38 @@ std <- function(x)
     apply(x, 1, sd)/sqrt(nrow(x))
 }
 
-plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500, emsf.ms = 10, emsf.alpha = 1, emsf.beta, qlearning.alpha, dir = "./files/")
+
+make.leg.alpha.delta <- function(alphas, deltas) {
+    ## makes a legend with labels epsilon = dfs[1, 2, ...]
+    l <- expression()
+    for (i in 1:length(alphas)) {
+        l <- c(l, substitute(expression(EMSF (alpha == a)~(Delta == d~s)), list(a=alphas[i], d=round(deltas[i], digits=1)))[[2]])
+    }
+    l
+}
+
+
+make.leg.delta <- function(labels, deltas) {
+    ## makes a legend with labels epsilon = dfs[1, 2, ...]
+    l <- expression()
+    for (i in 1:length(deltas)) {
+        l <- c(l, substitute(expression(lab~(Delta == d~s)), list(lab=labels[i], d=round(deltas[i], digits=1)))[[2]])
+    }
+    l
+}
+
+
+plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
+                         emsf.ms = c(10, 50, 100),
+                         emsf.alphas = c(1, 0.5, 0.1),
+                         emsf.tccs=c(100, 50),
+                         emsf.beta, qlearning.alpha, dir = "./files/")
 {
     R <- NULL
     S <- NULL
     T <- NULL
-    legendas <- NULL;
+    legendas <- NULL
+    deltas <- NULL
 
     prefix <- paste("bj_ml", num.episodes, epsilon, tc, sep= "_")
     file.return <- ps(dir, prefix, "_ret.txt")
@@ -727,12 +752,13 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500, emsf.ms =
     result <- read.table(file.return)
     result.std <- std(result)
     result.mean <- apply(result, 1, mean)
-
     R <- cbind(R, result.mean)
     S <- cbind(S, result.std)
-    T <- cbind(T, apply(read.table(file.time), 1, mean))
 
-    legendas <- c(legendas, paste("ML"))
+    time <- read.table(file.time)
+    time.mean <- apply(time, 1, mean)
+    T <- cbind(T, time.mean)
+    deltas = c(deltas, time.mean[length(time.mean)])
 
     prefix <- paste("bj_qlearning", num.episodes, epsilon, tc, qlearning.alpha, sep= "_")
     file.return <- ps(dir, prefix, "_ret.txt")
@@ -741,35 +767,66 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500, emsf.ms =
     result <- read.table(file.return)
     result.std <- std(result)
     result.mean <- apply(result, 1, mean)
-
     R <- cbind(R, result.mean)
     S <- cbind(S, result.std)
-    T <- cbind(T, apply(read.table(file.time), 1, mean))
 
-    legendas <- c(legendas, paste("QL"))
+    time <- read.table(file.time)
+    time.mean <- apply(time, 1, mean)
+    T <- cbind(T, time.mean)
+    deltas <- c(deltas, time.mean[length(time.mean)])
+
+    labels <- c("CNT+PI", "Q-learning")
+    legendas <- c(legendas, make.leg.delta(labels, deltas))
+    deltas <- NULL
 
     for (i in 1:length(emsf.ms))
     {
-        prefix <- paste("bj_emsf_comp", num.episodes, epsilon, tc, emsf.ms[i], emsf.alpha, tc, sep= "_")
-        file.return <- ps(dir, prefix, "_ret.txt")
-        file.time   <- ps(dir, prefix, "_tim.txt")
+        for (j in 1:length(emsf.alphas))
+        {
+            for (k in 1:length(emsf.tccs))
+            {
+                prefix <- paste("bj_emsf_comp", num.episodes, epsilon, tc, emsf.ms[i], emsf.alphas[j], emsf.tccs[k], sep= "_")
+                file.return <- ps(dir, prefix, "_ret.txt")
+                file.time   <- ps(dir, prefix, "_tim.txt")
 
-        result <- read.table(file.return)
-        result.std <- std(result)
-        result.mean <- apply(result, 1, mean)
+                result <- read.table(file.return)
+                result.std <- std(result)
+                result.mean <- apply(result, 1, mean)
+                R <- cbind(R, result.mean)
+                S <- cbind(S, result.std)
 
-        R <- cbind(R, result.mean)
-        S <- cbind(S, result.std)
-        T <- cbind(T, apply(read.table(file.time), 1, mean))
-
-        legendas <- c(legendas, paste("QL"))
+                time <- read.table(file.time)
+                time.mean <- apply(time, 1, mean)
+                T <- cbind(T, time.mean)
+                deltas = c(deltas, time.mean[length(time.mean)])
+            }
+        }
     }
 
-    R <- R[1:10,]
-    S <- S[1:10,]
+    legendas <- c(legendas, make.leg.alpha.delta(emsf.alphas, deltas))
 
-    mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, t="l")
+    num.points=17
+    R <- R[seq(10, nrow(R), length=num.points),]
+    S <- S[seq(10, nrow(S), length=num.points),]
+
+    mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, t="l", xlab="Episodes", ylab="Return", show.shadow=FALSE)
     leg(pos="bottomright", leg=legendas)
-}
-plot.results(num.episodes=5e3, epsilon=0.15, tc=100, qlearning.alpha=0.1, emsf.ms=c(10, 50, 100), emsf.alpha=1)
 
+    dev.copy2pdf(file = "~/blackjack.pdf")
+    ## system("epstopdf ~/blackjack.eps")
+
+    deltas
+}
+## emsf.ms=c(10)
+## emsf.tccs=c(100)
+## emsf.alphas=c(1, 0.5, 0.1)
+
+## # ql: 0.1 é o melhor
+
+## T <- plot.results(num.episodes=5e3,
+##              epsilon=0.15, 
+##              tc=100,
+##              qlearning.alpha=0.1,
+##              emsf.ms=emsf.ms,
+##              emsf.tccs=emsf.tccs,
+##              emsf.alphas=emsf.alphas)
