@@ -770,31 +770,6 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500, emsf.ms =
 
     mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, t="l")
     leg(pos="bottomright", leg=legendas)
-
-    ## dev.copy2eps(file = "~/em_sf/fig/blackjack.eps")
-    ## system("epstopdf ~/em_sf/fig/blackjack.eps")
-
-    ## for (i in 1:length(emsf.ms))
-    ## {
-    ##     prefix <- paste("bj_emsf", num.episodes, epsilon, tc, emsf.ms[i], emsf.alpha, emsf.beta, sep= "_")
-    ##     file.return <- ps(dir, prefix, "_ret.txt")
-    ##     file.time   <- ps(dir, prefix, "_tim.txt")
-
-    ##     R <- cbind(R, apply(read.table(file.return), 1, mean))
-    ##     T <- cbind(T, apply(read.table(file.time), 1, mean))
-    ## }
-
-    ## par(mfrow=c(2,1))
-    ## [5:nrow(R),]
-    
-    ## matplot(R[5:nrow(R),], t="l")
-
-    ## legend("bottomright", c("ML", paste("EMSF", emsf.ms), "Q-learning"), col = 1:(length(ms) + 2), lty="l")
-
-    ## x11()
-    ## matplot(T[5:nrow(T),], t="l")
-
-    ## par(mfrow=c(1,1))
 }
 plot.results(num.episodes=5e3, epsilon=0.15, tc=100, qlearning.alpha=0.1, emsf.ms=c(10, 50, 100), emsf.alpha=1)
 
