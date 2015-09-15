@@ -26,12 +26,13 @@ emsf.experiment.fixed.tc <- function(n, alpha.dir, m, tc, alphas, max.it, na = 1
       print(paste("Running alpha = ", alphas[i], "  run", j))
       P <- emsf.experiment.generate.P(n, alpha.dir, na)
       L <- cbind(L, emsf(P, m, tc, tc, alphas[i], max.it))
+#       print(L)
     }
     
     R <- cbind(R, apply(L, 1, mean))
     colnames(R)[ncol(R)] <- paste(alphas[i])
     
-    D <- cbind(D, apply(L, 1, sd) / num.avg)
+    D <- cbind(D, apply(L, 1, sd) / sqrt(num.avg))
     colnames(D)[ncol(D)] <- paste(alphas[i])
     
     prefix <- ps(dir, paste("emsf", n, m, tc, max.it, alpha.dir, sep="_"))
@@ -43,38 +44,42 @@ emsf.experiment.fixed.tc <- function(n, alpha.dir, m, tc, alphas, max.it, na = 1
 }
 
 
-make.leg.alpha <- function(tc, alpha) {
+make.leg.tcs.alphas <- function(tcs, alphas) {
 # makes a legend with labels epsilon = dfs[1, 2, ...]
    l <- expression()
-   for (a in tc)
+   for (tc in tcs)
    {
-    for(d in alpha) {
-      l <- c(l, substitute(expression(t[c] == 10^a2~alpha == d2), list(a2=a, d2=d))[[2]]) 
+    for(alpha in alphas) {
+      l <- c(l, substitute(expression(t[c] == TC~alpha == ALPHA), list(TC=tc, ALPHA=alpha))[[2]]) 
       }
    }
-   print(l)
+#    print(l)
  l
 }
 
 
-emsf.experiment.plot.results <- function(alphas = c(0.1, 0.4, 1), num.points = 30)
+emsf.experiment.plot.results <- function(n = 100, m = 10, tcs = seq(100, 500, by = 100), max.it = 25*10^3, 
+  alpha.dir = 0.5, alphas = c(0.1, 0.3, 0.5, 0.7, 1), inds = 1:5, num.points = 30, dir = "./files/", idx = "")
 {
   
-  Z  <- as.matrix(read.table("./files/emsf_100_30_1000_1e+06_1_kld.txt", header = TRUE))
-  Z2 <- as.matrix(read.table("./files/emsf_100_30_10000_1e+06_1_kld.txt", header = TRUE))
-  Z <- Z[seq(1, nrow(Z), length = num.points), ]
-  Z2 <- Z2[seq(1, nrow(Z2), length = num.points), ]
+  R <- NULL
+  D <- NULL
+  for (i in 1:length(tcs))
+  {
+    prefix <- ps(dir, paste("emsf", n, m, tcs[i], max.it, alpha.dir, sep="_"))
+    TMP <- as.matrix(read.table(ps(prefix, idx, "_kld.txt"), header = TRUE))
+    R <- cbind(R, TMP[seq(1, nrow(TMP), length=num.points),inds])
+    
+    prefix <- ps(dir, paste("emsf", n, m, tcs[i], max.it, alpha.dir, sep="_"))
+    TMP <- as.matrix(read.table(ps(prefix, idx, "_ser.txt"), header = TRUE))
+    D <- cbind(D, TMP[seq(1, nrow(TMP), length=num.points),inds])
+  }
   
-  D  <- as.matrix(read.table("./files/emsf_100_30_1000_1e+06_1_ser.txt", header = TRUE))
-  D2 <- as.matrix(read.table("./files/emsf_100_30_10000_1e+06_1_ser.txt", header = TRUE))
-  D <- D[seq(1, nrow(D), length = num.points), ]
-  D2 <- D2[seq(1, nrow(D2), length = num.points), ]
-
-  R <- cbind(Z,Z2)
-  D <- cbind(D,D2)
+  print(R)
+  mp(seq(1, max.it, l = num.points), R, R + D , R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)"))
   
-  mp(seq(1, 2e6, l = nrow(R)), R, R + D, R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)"))
-  leg("topright", make.leg.alpha(c(3, 4), alphas))
+  l <- make.leg.tcs.alphas(tcs,alphas[inds])
+  leg("topright",l)
 }
   
 
