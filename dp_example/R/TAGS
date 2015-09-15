@@ -1,0 +1,902 @@
+
+add.pseudo.inverse.R,39
+add.column.pseudo.inv <- function(3,2
+
+ap_usp.R,12
+source(1,0
+
+arch.kernel.R,200
+source(1,0
+ select.clara <- function(12,226
+select.grid.mountain <- function(18,393
+alloc.knn <- function(44,1050
+alloc.prop <- function(52,1221
+arch.kernel.policy.iteration <- function(59,1399
+
+arch.R,89
+source(1,0
+encode.policy <- function(36,922
+arch.policy.iteration <- function(49,1276
+
+blackjack.experiments.old.R,321
+source(1,0
+bj.emsf <- function(91,1951
+bj.emsf.full <- function(185,4093
+bj.qlearning <- function(310,6696
+bj.ml.experiment <- function(370,8023
+bj.emsf.experiment <- function(416,9322
+bj.emsf.full.experiment <- function(461,10674
+bj.qlearning.experiment <- function(508,12071
+plot.results <- function(552,13418
+
+blackjack.experiments.R,451
+source(1,0
+bj.emsf <- function(96,1989
+bj.emsf.full <- function(190,4007
+bj.emsf.comp <- function(320,6557
+bj.qlearning <- function(465,9416
+bj.emsf.comp.experiment <- function(525,10724
+bj.ml.experiment <- function(574,12146
+bj.emsf.experiment <- function(620,13436
+bj.qlearning.experiment <- function(666,14777
+std <- function(710,16097
+make.leg.alpha.delta <- function(716,16156
+plot.results <- function(726,16449
+emsf.ms=ms798,18861
+
+blackjack.R,175
+dyn.load(load1,0
+bj.transition <- function(30,538
+bj.state.index <- function(76,1267
+bj.evaluate.policy <- function(82,1412
+bj.evaluate.policy.fast <- function(110,1981
+
+bounds.R,191
+bound.error <- function(1,0
+compare.error.bound <- function(10,246
+compare.bounds <- function(28,863
+compare.bounds.batch <- function(42,1333
+compare.rel.error.bound <- function(62,1749
+
+capi.rl.data.analysis.R,145
+source(1,0
+show.pole.mnea <- function(53,1635
+plot.dpi <- function(135,4305
+generate.all <- function(234,7574
+show.hiv <- function(270,9264
+
+ci.95.R,55
+ci.95 <- function(1,0
+ci.95.sample <- function(7,168
+
+count.nonzeros.R,19
+dyn.load(load1,0
+
+_cr.data.analysis.first.jair.submission.R,295
+source(1,0
+get.lty <- function(13,160
+get.col <- function(20,308
+get.pch <- function(27,557
+mp <- function(33,655
+leg <- function(40,817
+show.sizes <- function(47,1022
+show.diff.v <- function(220,5905
+generate.tables <- function(263,6916
+generate.tables.transpose <- function(319,8619
+
+cr.data.analysis.R,310
+source(1,0
+ci <- function(40,1343
+               show.hours hours70,2286
+show.perf.test <- function(339,9761
+show.perf.test.policy <- function(377,10711
+show.perf.fac <- function(536,15052
+show.perf.truly.fac <- function(656,18361
+show.perf.uct <- function(770,21041
+std.values <- function(897,24454
+
+cr.R,13
+source(3,65
+
+data.manipulation.R,461
+source(6,270
+normalize <- function(23,531
+unnormalize <- function(41,1120
+make.empty.sars <- function(50,1296
+collect.transitions <- function(55,1437
+collect.episodes <- function(99,2719
+normalize.sars <- function(149,4852
+unnormalize.sars <- function(158,5171
+make.sa <- function(167,5375
+make.lsars <- function(177,5546
+make.sars <- function(196,5989
+save.sars <- function(210,6482
+load.sars <- function(220,6908
+merge.sars <- function(241,7712
+
+data.plot.R,221
+source(1,0
+get.lty <- function(13,221
+get.col <- function(20,421
+get.pch <- function(36,1241
+mp <- function(42,1341
+leg <- function(118,3720
+make.leg.epsilon <- function(136,4202
+make.leg.iota<- function(146,4465
+
+detour.nmf.R,448
+source(12,500
+nmf.kmeans <- function(96,2720
+nmf.mult.Ralone <- function(114,3217
+nmf.mult.kl <- function(190,5594
+nmf.mult.kl.no.proj <- function(258,7710
+nmf.mult.kl.Ralone <- function(328,9712
+nmf.pg <- function(391,11620
+nnls <- function(461,13838
+nmf.ls <- function(529,15451
+nmf.ls.Ralone <- function(579,16921
+compare.ls.mult <- function(635,18421
+compare.functions.dp <- function(658,19064
+compare.Ralone <- function(693,19957
+
+detour.reduce.mdp.experiments.R,141
+source(1,0
+reduce.mc.experiments <- function(11,136
+concatenate.results <- function(111,4317
+reduce.mdp.experiments <- function(135,5112
+
+detour.reduce.mdp.R,156
+source(3,37
+reduce.mdp <- function(33,978
+expand.Q <- function(59,1614
+reduce.mc.parallel <- function(70,1755
+reduce.mdp.parallel <- function(111,2956
+
+detour.samples.experiments.acrobot.R,81
+source(1,0
+acrobot.lspi <- function(26,848
+acrobot.detour <- function(45,1507
+
+detour.samples.experiments.mountain.R,222
+source(1,0
+mountain.test.policy <- function(46,1331
+mountain.lspi <- function(66,1978
+mountain.detour <- function(97,3116
+mountain.lspi.detour <- function(119,3970
+mountain.detour.compare.center <- function(189,6729
+
+detour.samples.experiments.pole.R,156
+source(1,0
+pole.double.data <- function 21,565
+pole.test.policy.rbfn <- function(44,1478
+pole.lspi <- function(66,2252
+pole.detour <- function(99,3436
+
+detour.samples.experiments.R,111
+lspi.size.to.detour.size <- function(2,1
+lspi.detour <- function(14,558
+compile.results <- function(80,3293
+
+detour.samples.generic.R,135
+source(5,215
+kbrl.rbfn <- function(50,1432
+kbrl.rbfn2 <- function(111,3236
+kbrl.mountain.grid <- function(164,4824
+print(250,7631
+
+detour.samples.R,288
+source(1,0
+detour.rbfn <- function(32,755
+detour.rbfn.same <- function(74,2196
+center.random <- function(125,3948
+center.kmeans <- function(142,4514
+center.grid <- function(167,5326
+cs.fuzzy <- function(194,6126
+	# define constants 229,7362
+fuzzy.membership <- function(264,8405
+
+dist.mat.R,19
+dyn.load(load1,0
+
+dp.2D.R,254
+value.iteration.2D <- function(4,20
+value.iteration.2D.Q <- function(103,3263
+Q.to.V <- function(216,7469
+Q.to.p <- function(224,7582
+Q2D.to.Q1D <- function(236,7830
+value.iteration.ap <- function(248,8037
+generate.policy.2D <- function(358,11697
+
+dp.4D.R,38
+value.iteration.4D.Q <- function(1,0
+
+dp.data.analysis.R,1435
+library(11,312
+alg.names <- function(24,506
+alg.lty <- function(29,610
+alg.cols <- function(35,744
+alg.pch <- function(41,958
+plot.algs  <- function(45,1030
+load.data <- function(132,3731
+id <- function(179,5139
+plot.mountain.grid <- function(218,6448
+plot.pole.grid.pi <- function(240,7361
+plot.pole.grid.pisf.by.n <- function(247,7651
+plot.pole.grid.pisf.by.m <- function(274,8785
+plot.double.pole.grid.pi <- function(296,9675
+plot.puddle.grid <- function(305,10090
+plot.puddle.grid.pisf <- function(310,10366
+generate.mountain.vf <- function(322,10981
+plot.pole.grid.pi <- function(338,11608
+plot.pole.grid.pisf.pi.by.m <- function(346,11868
+plot.pole.grid.pisf.pi.by.n <- function(360,12328
+plot.double.pole.grid.pisf.kbrl <- function(374,12839
+ plot.epilepsy.pi <- function(388,13413
+show.mnt.kbrl <- function(395,13715
+show.mnt.m <- function(402,14062
+show.mnt.n <- function(429,15241
+show.pd.m <- function(448,16173
+show.pd.n <- function(484,17828
+show.pl.m <- function(511,18918
+show.dpl.m <- function(565,20869
+show.dpl.times <- function(587,21959
+generate.all <- function(624,23924
+show.ep  <- function(687,26210
+find.best.mne.pareto <- function(756,28401
+find.best.m.pareto <- function(774,28929
+show.ep.pareto  <- function(792,29501
+show.ep.times <- function(898,34630
+show.ep.features <- function(994,38428
+generate.all.epilepsy <- function(1018,39308
+show.ep2 <- function(1042,39926
+
+dp.R,181
+solve.mp <- function(3,44
+value.iteration <- function(23,561
+policy.iteration <- function(68,2000
+load.mdp <- function(119,3647
+value.iteration.finite.hor <- function(147,4316
+
+emsf.experiments.R,144
+library(1,0
+emsf.experiment.fixed.tc <- function(14,234
+make.leg.alpha <- function(46,1139
+emsf.experiment.plot.results <- function(60,1421
+
+em.sf.R,580
+generate.stochastic.matrix <- function(3,35
+generate.stochastic.matrices <- function(18,350
+sample.from.dist <- function(25,527
+generate.model <- function(39,686
+generate.data <- function(54,1040
+generate.batch.data <- function(69,1327
+generate.model.and.data <- function(85,1583
+em.sf <- function(93,1837
+em.sf2 <- function(193,4103
+is.emsf.nmf <- function(324,7344
+full.on.line.emsf <- function(503,11929
+log.likelihood <- function(551,12857
+frobenius <- function(573,13181
+kl <- function(590,13469
+kld <- function(598,13578
+run.experiment <- function(609,13730
+
+emsf.R,150
+source(1,0
+kld <- function(19,218
+KL <- function(26,358
+emsf <- function(37,531
+online.emsf <- function(149,3032
+emsf.pisf <- function(215,4282
+
+factored.mdps.R,345
+pg.ring <- function(6,44
+pg.star <- function(22,461
+prob.sysadmin <- function(38,908
+P.sysadmin <- function(48,1174
+mdp.sysadmin <- function(63,1572
+bin2dec <- function(76,1790
+ind.state <- function(82,1899
+prob.trans.build <- function(95,2243
+prob.trans <- function(111,2580
+P.elev <- function(141,3691
+mdp.elev <- function(161,4121
+
+fqt.data.analysis.R,267
+source(1,0
+show.comp <- function(43,996
+show.inc <- function(164,4204
+show.hiv <- function(254,6407
+show.hiv.box <- function(369,9844
+show.hiv.pareto <- function(493,13202
+merge.results.fqt.hiv <- function737,20874
+merge.results.tree.hiv <- function772,21739
+
+fuzzy.c.means.R,12
+source(1,0
+
+inc.em.sf.R,157
+source(2,1
+inc.emsf <- function(32,528
+on.line.emsf <- function(101,2049
+run.experiment <- function(164,3536
+run.experiment.online <- function(179,3959
+
+kbrl.R,44
+source(1,0
+kbrl.rbfns <- function(49,1545
+
+kbsf.data.analysis.R,699
+library(1,0
+alg.names <- function(14,202
+alg.lty <- function(19,298
+alg.cols <- function(24,431
+alg.pch <- function(29,542
+plot.alg <- function(34,615
+plot.by.size <- function(89,2126
+plot.by.archs <- function(186,5484
+plot.by.df <- function(304,9389
+concat.by.archs <- function(361,10908
+concat.by.sizes <- function(371,11173
+concat.by.archs.cols <- function(381,11424
+puddle.plot.kbrl <- function(394,11864
+puddle.plot <- function(418,12891
+plot.puddle.lspi.kbsf.by.n70 <- function(535,18551
+plot.puddle.lspi.kbsf.by.n <- function(563,20104
+mountain.plot.kbrl <- function(690,26752
+plot.mountain  <- function(731,28470
+plot.pole <- function(911,36901
+lf <- function(1035,42723
+
+kbsf.experiments.R,856
+library(1,0
+define.archetypes.kbrl <-function(function29,749
+exp.kbrl <- function(66,2248
+define.archetypes <-function(function175,6958
+define.archetypes.kmeans <-function(function195,7616
+exp.lspi.kbsf <- function(215,8232
+puddle.generate.data.equi <- function(425,17962
+puddle.generate.data.uni <- function(434,18264
+puddle.generate.data.exp <- function(447,18718
+puddle.exp.kbrl <- function(457,19021
+puddle.exp.lspi.kbsf <- function(482,19909
+puddle.exp.grid <- function(510,20863
+mountain.generate.data.uni <- function(534,21690
+mountain.generate.data.exp <- function(570,22844
+mountain.exp.kbrl <- function(584,23395
+mountain.exp.lspi.kbsf <- function(610,24266
+mountain.exp.grid <- function(637,25195
+pole.generate.data.uni <- function(661,26018
+pole.generate.data.exp <- function(717,28038
+pole.make.St <- function(737,28812
+
+kbsf.journal.data.analysis.R,481
+source(1,0
+set.par.new <- function(95,3601
+show.pd.rs.methods <- function(106,3823
+show.pl.trees.kbsf <- function(144,5091
+show.dpl.trees.kbsf <- function(178,6076
+show.pd.bagging <- function(211,7029
+plot.hiv.m <- function(233,7616
+plot.hiv.nag <- function(302,9573
+helicopter.process.raw.data <- function(381,11678
+plot.helicopter <- function450,13817
+make.leg.taus <- function(489,15037
+show.pd.all.kbsf <- function(504,15433
+show.pd.kbrl.tau <- function(551,16969
+
+kbsf.R,23
+kbsf  <- function(1,0
+
+kbsf.run.experiments.R,263
+source(1,0
+puddle.experiment.kbrl.uni <- function(10,247
+puddle.experiment.kbrl.exp <- function(16,427
+puddle.experiment.lspi.kbsf.equi<- function(22,638
+puddle.experiment.lspi.kbsf.uni <- function(29,927
+puddle.experiment.lspi.kbsf.exp <- function(36,1181
+
+lspi.rbfn.optimized.R,44
+source(2,15
+lspi.rbfn <- function(55,1682
+
+lspi.rbfn.R,76
+source(3,16
+lstd.q.rbfn <- function(23,542
+lspi.rbfn <- function(66,1955
+
+markov.chains.R,573
+source(1,0
+group.inverse <- function(13,220
+sf.kl <- function(36,698
+sf.kl.fast <- function(102,2701
+	# define K,110,3039
+     # define D 117,3251
+sf.exact <- function(170,4714
+	# define K,172,4762
+sf.exact.fast <- function(187,5216
+sf.rbf <- function(247,6492
+	# define K,248,6516
+stationary.distribution <- function(261,6823
+direct.stationary.distribution <- function(279,7242
+test <- function(289,7384
+ factor.P <- function(307,7782
+plot.P.script.paper.mc <- function(414,11559
+google.matrix <- function(445,12792
+sf.exact.google <- function(460,13089
+
+matrix.outer.product.bellman.R,19
+dyn.load(load1,0
+
+matrix.outer.product.fast.R,19
+dyn.load(load1,0
+
+matrix.outer.product.R,19
+dyn.load(load1,0
+
+maze.R,325
+maze.transition <- function(3,2
+continuous.maze.transition <- function(51,1151
+puddle.maze.transition <- function(109,2416
+maze.test <- function(177,4119
+continuous.maze.test <- function(191,4437
+maze.generate.policy <- function(206,4739
+maze.random.start <- function(231,5291
+continuous.maze.op <- function(242,5491
+
+mdp.R,739
+random.transition.matrix <- function(1,0
+normal <- function(19,580
+normal.transition.matrix <- function(26,731
+mdp.transition.matrix <- function(51,1626
+mdp.melekopoglou <- function(60,1906
+mdp.line <- function(89,2545
+mdp.double.line <- function(104,2878
+mdp.triangle <- function(120,3253
+mdp.straits <- function(141,3741
+mdp.straits.no.goal <- function(168,4561
+bin2int <- function(199,5452
+flip.bit.expon <- function(209,5718
+flip.bit.linear <- function(221,5972
+flip.highest <- function(228,6100
+flip.lowest <- function(236,6289
+mdp.bitflip <- function(245,6493
+mdp.bitflip.actions <- function(291,7913
+stationary.distribution <- function(310,8384
+save.mdp.c <- function(321,8621
+create.mdp.sf <- function(332,8989
+
+ml.assignments.R,144
+source(1,0
+script.gen.points.reg.2 <- function(36,797
+gen.points.gaussian <- function(61,1407
+script.gen.points.class.1 <- function(85,1970
+
+ml.R,319
+least.squares.params <- function(2,1
+least.squares.batch <- function(9,134
+lwr <- function(14,216
+lwr.batch <- function(27,599
+lwr.best.tau <- function(38,792
+lwr.plot <- function(53,1201
+logistic <- function(68,1536
+logistic.regression.grad <- function(73,1582
+logistic.regression.newton <- function(126,2880
+
+mountain.car.experiments.R,139
+source(1,0
+mc.emsf <- function(104,2117
+mc.emsf.full <- function(219,4754
+emsf <- function(350,7807
+mc.emsf.comp <- function(431,9242
+
+mountain.car.old.R,382
+mountain.car.transition <- function(3,2
+mountain.test.policy <- function(44,1092
+mountain.car.transition.all <- function(88,2445
+mountain.car.test <- function(122,3414
+mountain.car.op <- function(136,3755
+mountain.car.test.policy <- function(143,4034
+mountain.car.test.policy.rbfn <- function(187,5852
+fix.mountain <- function(220,7056
+make.S.mountain <- function(233,7284
+
+mountain.car.R,107
+mc.transition <- function(3,2
+mc.state.index <- function(48,1116
+mc.evaluate.policy <- function(67,1593
+
+nmf.R,652
+source(12,614
+kl <- function(79,2401
+nmf.mult.kl <- function(85,2495
+nmf.kmeans <- function(158,4694
+nmf.fast.heuristic <- function(170,5098
+nmf.fast.heuristic2 <- function(200,5899
+nmf.fcm <- function(236,6811
+nmf.fanny <- function(244,7081
+nmf.kmeans.prop <- function(258,7519
+nmf.pam <- function(274,8075
+nmf.clara <- function(288,8508
+nmf.S.D <- function(302,8947
+nmf.S.DK <- function(324,9584
+nmf.ls <- function(356,10459
+nmf.subset <- function(407,11863
+nmf.bucket <- function(422,12225
+nmf.dist <-function(function460,12919
+nmf.simple <- function(484,13590
+nmf.heuristic <- function(530,14696
+nmf.rbfn <- function(576,15778
+
+online.emsf.R,30
+on.line.emsf <- function(1,0
+
+online.rl.data.analysis.R,710
+source(1,0
+show.puddle.n <- function(53,1591
+show.puddle.ep <- function(95,2896
+show.puddle.thr <- function(141,4227
+fo <- function(183,5590
+show.double.pole.m <- function(192,5816
+show.double.pole <- function(215,6468
+rename.double.pole <- function(252,7627
+show.triple.pole <- function(272,8219
+triple.pole.generate.all <- function(375,11952
+show.triple.pole.batch <- function(391,12477
+triple.pole.merge.results.kbsf <- function(493,15346
+triple.pole.merge.results.tree <- function(525,16129
+triple.pole.merge.results.tree2 <- function(547,16651
+triple.pole.merge.results.tree3 <- function(576,17424
+compare.kbsf.triple.pole <- function(600,18150
+fix.kbsf.triple.pole <- function(640,19491
+
+pai.R,90
+prob.acerto <- function(1,0
+calc.probs <- function(7,131
+calc.notas <- function(20,372
+
+performance.profiles.R,169
+source(1,0
+pp.st <- function(19,508
+make.leg.rhos <- function(75,2397
+generate.artificial.examples <- function(92,2778
+generate.gecco.examples <- function(168,4721
+
+pisf.experiments.R,323
+source(1,0
+mountain.transition.normal <- function(13,338
+calc.ind.2d <- function(34,882
+conv.2d.1d <- function(42,1151
+prob.int.normal <- function(47,1262
+discretize.mountain <- function(55,1466
+policy.1d.2d <- function(117,3878
+mountain.test.policy.n <- function(123,4012
+mountain.experiment <- function(130,4221
+
+pisf.jair.R,12
+source(1,0
+
+pisf_old.R,212
+source(1,0
+pisf <- function(9,149
+nmf.kmeans.smooth <- function(59,1512
+factor.mdp <- function(74,1925
+kb.factor.mdp <- function(110,2824
+pisf.new <- function(147,3755
+test.bound.pisf <- function(179,4539
+
+pisf.R,99
+solve.mp.exactly <- function(2,1
+solve.mp.iteratively <- function(7,104
+pisf <- function(27,398
+
+pole.double.center.R,19
+dyn.load(load1,0
+
+pole.double.R,56
+dyn.load(load1,0
+pole.test.policy <- function(15,380
+
+pole.R,56
+dyn.load(load1,0
+pole.test.policy <- function(15,363
+
+ppp.R,55
+ppp <- function(28,1337
+ppp.demo <- function(82,3274
+
+proj.sum.one.R,19
+dyn.load(load1,0
+
+puddle.world.R,81
+puddle.world.transition <- function(3,2
+puddle.test.policy <- function(74,2450
+
+rbfn.gaussian.R,218
+source(1,0
+rbfn.gaussian.output <- function(14,473
+rbfn.norm.design.matrix <- function(18,575
+rbfn.norm.output <- function(30,1030
+rbfn.bias.design.matrix <- function(37,1215
+rbfn.bias.output <- function(47,1616
+
+rbfn.R,525
+source(8,230
+euclidean.norm <- function(15,333
+sqr.euclidean.norm <- function(19,390
+gaussian <- function(23,445
+pseudo.gaussian <- function(27,510
+make.rbfn <- function(36,654
+make.rbfn.tau <- function(94,2465
+make.null.rbfn <- function(133,3599
+make.rbfn.bias <- function(141,3808
+rbfn.output <- function(179,4839
+step.bp.gaussian <- function(200,5577
+test.bp.gaussian <- function(226,6340
+rbfn.combine <- function(244,6856
+ make.rbfn.simple <- function(254,7025
+make.rbfn.really.simple <- function(299,8816
+
+rbfn.rl.R,252
+compute.v.rbfn <- function(1,0
+compute.policy.rbfn <- function(6,151
+compute.pv.rbfn <- function(10,268
+compute.v.rbfns <- function(17,433
+control.rbfn <- function(27,667
+control.rbfns <- function(51,1424
+compute.policy.rbfn <- function(79,2270
+
+rl.competition.R,42
+source(1,0
+fix.steps <- function(41,783
+
+sarsa.R,212
+ source(1,0
+sarsa.2D <- function(11,164
+sarsa.ap <- function(110,2964
+sarsa.pl <- function(226,6478
+sarsa.plus <- function(360,10746
+sarsa.pl.plus <- function(512,15183
+sarsa.pl.rbfn <- function(664,19767
+
+script.mountain.R,12
+source(1,0
+
+sf_hmm.R,315
+require(1,0
+stat.dist <- function(10,165
+sample.from.dist <- function(25,408
+compute.D <- function(39,567
+generate.stochastic.matrix <- function(65,919
+sf.hmm <- function(72,1062
+run.experiment <- function(170,3046
+plot.res <- function(187,3514
+save.res <- function(214,4121
+load.res <- function(224,4476
+
+sf.hmm.R,378
+euc.dist <- function(23,1206
+exp.nz <- function(47,1661
+test.hmm.idea <- function(80,2505
+compute.D <- function(119,3262
+generate.stochastic.matrix <- function(145,3614
+test.fixed.point.idea <- function(152,3757
+start.from.sf <- function(184,4414
+test.relationship.D.and.K <- function(207,4777
+start.from.hmm <- function(229,5155
+test.proposition <- function(246,5451
+
+sf.independent.R,39
+compare.sf.strategies <- function(2,1
+
+sf.mc.R,69
+check.eigenvalues <- function(1,0
+find.last.row <- function(41,844
+
+sf.nz.R,232
+source(1,0
+prop.nonzeros <- function(18,361
+estimate.prop.nz <- function(123,4230
+script.estimate.prop.nz <- function(164,5498
+test.theory <- function(182,5915
+estimate.frac.valids <- function(241,7582
+z <- function(255,7883
+
+tese.experiments.dp.R,1596
+source(4,133
+ap.mp.simplex <- function(25,633
+ap.mp.simplex.script <- function(43,1268
+plot.hist <- function(54,1673
+plot.normal <- function(65,2073
+plot.dist.simplex <- function(76,2380
+plot.dist.simplex.script <- function(119,3847
+plot.dist.simplex.no.labels <- function(128,4112
+plot.dist.simplex.script.paper <- function(171,5589
+factor.P.mult <- function(180,6059
+inf.norm <- function(240,8581
+factor.M <- function(252,8784
+res.cube <- function(403,15604
+plot.cube.2d <- function(441,17181
+plot.P.script <- function(470,17989
+mean.n <- function(501,19271
+plot.M.script <- function(534,20511
+plot.M.script.paper <- function(570,22080
+plot.corr <- function(609,23892
+plot.error.bound<-function(function646,25143
+plot.v.script <- function(678,26203
+plot.v.script.paper <- function(708,27360
+plot.nmf.kmeans.script <- function(755,29266
+save.MDP <- function(805,31306
+load.MDP <- function(820,31619
+factor.MDP <- function(840,32128
+solve.MDP.straits <- function(968,37227
+solve.MDP.straits.sf <- function(1035,39245
+script.straits <- function(1099,41223
+plot.straits <- function(1128,42226
+plot.straits.box <- function(1186,44469
+factor.MDP.heuristic <- function(1219,45590
+script.heuristic <- function(1243,46397
+plot.heuristic <- function(1273,47580
+factor.MDP.sep <- function(1302,48752
+plot.MDP <- function(1438,54076
+plot.MDP.paper <- function(1485,55747
+plot.MDP.paper.sep <- function(1543,57713
+load.MDP.table <- function(1588,59288
+print.MDP.table <- function(1620,60478
+plot.MDP.sd1 <- function(1641,61014
+plot.MDP.dist <- function(1686,62529
+
+tese.experiments.generic.R,265
+source(1,0
+plot.individual.factorization <- function(56,1420
+test.individual.factorization2 <- function(67,1723
+plot.individual.factorization2 <- function(120,3042
+test.subset.factorization <- function(131,3357
+test.subset.factorization2 <- function(190,4846
+
+tese.experiments.mountain.R,1142
+source(3,56
+generate.map.clusters <- function(53,1482
+generate.kernel.exs <- function(94,2817
+generate.kernel.pert <- function(112,3658
+lim.prob.normal <- function(144,4632
+mountain.transition.normal <- function(152,4912
+calc.ind.2d <- function(173,5456
+conv.2d.1d <- function(181,5725
+prob.int.normal <- function(186,5836
+discretize.mountain <- function(194,6040
+policy.1d.2d <- function(257,8450
+Q.1d.2d <- function(263,8584
+Q.1d.V.2d <- function(273,8835
+mountain.test.policy.n <- function(280,9012
+mountain.experiment <- function(288,9265
+plot.results.standard <- function(378,12972
+generate.mp.sa <- function(399,13697
+generate.mp.sk <- function(426,14759
+generate.mp.sk2 <- function(453,15831
+print.info <- function(480,16851
+generate.table.res <- function(492,17233
+mountain.data <- function 524,18164
+mountain.kbrl.experiment <- function(562,19397
+generate.table.kbrl<- function(632,22879
+generate.mp.kbrl <- function(651,23623
+generate.mp.kbrl.sa <- function(673,24432
+plot.kbrl.inc.sample <- function(708,25796
+plot.kbrl.inc.sample.english <- function(725,26556
+mountain.kbrl.pisa <- function(753,27651
+
+tese.experiments.pole.R,2296
+source(2,1
+pole.make.ST <- function(54,1698
+info.sars <- function(66,2015
+convert.index <- function(87,2477
+pole.build.mdp.grid <- function(99,2652
+pole.test.policy.grid <- function(143,4028
+find.mdp.nonzero <- function(164,4490
+pole.grid <- function(193,5121
+pole.experiment.grid <- function(253,6578
+select.pole.kmeans <- function(273,7244
+select.pole.grid <- function(292,7696
+ select.pole.clara <- function(307,8053
+select.pole.pam <- function(321,8453
+arch.kernel.policy.iteration.alt <- function(334,8821
+pole.pisf <- function(437,12157
+pole.experiment.pisf2 <- function(490,13604
+pole.experiment.pisf <- function(523,14797
+print.line <- function(533,15019
+print.table.grid <- function(545,15336
+print.table.pisf <- function(555,15607
+pole.arch.clara <- function(572,16038
+pole.arch.random <- function(586,16427
+pole.kbrl <- function(597,16757
+pole.experiment.kbrl <- function(670,18738
+print.line.kbrl <- function(710,20121
+print.table.kbrl <- function(724,20518
+pole.kbsf <- function(738,20840
+pole.experiment.kbsf <- function(807,22881
+print.table.kbsf <- function(843,24046
+pi.op <- function(857,24415
+pisf.op <- function(863,24592
+clara.op <- function(869,24778
+kbrl.op <- function(873,24857
+kbsf.op <- function(878,24991
+generate.bar.plot.pi <- function(886,25178
+generate.bar.plot.kbrl <- function(915,26179
+pole.double.experiment <- function(944,27183
+print.table.double <- function(1046,31131
+print.table.double.single <- function(1074,31882
+print.table.lspi <- function(1107,32827
+split.files.merged <- function(1129,33563
+pole.double.data.uniform <- function(1172,35172
+pole.double.data.grid <- function(1213,36364
+pole.double.data.terminal <- function(1230,37031
+generate.samples <- function(1262,37921
+arch.double.fixed <- function(1287,38705
+script.sample <- function(1321,39476
+generate.samples.uniform <- function(1341,40090
+script.sample.uniform <- function(1361,40816
+script.sample.uniform.preliminar <- function(1385,41569
+print.table.uniform.preliminar <- function(1406,42195
+print.table.samples <- function(1433,42978
+plot.sample.size.series <- function(1456,43877
+plot.sample.size.series.uniform <- function(1487,44939
+plot.kbsf.double.pole <- function(1519,46066
+plot.kbsf.double.pole.sd <- function(1534,46499
+
+tese.plot.R,397
+source(2,59
+mp <- function(9,178
+   set.par.tese(tese27,917
+leg <- function(39,1105
+set.par.tese <- function(43,1265
+lines.ci <- function(52,1500
+make.leg.widths <- function(66,1921
+make.leg.noises <- function(77,2142
+make.leg.ncenters <- function(87,2367
+make.leg.dfs <- function(97,2613
+make.leg.difs <- function(107,2828
+lines.int <- function(118,3051
+mp.int <- function(130,3594
+
+tese.R,194
+testa.hipotese <- function(1,0
+teste.teorema <- function(57,1527
+teste.teorema2 <- function(85,2100
+teste.teorema.mdp <- function(111,2539
+teste.teorema.mdp.base.unica <- function(160,3892
+
+tmp.R,213
+source(1,0
+test.sf.normalized <- function(34,795
+generate.stochastic.matrix <- function(103,2337
+sample.from.dist <- function(110,2480
+soft.counting.outer <- function(124,2639
+em.sf.imp <- function(172,3600
+
+understandind.sf.R,51
+source(1,0
+test.sf.normalized <- function(34,795
+
+util.R,576
+read.matrix <- function(1,0
+   paste(..., sep=6,98
+wt <- function(10,127
+rt <- function(14,234
+pp <- function(18,298
+pd <- function(22,401
+sy <- function(27,488
+plot.both <- function(31,528
+runif.int <- function(35,600
+sse <- function(40,750
+mse <- function(44,795
+euclidean.norm <- function(48,849
+norm.inf <- function(52,912
+norm.1 <- function(57,1025
+norm.frobenius <- function(63,1137
+uniform.grid <- function(69,1195
+inc.odometer <- function(96,1905
+colors.plot <- function(108,2107
+reduce.cols <- function(116,2347
+sum.over.cols <- function(127,2565
+
+trechos.R,0

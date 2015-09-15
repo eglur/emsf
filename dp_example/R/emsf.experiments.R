@@ -49,7 +49,7 @@ make.leg.alpha <- function(tc, alpha) {
    for (a in tc)
    {
     for(d in alpha) {
-      l <- c(l, substitute(expression(t[c] == a2 & alpha == d2), list(a2=a, d2=d))[[2]]) 
+      l <- c(l, substitute(expression(t[c] == 10^a2~alpha == d2), list(a2=a, d2=d))[[2]]) 
       }
    }
    print(l)
@@ -57,7 +57,7 @@ make.leg.alpha <- function(tc, alpha) {
 }
 
 
-emsf.experiment.plot.results <- function(alphas = c(0.1, 0.4, 1), num.points = 50)
+emsf.experiment.plot.results <- function(alphas = c(0.1, 0.4, 1), num.points = 30)
 {
   
   Z  <- as.matrix(read.table("./files/emsf_100_30_1000_1e+06_1_kld.txt", header = TRUE))
@@ -74,7 +74,7 @@ emsf.experiment.plot.results <- function(alphas = c(0.1, 0.4, 1), num.points = 5
   D <- cbind(D,D2)
   
   mp(seq(1, 2e6, l = nrow(R)), R, R + D, R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)"))
-  leg("topright", make.leg.alpha(c(10^3, 10^4), alphas))
+  leg("topright", make.leg.alpha(c(3, 4), alphas))
 }
   
 

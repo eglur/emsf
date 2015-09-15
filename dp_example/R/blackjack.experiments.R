@@ -812,21 +812,22 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
     mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, t="l", xlab="Episodes", ylab="Return", show.shadow=FALSE)
     leg(pos="bottomright", leg=legendas)
 
-    dev.copy2pdf(file = "~/blackjack.pdf")
+    dev.copy2pdf(file = paste(sep="", "~/blackjack-m-", emsf.ms[1], "-tcc-", emsf.tccs[1], "-", num.episodes, "-episodes.pdf"))
     ## system("epstopdf ~/blackjack.eps")
 
     deltas
 }
-## emsf.ms=c(10)
-## emsf.tccs=c(100)
-## emsf.alphas=c(1, 0.5, 0.1)
 
-## # ql: 0.1 é o melhor
-
-## T <- plot.results(num.episodes=5e3,
-##              epsilon=0.15, 
-##              tc=100,
-##              qlearning.alpha=0.1,
-##              emsf.ms=emsf.ms,
-##              emsf.tccs=emsf.tccs,
-##              emsf.alphas=emsf.alphas)
+for (m in c(10, 50, 100)) {
+    for (tcc in c(50, 100)) {
+        emsf.alphas=c(1, 0.5, 0.1)
+        plot.results(num.episodes=1e4,
+                     epsilon=0.15, 
+                     tc=100,
+                     qlearning.alpha=0.1,
+                     emsf.ms=c(m),
+                     emsf.tccs=c(tcc),
+                     emsf.alphas=emsf.alphas)
+        
+    }
+}
