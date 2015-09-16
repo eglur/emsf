@@ -69,23 +69,28 @@ emsf.experiment.plot.results.by.tc <- function(save=FALSE)
 emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                               ylim=NULL,
                                               pos=NULL,
-                                              cex=NULL)
+                                              cex=NULL,
+                                              width=width,
+                                              height=height)
 {
     tcs <- c(600, 900)
     pch1 <- c(5, 2, 1, 0, 6)
     pch2 <- c(18, 17, 16, 15, 25)
 
-    col1 <- c("orange", "green", "blue", "black", "red")
+    col1 <- c("red", "green", "orange", "blue", "green")
 
+    inds <- c(1,2,4)
     emsf.experiment.plot.results(save=TRUE,
                                  tcs=tcs,
-                                 alphas=c(0.1, 0.3, 0.5, 0.7, 1.0),
-                                 inds=1:5,
-                                 pch=c(pch1, pch2),
-                                 col=c(col1, col1),
+                                 alphas=c(0.1, 0.3, 0.5, 0.7),
+                                 inds=inds,
+                                 pch=c(pch1[inds], pch2[inds]),
+                                 col=c(col1[inds], col1[inds]),
                                  ylim=ylim,
                                  pos=pos,
-                                 cex=cex)
+                                 cex=cex,
+                                 width=width,
+                                 height=height)
 }
 
 
@@ -101,6 +106,8 @@ emsf.experiment.plot.results <- function(n = 100, m = 10,
                                          ylim=NULL,
                                          pos=NULL,
                                          cex=NULL,
+                                         width=width,
+                                         height=height,
                                          ...)
 {
     R <- NULL
@@ -118,15 +125,14 @@ emsf.experiment.plot.results <- function(n = 100, m = 10,
         D <- cbind(D, TMP[seq(1, nrow(TMP), length=num.points),inds])
     }
 
-    ## print(R)
-    mp(seq(1, max.it, l = num.points), R, R + D , R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)", main=paste(tcs)), ylim=ylim, pch=pch, col=col, cex=cex)
+    par(mai=c(0.825, 0.95, 0.075, 0.125)) # Margens em polegadas (down, left, top, right)
+    mp(seq(1, max.it, l = num.points), R, R + D , R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)", main=paste(tcs)), ylim=ylim, pch=pch, col=col, cex=cex, show.shadow=FALSE, cex.lab=cex, cex.axis=cex)
 
     l <- make.leg.tcs.alphas(tcs,alphas[inds])
-    leg(pos=pos,l, pch=pch, col=col, cex=cex)
+    leg(pos="topright",l[1:3], pch=pch[1:3], col=col[1:3], cex=cex, border=NULL, box.lwd=0, bty="n")
+    leg(pos="bottomleft",l[4:6], pch=pch[4:6], col=col[4:6], cex=cex, border=NULL, box.lwd=0, bty="n")
 
     if (save) {
-        dev.copy2pdf(file=paste(sep="", "emsf-", "tcs-", tcs, ".pdf"))
+        dev.copy2pdf(file=paste(sep="", "~/online_em_sf/fig/emsf_tc_alpha.pdf"), width=width, height=height)
     }
 }
-
-## emsf.experiment.plot.results.by.tc(save=TRUE)
