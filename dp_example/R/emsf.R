@@ -60,7 +60,7 @@ emsf <- function(P, m, ta, tc,
    
    s <- sample(1:n, 1)
 #    pi <- sample(1:na, n, TRUE)
-   C <- array(1, c(n,n,na)) # sparse in practice
+   C <- array(0, c(n,n,na)) # sparse in practice
    
    ll <- 0
    it <- 1
@@ -109,6 +109,7 @@ emsf <- function(P, m, ta, tc,
       
       if (it %% tc == 0)
       {
+        
          
          for (i in 1:m) if (y[i] != 0) Kh[i,] <- Kh[i,] / y[i]
          
@@ -120,9 +121,11 @@ emsf <- function(P, m, ta, tc,
 
          for (u in 1:na)
          {
-            for (i in 1:n) if (x[i,u] != 0) Dh[i,,u] <- Dh[i,,u] / x[i,u]
+            for (i in 1:n) 
+            {
+                if (x[i,u] != 0) D[i,,u] <- (1 - alpha) * D[i,,u] + alpha * Dh[i,,u] / x[i,u]
+            }
             
-            D[,,u] <- (1 - alpha) * D[,,u] + alpha * Dh[,,u] 
          }
          
          Dh <- array(0, c(n, m, na))
