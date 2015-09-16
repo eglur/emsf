@@ -60,7 +60,7 @@ emsf <- function(P, m, ta, tc,
    
    s <- sample(1:n, 1)
 #    pi <- sample(1:na, n, TRUE)
-   C <- array(0, c(n,n,na)) # sparse in practice
+   C <- array(1, c(n,n,na)) # sparse in practice
    
    ll <- 0
    it <- 1
