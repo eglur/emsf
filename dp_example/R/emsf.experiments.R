@@ -91,6 +91,9 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                  cex=cex,
                                  width=width,
                                  height=height)
+
+    ## comando utilizado para plotar:
+    ## source("emsf.experiments.R"); emsf.experiment.plot.results.aaai(save=TRUE, ylim=NULL, cex=1.5, width=8.75, height=7)
 }
 
 
