@@ -1,4 +1,4 @@
-source("blackjack.R")
+
 source("data.plot.R")
 source("dp.R")
 source("emsf.R")
@@ -737,7 +737,10 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
                          emsf.ms = c(10, 50, 100),
                          emsf.alphas = c(1, 0.5, 0.1),
                          emsf.tccs=c(100, 50),
-                         emsf.beta, qlearning.alpha, dir = "./files/")
+                         emsf.beta,
+                         qlearning.alpha,
+                         dir = "./files/",
+                         save=FALSE)
 {
     R <- NULL
     S <- NULL
@@ -809,25 +812,38 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
     R <- R[seq(10, nrow(R), length=num.points),]
     S <- S[seq(10, nrow(S), length=num.points),]
 
-    mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, t="l", xlab="Episodes", ylab="Return", show.shadow=FALSE)
-    leg(pos="bottomright", leg=legendas)
-
-    dev.copy2pdf(file = paste(sep="", "~/blackjack-m-", emsf.ms[1], "-tcc-", emsf.tccs[1], "-", num.episodes, "-episodes.pdf"))
-    ## system("epstopdf ~/blackjack.eps")
-
-    deltas
+    dev.new(width=8.75, height=7)
+    par(mai=c(0.825, 0.95, 0.075, 0.125)) # Margens em polegadas (down, left, top, right)
+    cex <- 1.5
+    mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, t="l", xlab="Episodes", ylab="Return", show.shadow=FALSE, cex.lab=cex, cex.axis=cex)
+    leg(pos="bottomright", leg=legendas, cex=cex, bty="n")
+    dev.copy2pdf(file=paste(sep="", "~/online_em_sf/fig/blackjack.pdf"), width=8.75, height=7)
 }
 
-for (m in c(10, 50, 100)) {
-    for (tcc in c(50, 100)) {
-        emsf.alphas=c(1, 0.5, 0.1)
-        plot.results(num.episodes=1e4,
-                     epsilon=0.15, 
-                     tc=100,
-                     qlearning.alpha=0.1,
-                     emsf.ms=c(m),
-                     emsf.tccs=c(tcc),
-                     emsf.alphas=emsf.alphas)
-        
-    }
+plot.results.aaai <- function(save=FALSE,
+                              ylim=NULL,
+                              pos=NULL,
+                              cex=NULL,
+                              width=width,
+                              height=height)
+{
+    emsf.alphas=c(1, 0.5, 0.1)
+    plot.results(num.episodes=1e4, epsilon=0.15, tc=100, qlearning.alpha=0.1, emsf.ms=c(m), emsf.tccs=c(tcc), emsf.alphas=emsf.alphas)
+
+    ## comando utilizado para plotar:
+    ## plot.results.aaai()
+}
+
+plot.results.aaai.supp <- function(save=FALSE,
+                                   ylim=NULL,
+                                   pos=NULL,
+                                   cex=NULL,
+                                   width=width,
+                                   height=height)
+{
+    emsf.alphas=c(1, 0.5, 0.1)
+    plot.results(num.episodes=1e4, epsilon=0.15, tc=100, qlearning.alpha=0.1, emsf.ms=c(m), emsf.tccs=c(tcc), emsf.alphas=emsf.alphas)
+
+    ## comando utilizado para plotar:
+    ## plot.results.aaai.supp()
 }
