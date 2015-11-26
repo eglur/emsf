@@ -739,7 +739,7 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
                          emsf.tccs=c(100, 50),
                          emsf.beta,
                          qlearning.alpha,
-                         dir = "./files/",
+                         dir = "./files/bj/",
                          save=FALSE)
 {
     R <- NULL
