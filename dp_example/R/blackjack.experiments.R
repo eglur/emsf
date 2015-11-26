@@ -815,11 +815,16 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
     dev.new(width=8.75, height=7)
     par(cex=1.65, mai=c(1.3, 1.3, 0.1, 0.25)) # Margens em polegadas (down, left, top, right)
     cex <- 1
-    mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, lty=c(1,1,1,1,1), t="l", xlab="Episodes", ylab="Return", show.shadow=FALSE,
+    mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, xlab="Episodes", ylab="Return", show.shadow=FALSE,
+       lty=c(1,1,1,1,1),
+       t="l",
        cex.lab=cex,
        cex.axis=cex,
        lwd=3)
     leg(pos="bottomright", leg=legendas, cex=cex, bty="n", lwd=3, lty=c(1,1,1,1,1))
+
+    grid(lwd=2)
+
     dev.copy2pdf(file=paste(sep="", "~/online_em_sf/fig/blackjack.pdf"), width=8.75, height=7)
 }
 

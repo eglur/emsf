@@ -103,7 +103,7 @@ emsf.experiment.plot.results <- function(n = 100, m = 10,
                                          alpha.dir = 0.5,
                                          alphas = c(0.1, 0.3, 0.5, 0.7, 1),
                                          inds = 1:5,
-                                         num.points = 30, dir = "./files/", idx = "", save=FALSE,
+                                         num.points = 25, dir = "./files/", idx = "", save=FALSE,
                                          pch=NULL,
                                          col=NULL,
                                          ylim=NULL,
@@ -128,13 +128,19 @@ emsf.experiment.plot.results <- function(n = 100, m = 10,
         D <- cbind(D, TMP[seq(1, nrow(TMP), length=num.points),inds])
     }
 
-    par(mai=c(0.825, 0.95, 0.075, 0.125)) # Margens em polegadas (down, left, top, right)
-    mp(seq(1, max.it, l = num.points), R, R + D , R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)", main=paste(tcs)), ylim=ylim, pch=pch, col=col, cex=cex, show.shadow=FALSE, cex.lab=cex, cex.axis=cex)
+    par(cex=1.65, mai=c(1.3, 1.4, 0.1, 0.25)) # Margens em polegadas (down, left, top, right)
+    cex <- 1
+    mp(seq(1, max.it, l = num.points), R, R + D , R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)", main=paste(tcs)), ylim=ylim, pch=pch, col=col, cex=cex, show.shadow=FALSE,
+       cex.lab=cex,
+       cex.axis=cex,
+       lty=c(1,1,1,1,1,1,1,1,1,1),
+       lwd=3)
 
     l <- make.leg.tcs.alphas(tcs,alphas[inds])
-    leg(pos="topright",l[1:3], pch=pch[1:3], col=col[1:3], cex=cex, border=NULL, box.lwd=0, bty="n")
-    leg(pos="bottomleft",l[4:6], pch=pch[4:6], col=col[4:6], cex=cex, border=NULL, box.lwd=0, bty="n")
+    leg(pos="topright",l[1:3], pch=pch[1:3], col=col[1:3], cex=cex, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
+    leg(pos="bottomleft",l[4:6], pch=pch[4:6], col=col[4:6], cex=cex, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
 
+    grid(lwd=2)
     if (save) {
         dev.copy2pdf(file=paste(sep="", "~/online_em_sf/fig/emsf_tc_alpha.pdf"), width=width, height=height)
     }
