@@ -74,10 +74,13 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                               height=height)
 {
     tcs <- c(600, 900)
-    pch1 <- c(5, 2, 1, 0, 6)
-    pch2 <- c(18, 17, 16, 15, 25)
+    pch1 <- pch2 <- c(18, 17, 16, 15, 25)
 
-    col1 <- c("red", "green", "orange", "blue", "green")
+    col1 <- c("darkgreen", "darkred", "darkorange", "darkblue", "darkgreen")
+    col2 <- c("green", "red", "black", "blue", "black")
+
+    col1 <- c("seagreen3", "deepskyblue1", "black", "firebrick1", "black")
+    col2 <- c("seagreen4", "deepskyblue4", "black", "firebrick4", "black")
 
     inds <- c(1,2,4)
     emsf.experiment.plot.results(save=TRUE,
@@ -85,7 +88,7 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                  alphas=c(0.1, 0.3, 0.5, 0.7),
                                  inds=inds,
                                  pch=c(pch1[inds], pch2[inds]),
-                                 col=c(col1[inds], col1[inds]),
+                                 col=c(col1[inds], col2[inds]),
                                  ylim=ylim,
                                  pos=pos,
                                  cex=cex,
