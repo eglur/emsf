@@ -717,7 +717,7 @@ make.leg.alpha.delta <- function(alphas, deltas) {
     ## makes a legend with labels epsilon = dfs[1, 2, ...]
     l <- expression()
     for (i in 1:length(alphas)) {
-        l <- c(l, substitute(expression(EMSF (alpha == a)~(Delta == d~s)), list(a=alphas[i], d=round(deltas[i], digits=1)))[[2]])
+        l <- c(l, substitute(expression(EMSF+PISF~(alpha == a)~(Delta == d~s)), list(a=alphas[i], d=round(deltas[i], digits=1)))[[2]])
     }
     l
 }
@@ -740,7 +740,8 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
                          emsf.beta,
                          qlearning.alpha,
                          dir = "./files/bj/",
-                         save=FALSE)
+                         save=FALSE,
+                         col=NULL)
 {
     R <- NULL
     S <- NULL
@@ -813,15 +814,21 @@ plot.results <- function(num.episodes = 3e4, epsilon = 0.15, tc = 500,
     S <- S[seq(10, nrow(S), length=num.points),]
 
     dev.new(width=8.75, height=7)
-    par(cex=1.65, mai=c(1.3, 1.3, 0.1, 0.25)) # Margens em polegadas (down, left, top, right)
-    cex <- 1
+    par(cex=1.8, mai=c(1.45, 1.4, 0.1, 0.25)) # Margens em polegadas (down, left, top, right)
+    cex <- .925
     mp(seq(tc, num.episodes, length=(nrow(R))), R, R+S, R-S, xlab="Episodes", ylab="Return", show.shadow=FALSE,
        lty=c(1,1,1,1,1),
        t="l",
        cex.lab=cex,
        cex.axis=cex,
-       lwd=3)
-    leg(pos="bottomright", leg=legendas, cex=cex, bty="n", lwd=3, lty=c(1,1,1,1,1))
+       lwd=3,
+       col=col)
+    leg(pos="bottomright", leg=legendas, cex=cex, bty="n", lwd=3,
+        lty=c(1,1,1,1,1),
+        pt.bg=col,
+        col=col)
+    ## leg(pos="topright",l[1:3], pch=pch[1:3], col=col[1:3], cex=cex, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
+
 
     grid(lwd=2)
 
@@ -836,7 +843,14 @@ plot.results.aaai <- function(save=FALSE,
                               height=height)
 {
     emsf.alphas=c(1, 0.5, 0.1)
-    plot.results(num.episodes=1e4, epsilon=0.15, tc=100, qlearning.alpha=0.1, emsf.ms=c(m), emsf.tccs=c(tcc), emsf.alphas=emsf.alphas)
+    cntpi <- "black"
+    qlearning <- "darkorchid"
+    emsf10 <- "deepskyblue2"
+    emsf05 <- "firebrick2"
+    emsf01 <- "seagreen3"
+    
+    col <- c(cntpi, qlearning, emsf10, emsf05, emsf01)
+    plot.results(num.episodes=1e4, epsilon=0.15, tc=100, qlearning.alpha=0.1, emsf.ms=c(m), emsf.tccs=c(tcc), emsf.alphas=emsf.alphas, col=col)
 
     ## comando utilizado para plotar:
     ## plot.results.aaai()

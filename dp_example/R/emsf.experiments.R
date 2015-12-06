@@ -73,19 +73,31 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                               width=width,
                                               height=height)
 {
+    
+    tcs <- c(800, 1000)
+    tcs <- c(700, 1000)
+    tcs <- c(700, 900)
     tcs <- c(600, 900)
+    tcs <- c(600, 800)
+
+    inds <- c(1,2,3,4)
+
     pch1 <- pch2 <- c(18, 17, 16, 15, 25)
 
     col1 <- c("darkgreen", "darkred", "darkorange", "darkblue", "darkgreen")
     col2 <- c("green", "red", "black", "blue", "black")
 
-    col1 <- c("seagreen3", "deepskyblue1", "black", "firebrick1", "black")
-    col2 <- c("seagreen4", "deepskyblue4", "black", "firebrick4", "black")
+    col1 <- c("seagreen3", "deepskyblue1", "violetred2", "firebrick1", "black")
+    col2 <- c("seagreen4", "deepskyblue4", "violetred4", "firebrick4", "black")
 
-    inds <- c(1,2,4)
+    col1 <- c("seagreen3", "deepskyblue1", "gold3", "firebrick1", "black")
+    col2 <- c("seagreen4", "deepskyblue4", "gold4", "firebrick4", "black")
+
+    col1 <- c("seagreen3", "deepskyblue1", "darkgoldenrod2", "firebrick1", "black")
+    col2 <- c("seagreen4", "deepskyblue4", "darkgoldenrod4", "firebrick4", "black")
+
     emsf.experiment.plot.results(save=TRUE,
                                  tcs=tcs,
-                                 alphas=c(0.1, 0.3, 0.5, 0.7),
                                  inds=inds,
                                  pch=c(pch1[inds], pch2[inds]),
                                  col=c(col1[inds], col2[inds]),
@@ -100,13 +112,15 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
 }
 
 
-emsf.experiment.plot.results <- function(n = 100, m = 10,
-                                         tcs = seq(100, 1000, by = 100),
-                                         max.it = 25*10^3,
-                                         alpha.dir = 0.5,
-                                         alphas = c(0.1, 0.3, 0.5, 0.7, 1),
-                                         inds = 1:5,
-                                         num.points = 25, dir = "./files/", idx = "", save=FALSE,
+emsf.experiment.plot.results <- function(n=100, m=10,
+                                         tcs=seq(100, 1000, by=100),
+                                         max.it=25*10^3,
+                                         alpha.dir=0.5,
+                                         alphas=c(0.1, 0.3, 0.5, 0.7, 1),
+                                         inds=inds,
+                                         num.points=25, dir="./files/",
+                                         idx="",
+                                         save=FALSE,
                                          pch=NULL,
                                          col=NULL,
                                          ylim=NULL,
@@ -133,18 +147,28 @@ emsf.experiment.plot.results <- function(n = 100, m = 10,
 
     par(cex=1.65, mai=c(1.3, 1.4, 0.1, 0.25)) # Margens em polegadas (down, left, top, right)
     cex <- 1
-    mp(seq(1, max.it, l = num.points), R, R + D , R - D, xlab = expression(tau), ylab = expression("KL"[rho]*"(P, DK)", main=paste(tcs)), ylim=ylim, pch=pch, col=col, cex=cex, show.shadow=FALSE,
+    mp(seq(1, max.it, l = num.points),
+       R,
+       R + D,
+       R - D,
+       xlab = expression(tau),
+       ylab = expression("KL"[rho]*"(P, DK)", main=paste(tcs)),
+       ylim=ylim,
+       pch=pch,
+       col=col,
+       cex=cex,
+       show.shadow=FALSE,
        cex.lab=cex,
        cex.axis=cex,
        lty=c(1,1,1,1,1,1,1,1,1,1),
        lwd=3)
 
     l <- make.leg.tcs.alphas(tcs,alphas[inds])
-    leg(pos="topright",l[1:3], pch=pch[1:3], col=col[1:3], cex=cex, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
-    leg(pos="bottomleft",l[4:6], pch=pch[4:6], col=col[4:6], cex=cex, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
+    leg(pos="topright", l[1:4], pch=pch[1:4], col=col[1:4], cex=0.9, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
+    leg(pos="bottomleft", l[5:8], pch=pch[5:8], col=col[5:8], cex=0.9, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
 
     grid(lwd=2)
     if (save) {
-        dev.copy2pdf(file=paste(sep="", "~/online_em_sf/fig/emsf_tc_alpha.pdf"), width=width, height=height)
+        dev.copy2pdf(file=paste(sep="", "~/online_em_sf/fig/emsf_tc_alpha-", paste(tcs, collapse="-"), ".pdf"), width=width, height=height)
     }
 }
