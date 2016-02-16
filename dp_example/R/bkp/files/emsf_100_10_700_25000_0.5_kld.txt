@@ -1,1 +1,0 @@
-tc.600.900.alpha.0.1_1.0-mesclado/emsf_100_10_700_25000_0.5_kld.txt
