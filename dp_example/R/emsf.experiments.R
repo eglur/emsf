@@ -74,11 +74,7 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                               height=height)
 {
     
-    tcs <- c(800, 1000)
-    tcs <- c(700, 1000)
-    tcs <- c(700, 900)
     tcs <- c(600, 900)
-    tcs <- c(600, 800)
 
     inds <- c(1,2,3,4)
 
