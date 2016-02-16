@@ -840,7 +840,9 @@ plot.results.aaai <- function(save=FALSE,
                               pos=NULL,
                               cex=NULL,
                               width=width,
-                              height=height)
+                              height=height,
+                              m=10,
+                              tcc=100)
 {
     emsf.alphas=c(1, 0.5, 0.1)
     cntpi <- "black"
