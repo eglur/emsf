@@ -73,7 +73,7 @@ void bj_transition(int *pc, int *p_ace, int *dc, int *d_ace, int *r, int a, int 
                else
                {
                     *r = 0;
-                    *sf = 201; // state 201: tie
+                    *sf = 201; // state 201: draw
                }
           }
      }
