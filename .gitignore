@@ -19,7 +19,7 @@ dp_example/blackjack
 \#*
 *~
 
-dp_example/R/.RData
-dp_example/R/.Rhistory
+.Rhistory*
+.RData*
 
 **/*.log
