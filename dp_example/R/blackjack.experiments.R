@@ -268,7 +268,7 @@ bj.emsf.full <- function(m = 10, alpha = 1, tcc = 100,
 
     }
 
-   if (ep %% tcc == 0)
+   if ((ep %% tcc == 0) || (ep %% tc == 0))
     {
 
       for (u in 1:2)
@@ -394,7 +394,7 @@ bj.emsf.comp <- function(m = 10, alpha = 1, tcc = 100,
 
     }
 
-   if (ep %% tcc == 0)
+   if ((ep %% tcc == 0) || (ep %% tc == 0))
     {
 
       for (a in 1:na)
