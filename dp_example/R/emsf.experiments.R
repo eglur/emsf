@@ -3,7 +3,6 @@ source("emsf.R")
 source("util.R")
 source("data.plot.R")
 
-
 emsf.experiment.generate.P <- function(n, alpha.dir, na = 1)
 {
     P <- array(0, c(n, n, na))
@@ -25,7 +24,6 @@ emsf.experiment.fixed.tc <- function(n, alpha.dir, m, tc, alphas, max.it, na = 1
             print(paste("Running alpha = ", alphas[i], "  run", j))
             P <- emsf.experiment.generate.P(n, alpha.dir, na)
             L <- cbind(L, emsf(P, m, tc, tc, alphas[i], max.it))
-                                        #       print(L)
         }
 
         R <- cbind(R, apply(L, 1, mean))
@@ -42,9 +40,8 @@ emsf.experiment.fixed.tc <- function(n, alpha.dir, m, tc, alphas, max.it, na = 1
     list(R = R, D = D)
 }
 
-
 make.leg.tcs.alphas <- function(tcs, alphas) {
-                                        # makes a legend with labels epsilon = dfs[1, 2, ...]
+    ## makes a legend with labels epsilon = dfs[1, 2, ...]
     l <- expression()
     for (tc in tcs)
     {
@@ -52,10 +49,9 @@ make.leg.tcs.alphas <- function(tcs, alphas) {
             l <- c(l, substitute(expression(t[c] == TC~alpha == ALPHA), list(TC=tc, ALPHA=alpha))[[2]])
         }
     }
-                                        #    print(l)
+
     l
 }
-
 
 emsf.experiment.plot.results.by.tc <- function(save=FALSE)
 {
@@ -73,7 +69,6 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                               width=width,
                                               height=height)
 {
-    
     tcs <- c(600, 900)
 
     inds <- c(1,2,3)
@@ -102,11 +97,7 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
                                  cex=cex,
                                  width=width,
                                  height=height)
-
-    ## comando utilizado para plotar:
-    ## source("emsf.experiments.R"); emsf.experiment.plot.results.aaai(save=TRUE, ylim=NULL, cex=1.5, width=8.75, height=7)
 }
-
 
 emsf.experiment.plot.results <- function(n=100, m=10,
                                          tcs=seq(100, 1000, by=100),
@@ -141,7 +132,7 @@ emsf.experiment.plot.results <- function(n=100, m=10,
         D <- cbind(D, TMP[seq(1, nrow(TMP), length=num.points),inds])
     }
 
-    par(cex=1.65, mai=c(1.3, 1.4, 0.1, 0.25)) # Margens em polegadas (down, left, top, right)
+    par(cex=1.65, mai=c(1.3, 1.4, 0.1, 0.25)) # Margins in inches (down, left, top, right)
     cex <- 1
     mp(seq(1, max.it, l = num.points),
        R,
