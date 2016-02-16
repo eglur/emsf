@@ -12,7 +12,8 @@
 *.la
 *.a
 
-dp_example/TAGS
+TAGS*
+
 dp_example/emsf
 dp_example/blackjack
 
