@@ -76,7 +76,7 @@ emsf.experiment.plot.results.aaai <- function(save=FALSE,
     
     tcs <- c(600, 900)
 
-    inds <- c(1,2,3,4)
+    inds <- c(1,2,4)
 
     pch1 <- pch2 <- c(18, 17, 16, 15, 25)
 
@@ -160,8 +160,8 @@ emsf.experiment.plot.results <- function(n=100, m=10,
        lwd=3)
 
     l <- make.leg.tcs.alphas(tcs,alphas[inds])
-    leg(pos="topright", l[1:4], pch=pch[1:4], col=col[1:4], cex=0.9, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
-    leg(pos="bottomleft", l[5:8], pch=pch[5:8], col=col[5:8], cex=0.9, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
+    leg(pos="topright", l[1:3], pch=pch[1:3], col=col[1:3], cex=0.9, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
+    leg(pos="bottomleft", l[4:7], pch=pch[4:7], col=col[4:7], cex=0.9, border=NULL, box.lwd=0, bty="n", lty=c(1,1,1,1,1,1,1,1,1,1), lwd=3)
 
     grid(lwd=2)
     if (save) {
