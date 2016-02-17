@@ -1,3 +1,4 @@
+source("blackjack.R")
 source("data.plot.R")
 source("dp.R")
 source("emsf.R")
