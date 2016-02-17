@@ -1,0 +1,23 @@
+Accompanying code for the article
+
+A.M.S. Barreto, R.L. Beirigo, J. Pineau, D. Precup. "Incremental
+Stochastic Factorization for On-line Reinforcement Learning.American
+Association for Artificial Intelligence (AAAI). 2016.
+
+There is a script called "quick.start.R", which can be executed to
+reproduce the experiments used to generated the data used to plot the
+graphs corresponding to Figures 3 and 4 of the article. The script can
+then be followed to the corresponding related functions, which can be
+analysed to obtain a more detailed knowledge of the framework.
+
+To run the quick start script, run the following commands on a
+terminal:
+
+R CMD SHLIB bj_evaluate_policy.c
+
+R
+
+source("quick.start.R")
+
+The script will run the experiments and then plot the correponding
+graphs.
