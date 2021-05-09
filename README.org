@@ -2,10 +2,8 @@
 Code accompanying the paper “An Expectation-Maximization Algorithm to Compute a Stochastic Factorization From Data”.
 
 ** Reference
-
 Barreto, A. M., Beirigo, R. L., Pineau, J., & Precup, D. (2015, June). An expectation-maximization algorithm to compute a stochastic factorization from data. In Twenty-Fourth International Joint Conference on Artificial Intelligence.
 
 ** Acknowledgements
-
 The authors would like to thank Borja Pigem for helpful discussions regarding topics related to this work. Funding for this research was provided by Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq), grant 461739/2014-3, and by the NSERC Discovery Grant Program.
 
